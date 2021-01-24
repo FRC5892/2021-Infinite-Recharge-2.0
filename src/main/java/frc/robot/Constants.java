@@ -12,4 +12,22 @@ package frc.robot;
  * <p>It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-public final class Constants {}
+public final class Constants {
+    //drive train motor CAN addresses
+    public final class DriveTrain {
+        public static final int LEFT_MOTOR1_ID = 1;
+        public static final int LEFT_MOTOR2_ID = 2;
+        public static final int LEFT_MOTOR3_ID = 3;
+        public static final int RIGHT_MOTOR1_ID = 1;
+        public static final int RIGHT_MOTOR2_ID = 2;
+        public static final int RIGHT_MOTOR3_ID = 3;
+        public static final double SPEED = 1;
+        public static final double AUTONOMOUS_SPEED = 1; 
+        public static final double DRIVE_FORWARD_TIME = 3;
+    }
+    public final class XboxController {
+        public static final int LEFT_Y_AXIS = 0;
+        public static final int LEFT_X_AXIS = 1;
+		public static final int JOYSTICK_NUMBER = 0;
+    }
+}
