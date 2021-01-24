@@ -18,9 +18,9 @@ public final class Constants {
         public static final int LEFT_MOTOR1_ID = 1;
         public static final int LEFT_MOTOR2_ID = 2;
         public static final int LEFT_MOTOR3_ID = 3;
-        public static final int RIGHT_MOTOR1_ID = 1;
-        public static final int RIGHT_MOTOR2_ID = 2;
-        public static final int RIGHT_MOTOR3_ID = 3;
+        public static final int RIGHT_MOTOR1_ID = 4;
+        public static final int RIGHT_MOTOR2_ID = 5;
+        public static final int RIGHT_MOTOR3_ID = 6;
         public static final double SPEED = 1;
         public static final double AUTONOMOUS_SPEED = 1; 
         public static final double DRIVE_FORWARD_TIME = 3;
