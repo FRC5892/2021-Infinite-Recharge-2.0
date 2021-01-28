@@ -60,5 +60,3 @@ public class DriveTrain extends SubsystemBase {
     drive.stopMotor();
   }
 }
-//we use differntial 
-//arcade for control
