@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveForwardTimed;
@@ -30,6 +31,9 @@ public class RobotContainer {
   private final DriveWithJoysticks driveWithJoystick;
   private final DriveForwardTimed driveForwardTimed;
   public static XboxController driverJoystick;
+  
+  //Declaring compressor
+  private final Compressor compressor;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     driveTrain = new DriveTrain();
@@ -41,6 +45,8 @@ public class RobotContainer {
     driveForwardTimed.addRequirements(driveTrain);
 
     driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
+
+    compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
   }

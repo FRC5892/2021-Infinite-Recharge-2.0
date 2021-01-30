@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.MathUtils;
 
 public class DriveTrain extends SubsystemBase {
   CANSparkMax leftMotor1;
@@ -48,8 +49,11 @@ public class DriveTrain extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void driveWithJoysticks(XboxController controller, double speed) {
-    drive.arcadeDrive(controller.getRawAxis(Constants.XboxController.LEFT_Y_AXIS)*speed, controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS)*speed);
+  public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
+    drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS))*xSpeed, MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_Y_AXIS))*zRotation, false);
+    //squares the controller input before the speed factor is multiplied to make the drive smoother
+    //false at the end tells the library not to square it because we already did
+    //x speed sets speed of forward motion, z speed sets turning speed 
   }
 
   public void driveForward(double speed){
