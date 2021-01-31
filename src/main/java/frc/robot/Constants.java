@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.lang.reflect.Array;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -33,5 +35,7 @@ public final class Constants {
 
     public final class Intake {
         public static final double EXTEND_ROLLER_SPEED = .25;
+        public static final int SOLENOID_FORWARD = 2;
+        public static final int SOLENOID_REVERSE = 5;
     }
 }

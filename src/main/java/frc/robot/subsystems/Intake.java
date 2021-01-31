@@ -8,18 +8,18 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   VictorSP rollerMotor;
-  DoubleSolenoid leftDoubleSolenoid;
-  DoubleSolenoid righDoubleSolenoid;
+  DoubleSolenoid solenoid;
 
   /** Creates a new Intake. */
   public Intake() {
     rollerMotor = new VictorSP(3);
     rollerMotor.setInverted(true);
-    leftDoubleSolenoid = new DoubleSolenoid(2, 3);
-    righDoubleSolenoid = new DoubleSolenoid(5, 6);
+    solenoid = new DoubleSolenoid(Constants.Intake.SOLENOID_FORWARD, Constants.Intake.SOLENOID_REVERSE);
+    solenoid.set(Value.kReverse);
   }
 
   public void setRollersSpeed (double speed) {
@@ -30,18 +30,17 @@ public class Intake extends SubsystemBase {
     rollerMotor.stopMotor();
   }
   public void ToggleIntakePistons() {
-    leftDoubleSolenoid.toggle();
-    righDoubleSolenoid.toggle();
+    solenoid.toggle();
+    //righDoubleSolenoid.toggle();
   }
 
   public void ExtendIntakePistons() {
-    leftDoubleSolenoid.set(Value.kForward);
-    righDoubleSolenoid.set(Value.kForward);
+    solenoid.set(Value.kForward);
+
   }
 
   public void RetractIntakePistons() {
-    leftDoubleSolenoid.set(Value.kReverse);
-    righDoubleSolenoid.set(Value.kReverse);
+    solenoid.set(Value.kReverse);
   }
   @Override
   public void periodic() {
