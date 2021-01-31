@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -35,8 +36,10 @@ public class RobotContainer {
   private final DriveForwardTimed driveForwardTimed;
   public static XboxController driverJoystick;
 
+  //declaring intake and intake commands
   private final Intake intake;
   private final IntakeToggle intakeToggle;
+  private final RunIntakeRollers runIntakeRollers;
   
   //Declaring compressor
   private final Compressor compressor;
@@ -54,6 +57,8 @@ public class RobotContainer {
 
     intake = new Intake();
     intakeToggle = new IntakeToggle(intake);
+    runIntakeRollers = new RunIntakeRollers(intake);
+    intake.setDefaultCommand(runIntakeRollers);
 
     compressor = new Compressor(0);
     // Configure the button bindings

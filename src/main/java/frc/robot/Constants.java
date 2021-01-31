@@ -30,7 +30,8 @@ public final class Constants {
     public final class XboxController {
         public static final int LEFT_Y_AXIS = 0;
         public static final int LEFT_X_AXIS = 1;
-		public static final int JOYSTICK_NUMBER = 0;
+        public static final int JOYSTICK_NUMBER = 0;
+        public static final int ROLLER_AXIS = 10;
     }
 
     public final class Intake {
@@ -39,5 +40,6 @@ public final class Constants {
         public static final int SOLENOID_REVERSE = 5;
 		public static final double DISLODGE_SPIN_TIME = 0.5;
 		public static final double DISLODGE_ROLLERS_SPEED = 0.25;
+		public static final double ROLLER_SPEED = 1;
     }
 }
