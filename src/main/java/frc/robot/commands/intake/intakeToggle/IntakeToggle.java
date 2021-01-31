@@ -4,7 +4,7 @@
 
 package frc.robot.commands.intake.intakeToggle;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.intake.intakeToggle.pistons.ToggleIntakePistons;
 import frc.robot.commands.intake.intakeToggle.rollers.DislodgeBall;
 import frc.robot.subsystems.Intake;
@@ -12,7 +12,7 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class IntakeToggle extends ParallelCommandGroup {
+public class IntakeToggle extends SequentialCommandGroup {
   Intake intake;
   /** Creates a new IntakeToggle. */
   public IntakeToggle(Intake i) {
@@ -20,8 +20,8 @@ public class IntakeToggle extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ToggleIntakePistons(intake), 
+      new ToggleIntakePistons(intake),
       new DislodgeBall(intake)
-      );
+    );
   }
 }
