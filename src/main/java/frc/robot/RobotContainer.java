@@ -58,7 +58,7 @@ public class RobotContainer {
     intake = new Intake();
     intakeToggle = new IntakeToggle(intake);
     runIntakeRollers = new RunIntakeRollers(intake);
-    intake.setDefaultCommand(runIntakeRollers);
+    //intake.setDefaultCommand(runIntakeRollers);
 
     compressor = new Compressor(0);
     // Configure the button bindings
