@@ -31,7 +31,7 @@ public final class Constants {
         public static final int LEFT_Y_AXIS = 0;
         public static final int LEFT_X_AXIS = 1;
         public static final int JOYSTICK_NUMBER = 0;
-        public static final int ROLLER_AXIS = 10;
+        public static final int ROLLER_AXIS = 3;
     }
 
     public final class Intake {
