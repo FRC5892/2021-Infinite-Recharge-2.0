@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.ToggleIntakePistons;
+import frc.robot.commands.intake.IntakeToggle;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
@@ -36,7 +36,7 @@ public class RobotContainer {
   public static XboxController driverJoystick;
 
   private final Intake intake;
-  private final ToggleIntakePistons toggleIntakePistons;
+  private final IntakeToggle intakeToggle;
   
   //Declaring compressor
   private final Compressor compressor;
@@ -53,7 +53,7 @@ public class RobotContainer {
     driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
 
     intake = new Intake();
-    toggleIntakePistons = new ToggleIntakePistons(intake);
+    intakeToggle = new IntakeToggle(intake);
 
     compressor = new Compressor(0);
     // Configure the button bindings
@@ -67,8 +67,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    JoystickButton toggleIntakePistonsButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
-    toggleIntakePistonsButton.whenPressed(toggleIntakePistons);
+    JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
+    intakeToggleButton.whenPressed(intakeToggle);
   }
 
   /**

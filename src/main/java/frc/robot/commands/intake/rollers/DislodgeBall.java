@@ -2,25 +2,33 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.intake.rollers;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 
-public class ToggleIntakePistons extends CommandBase {
+public class DislodgeBall extends CommandBase {
   Intake intake;
   private boolean finish = false;
-  /** Creates a new ToggleIntakePistons. */
-  public ToggleIntakePistons(Intake i) {
+  Timer timer;
+  /** Creates a new DislodgeBall. */
+  public DislodgeBall(Intake i) {
     intake = i;
     addRequirements(intake);
+    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.ToggleIntakePistons();
+    timer.reset();
+    timer.start();
+    while(timer.get() < Constants.Intake.DISLODGE_SPIN_TIME){
+      intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+    }
     finish = true;
   }
 
