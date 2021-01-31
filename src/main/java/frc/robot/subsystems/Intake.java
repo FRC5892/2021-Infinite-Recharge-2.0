@@ -31,12 +31,10 @@ public class Intake extends SubsystemBase {
   }
   public void ToggleIntakePistons() {
     solenoid.toggle();
-    //righDoubleSolenoid.toggle();
   }
 
   public void ExtendIntakePistons() {
     solenoid.set(Value.kForward);
-
   }
 
   public void RetractIntakePistons() {
