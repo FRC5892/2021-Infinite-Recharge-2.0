@@ -9,9 +9,11 @@ import frc.robot.subsystems.Intake;
 
 public class ToggleIntakePistons extends CommandBase {
   Intake intake;
+  Boolean finished;
   /** Creates a new ToggleIntakePistons. */
   public ToggleIntakePistons(Intake i) {
     intake = i;
+    finished = false;
     addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -20,6 +22,7 @@ public class ToggleIntakePistons extends CommandBase {
   @Override
   public void initialize() {
     intake.ToggleIntakePistons();
+    finished = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,6 +36,6 @@ public class ToggleIntakePistons extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return finished;
   }
 }

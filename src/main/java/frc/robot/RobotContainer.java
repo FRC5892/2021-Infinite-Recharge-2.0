@@ -11,7 +11,6 @@ import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntakeRollers;
-import frc.robot.commands.intake.intakeToggle.IntakeRetract;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -40,7 +39,6 @@ public class RobotContainer {
   //declaring intake and intake commands
   private final Intake intake;
   private final IntakeToggle intakeToggle;
-  private final IntakeRetract intakeRetract;
   private final RunIntakeRollers runIntakeRollers;
   
   //Declaring compressor
@@ -59,7 +57,6 @@ public class RobotContainer {
 
     intake = new Intake();
     intakeToggle = new IntakeToggle(intake);
-    intakeRetract = new IntakeRetract(intake);
     runIntakeRollers = new RunIntakeRollers(intake);
     intake.setDefaultCommand(runIntakeRollers);
 
@@ -77,8 +74,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
     intakeToggleButton.whenPressed(intakeToggle);
-    JoystickButton intakeRetractButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
-    intakeRetractButton.whenPressed(intakeRetract);
   }
 
   /**
