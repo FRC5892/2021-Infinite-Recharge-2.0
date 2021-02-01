@@ -27,7 +27,15 @@ public class RunIntakeRollers extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setRollersSpeed(-(RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) * Constants.Intake.ROLLER_SPEED));
+    if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
+      intake.setRollersSpeed(-(RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) * Constants.Intake.ROLLER_SPEED));
+    }
+    else if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
+      intake.setRollersSpeed((RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Intake.ROLLER_SPEED));
+    }
+    else {
+      intake.stopRollers();
+    }
   }
 
   // Called once the command ends or is interrupted.
