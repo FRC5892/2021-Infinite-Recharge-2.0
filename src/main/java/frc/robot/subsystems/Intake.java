@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    rollerMotor = new VictorSP(3);
+    rollerMotor = new VictorSP(Constants.Intake.ROLLER_MOTOR_PORT);
     rollerMotor.setInverted(true);
     solenoid = new DoubleSolenoid(Constants.Intake.SOLENOID_FORWARD, Constants.Intake.SOLENOID_REVERSE);
     solenoid.set(Value.kReverse);
