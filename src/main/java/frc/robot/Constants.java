@@ -42,4 +42,8 @@ public final class Constants {
 		public static final double DISLODGE_ROLLERS_SPEED = 0.25;
 		public static final double ROLLER_SPEED = 1;
     }
+    public final class Accumulator {
+		public static final int ACCUMULATOR_MOTOR_PORT = 4;
+		public static final double ACCUMULATOR_MOTOR_SPEED = 1;
+    }
 }
