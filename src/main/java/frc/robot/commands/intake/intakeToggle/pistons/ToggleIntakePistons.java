@@ -21,7 +21,7 @@ public class ToggleIntakePistons extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.ToggleIntakePistons();
+    intake.toggleIntakePistons();
     finished = true;
   }
 

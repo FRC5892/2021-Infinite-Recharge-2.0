@@ -29,15 +29,15 @@ public class Intake extends SubsystemBase {
   public void stopRollers () {
     rollerMotor.stopMotor();
   }
-  public void ToggleIntakePistons() {
+  public void toggleIntakePistons() {
     solenoid.toggle();
   }
 
-  public void ExtendIntakePistons() {
+  public void extendIntakePistons() {
     solenoid.set(Value.kForward);
   }
 
-  public void RetractIntakePistons() {
+  public void retractIntakePistons() {
     solenoid.set(Value.kReverse);
   }
   @Override
