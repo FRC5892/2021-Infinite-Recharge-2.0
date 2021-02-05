@@ -17,7 +17,7 @@ public class Kicker extends SubsystemBase {
   }
 
   public void startKicker() {
-    kickerMotor.setSpeed(Constants.Kicker.KICKER_MOTOR_SPEED);
+    kickerMotor.set(Constants.Kicker.KICKER_MOTOR_SPEED);
   }
 
   public void stopKicker() {

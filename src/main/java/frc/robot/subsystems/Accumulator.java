@@ -17,7 +17,7 @@ public class Accumulator extends SubsystemBase {
   }
 
   public void setAccumulator(double speed) {
-    accumulatorMotor.setSpeed(speed);
+    accumulatorMotor.set(speed);
   }
 
   public void stopAccumulator() {
