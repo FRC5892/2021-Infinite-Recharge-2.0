@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.AdvanceKicker;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
@@ -17,6 +18,7 @@ import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Kicker;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
@@ -47,6 +49,10 @@ public class RobotContainer {
   private final Accumulator accumulator;
   private final IdleAccumulator idleAccumulator;
 
+  //declaring kicker and kicker commands
+  private final Kicker kicker;
+  private final AdvanceKicker advanceKicker;
+
   //Declaring compressor
   private final Compressor compressor;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -70,6 +76,9 @@ public class RobotContainer {
     idleAccumulator = new IdleAccumulator(accumulator);
     accumulator.setDefaultCommand(idleAccumulator);
 
+    kicker = new Kicker();
+    advanceKicker = new AdvanceKicker(kicker);
+
     compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
@@ -84,6 +93,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
     intakeToggleButton.whenPressed(intakeToggle);
+    JoystickButton kickerAdvanceButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
+    kickerAdvanceButton.whenPressed(advanceKicker);
   }
 
   /**
