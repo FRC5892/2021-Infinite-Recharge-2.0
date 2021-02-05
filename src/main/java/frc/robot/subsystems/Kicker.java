@@ -13,6 +13,7 @@ public class Kicker extends SubsystemBase {
   /** Creates a new Kicker. */
   public Kicker() {
     kickerMotor = new VictorSP(Constants.Kicker.KICKER_MOTOR_PORT);
+    kickerMotor.setInverted(true);
   }
 
   public void startKicker() {
