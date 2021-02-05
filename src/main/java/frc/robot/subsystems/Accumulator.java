@@ -16,8 +16,8 @@ public class Accumulator extends SubsystemBase {
     accumulatorMotor = new VictorSP(Constants.Accumulator.ACCUMULATOR_MOTOR_PORT);
   }
 
-  public void startAccumulator() {
-    accumulatorMotor.setSpeed(Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
+  public void setAccumulator(double speed) {
+    accumulatorMotor.setSpeed(speed);
   }
 
   public void stopAccumulator() {

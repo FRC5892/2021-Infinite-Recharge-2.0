@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.IdleAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
+import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
@@ -41,6 +43,10 @@ public class RobotContainer {
   private final IntakeToggle intakeToggle;
   private final RunIntakeRollers runIntakeRollers;
   
+  //declaring accumulator and accumulator commands
+  private final Accumulator accumulator;
+  private final IdleAccumulator idleAccumulator;
+
   //Declaring compressor
   private final Compressor compressor;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -59,6 +65,10 @@ public class RobotContainer {
     intakeToggle = new IntakeToggle(intake);
     runIntakeRollers = new RunIntakeRollers(intake);
     intake.setDefaultCommand(runIntakeRollers);
+
+    accumulator = new Accumulator();
+    idleAccumulator = new IdleAccumulator(accumulator);
+    accumulator.setDefaultCommand(idleAccumulator);
 
     compressor = new Compressor(0);
     // Configure the button bindings
