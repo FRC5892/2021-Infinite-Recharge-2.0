@@ -47,4 +47,8 @@ public final class Constants {
 		public static final double ACCUMULATOR_MOTOR_SPEED = 1;
 		public static final double ACCUMULATOR_MOTOR_IDLE_SPEED = .25;
     }
+    public final class Kicker {
+		public static final int KICKER_MOTOR_PORT = 5;
+		public static final double KICKER_MOTOR_SPEED = 1;
+    }
 }
