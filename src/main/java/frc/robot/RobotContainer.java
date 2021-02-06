@@ -11,7 +11,6 @@ import frc.robot.commands.AdvanceKicker;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.IdleAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.subsystems.Accumulator;
@@ -47,7 +46,6 @@ public class RobotContainer {
   
   //declaring accumulator and accumulator commands
   private final Accumulator accumulator;
-  private final IdleAccumulator idleAccumulator;
 
   //declaring kicker and kicker commands
   private final Kicker kicker;
@@ -73,8 +71,6 @@ public class RobotContainer {
     intake.setDefaultCommand(runIntakeRollers);
 
     accumulator = new Accumulator();
-    idleAccumulator = new IdleAccumulator(accumulator);
-    accumulator.setDefaultCommand(idleAccumulator);
 
     kicker = new Kicker();
     advanceKicker = new AdvanceKicker(kicker);
