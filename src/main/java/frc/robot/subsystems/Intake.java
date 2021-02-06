@@ -39,6 +39,10 @@ public class Intake extends SubsystemBase {
   public void retractIntakePistons() {
     solenoid.set(Value.kReverse);
   }
+
+  public Value getSolenoidValue() {
+    return solenoid.get();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

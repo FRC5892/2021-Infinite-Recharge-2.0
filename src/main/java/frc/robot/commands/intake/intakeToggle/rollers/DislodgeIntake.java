@@ -5,16 +5,18 @@
 package frc.robot.commands.intake.intakeToggle.rollers;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Intake;
 
-public class DislodgeBall extends CommandBase {
+public class DislodgeIntake extends CommandBase {
   Intake intake;
   private boolean finish = false;
   Timer timer;
+  Value doubleSolenoidValue;
   /** Creates a new DislodgeBall. */
-  public DislodgeBall(Intake i) {
+  public DislodgeIntake(Intake i) {
     intake = i;
     addRequirements(intake);
     timer = new Timer();
@@ -24,10 +26,16 @@ public class DislodgeBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    doubleSolenoidValue = intake.getSolenoidValue();
     timer.reset();
     timer.start();
     while(timer.get() < Constants.Intake.DISLODGE_SPIN_TIME){
-      intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      if (doubleSolenoidValue == Value.kForward) {
+        intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      }
+      else {
+        intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      }
     }
     finish = true;
   }

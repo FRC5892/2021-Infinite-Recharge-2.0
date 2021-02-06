@@ -38,7 +38,7 @@ public final class Constants {
         public static final int SOLENOID_FORWARD = 2;
         public static final int SOLENOID_REVERSE = 5;
 		public static final double DISLODGE_SPIN_TIME = 1;
-		public static final double DISLODGE_ROLLERS_SPEED = 0.25;
+		public static final double DISLODGE_ROLLERS_SPEED = 0.5;
 		public static final double ROLLER_SPEED = 1;
 		public static final int ROLLER_MOTOR_PORT = 3;
     }

@@ -6,7 +6,7 @@ package frc.robot.commands.intake.intakeToggle;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.intake.intakeToggle.pistons.ToggleIntakePistons;
-import frc.robot.commands.intake.intakeToggle.rollers.DislodgeBall;
+import frc.robot.commands.intake.intakeToggle.rollers.DislodgeIntake;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -21,7 +21,7 @@ public class IntakeToggle extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ToggleIntakePistons(intake),
-      new DislodgeBall(intake)
+      new DislodgeIntake(intake)
     );
   }
 }
