@@ -50,7 +50,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
-    drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS))*xSpeed, MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_Y_AXIS))*zRotation, false);
+    drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS))*xSpeed, MathUtils.signedSquare(-controller.getRawAxis(4))*zRotation, false);
     //squares the controller input before the speed factor is multiplied to make the drive smoother
     //false at the end tells the library not to square it because we already did
     //x speed sets speed of forward motion, z speed sets turning speed 
