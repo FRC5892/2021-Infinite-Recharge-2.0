@@ -10,7 +10,6 @@ import frc.robot.subsystems.Kicker;
 
 public class AdvanceKicker extends CommandBase {
   private final Kicker kicker;
-  private boolean finish = false;
   Timer timer;
   /** Creates a new AdvanceKicker. */
   public AdvanceKicker(Kicker k) {
@@ -26,18 +25,11 @@ public class AdvanceKicker extends CommandBase {
     if (kicker.ballLoaded() != true ){
       kicker.startKicker();
     }
-    else {
-      finish = true;
-    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    if (kicker.ballLoaded()) {
-      finish = true;
-    }
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
@@ -48,6 +40,6 @@ public class AdvanceKicker extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finish;
+    return kicker.ballLoaded();
   }
 }

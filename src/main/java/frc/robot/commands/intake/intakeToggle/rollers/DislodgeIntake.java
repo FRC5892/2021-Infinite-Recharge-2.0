@@ -12,11 +12,12 @@ import frc.robot.subsystems.Intake;
 
 public class DislodgeIntake extends CommandBase {
   Intake intake;
-  private boolean finish = false;
+  private boolean finish;
   Timer timer;
   Value doubleSolenoidValue;
   /** Creates a new DislodgeBall. */
   public DislodgeIntake(Intake i) {
+    finish = false;
     intake = i;
     addRequirements(intake);
     timer = new Timer();
