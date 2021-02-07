@@ -4,16 +4,19 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Kicker extends SubsystemBase {
   VictorSP kickerMotor;
+  DigitalInput kickerSensor;
   /** Creates a new Kicker. */
   public Kicker() {
     kickerMotor = new VictorSP(Constants.Kicker.KICKER_MOTOR_PORT);
     kickerMotor.setInverted(true);
+    kickerSensor = new DigitalInput(Constants.Kicker.KICKER_SENSOR_PORT);
   }
 
   public void startKicker() {
@@ -22,6 +25,10 @@ public class Kicker extends SubsystemBase {
 
   public void stopKicker() {
     kickerMotor.stopMotor();
+  }
+
+  public boolean ballLoaded() {
+    return kickerSensor.get();
   }
   @Override
   public void periodic() {
