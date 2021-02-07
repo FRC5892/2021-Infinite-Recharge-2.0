@@ -23,17 +23,21 @@ public class AdvanceKicker extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
-    while(timer.get() < 3){
+    if (kicker.ballLoaded() != true ){
       kicker.startKicker();
     }
-    finish = true;
+    else {
+      finish = true;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (kicker.ballLoaded()) {
+      finish = true;
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
