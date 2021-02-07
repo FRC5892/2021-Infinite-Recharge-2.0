@@ -29,15 +29,23 @@ public class DislodgeIntake extends CommandBase {
     doubleSolenoidValue = intake.getSolenoidValue();
     timer.reset();
     timer.start();
-    while(timer.get() < Constants.Intake.DISLODGE_SPIN_TIME){
-      if (doubleSolenoidValue == Value.kForward) {
+      if (doubleSolenoidValue == Value.kReverse) {
+        while(timer.get() < Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+          intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+        }
+        timer.reset();
+        timer.start();
+        while(timer.get() < Constants.Intake.DISLODGE_SPIN_EXTEND_TIME){
         intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
       }
-      else {
-        intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+        finish = true;
       }
-    }
-    finish = true;
+      else {
+        while(timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
+          intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+        }
+        finish = true;
+      }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

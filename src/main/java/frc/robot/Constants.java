@@ -37,10 +37,12 @@ public final class Constants {
         public static final double EXTEND_ROLLER_SPEED = .25;
         public static final int SOLENOID_FORWARD = 2;
         public static final int SOLENOID_REVERSE = 5;
-		public static final double DISLODGE_SPIN_TIME = 1;
+		public static final double DISLODGE_SPIN_EXTEND_TIME =.5;
 		public static final double DISLODGE_ROLLERS_SPEED = 0.5;
 		public static final double ROLLER_SPEED = 1;
 		public static final int ROLLER_MOTOR_PORT = 3;
+		public static final double DISLODGE_SPIN_REVERSE_TIME = .5;
+		public static final double DISLODGE_SPIN_RETRACT_TIME = 1;
     }
     public final class Accumulator {
 		public static final int ACCUMULATOR_MOTOR_PORT = 4;
