@@ -11,6 +11,7 @@ import frc.robot.commands.AdvanceKicker;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.SpinShooter;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.subsystems.Accumulator;
@@ -18,7 +19,9 @@ import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -51,6 +54,10 @@ public class RobotContainer {
   private final Kicker kicker;
   private final AdvanceKicker advanceKicker;
 
+  //declaring shooter
+  private final Shooter shooter;
+  private final SpinShooter spinShooter;
+
   //Declaring compressor
   private final Compressor compressor;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -75,6 +82,9 @@ public class RobotContainer {
     kicker = new Kicker();
     advanceKicker = new AdvanceKicker(kicker);
 
+    shooter = new Shooter();
+    spinShooter = new SpinShooter(shooter);
+
     compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
@@ -91,6 +101,10 @@ public class RobotContainer {
     intakeToggleButton.whenPressed(intakeToggle);
     JoystickButton kickerAdvanceButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
     kickerAdvanceButton.whenPressed(advanceKicker);
+    JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
+    spinShooterButton.whenPressed(spinShooter);
+    JoystickButton stopShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
+    stopShooterButton.whenPressed(new InstantCommand(shooter::disable));
   }
 
   /**

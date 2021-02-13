@@ -20,7 +20,7 @@ public class Shooter extends PIDSubsystem {
   public Shooter() {
     super(
       // The PIDController used by the subsystem
-      new PIDController(0, 0, 0));
+      new PIDController(1, 1, 1));
       setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
       shooterMotor1 = new CANSparkMax(Constants.Shooter.SHOOTER_MOTOR_1_ID, MotorType.kBrushless);
       shooterMotor1Encoder = shooterMotor1.getEncoder();
