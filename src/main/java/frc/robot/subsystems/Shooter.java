@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,9 +26,23 @@ public class Shooter extends SubsystemBase {
     shooterPIDController.setI(1);
     shooterPIDController.setD(1);
     shooterPIDController.setFF(1);
-
   }
 
+  public void SetSetpoint(double setpoint) {
+    shooterPIDController.setReference(setpoint, ControlType.kVelocity);
+  }
+
+  public boolean AtSetpoint (double setpoint) {
+    if (shooterMotor1.getEncoder().getVelocity() >= setpoint) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  public void StopShooter() {
+    shooterMotor1.stopMotor();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
