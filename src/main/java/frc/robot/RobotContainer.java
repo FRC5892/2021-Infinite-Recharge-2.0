@@ -11,7 +11,7 @@ import frc.robot.commands.AdvanceKicker;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.SpinShooter;
+import frc.robot.commands.ShootBall;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.subsystems.Accumulator;
@@ -21,7 +21,6 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
@@ -56,7 +55,7 @@ public class RobotContainer {
 
   //declaring shooter
   private final Shooter shooter;
-  private final SpinShooter spinShooter;
+  private final ShootBall shootBall;
 
   //Declaring compressor
   private final Compressor compressor;
@@ -71,19 +70,20 @@ public class RobotContainer {
     driveForwardTimed.addRequirements(driveTrain);
 
     driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
+    
+    accumulator = new Accumulator();
 
     intake = new Intake();
     intakeToggle = new IntakeToggle(intake);
-    runIntakeRollers = new RunIntakeRollers(intake);
+    runIntakeRollers = new RunIntakeRollers(intake, accumulator);
     intake.setDefaultCommand(runIntakeRollers);
 
-    accumulator = new Accumulator();
 
     kicker = new Kicker();
     advanceKicker = new AdvanceKicker(kicker);
 
     shooter = new Shooter();
-    spinShooter = new SpinShooter(shooter);
+    shootBall = new ShootBall(shooter);
 
     compressor = new Compressor(0);
     // Configure the button bindings
@@ -102,9 +102,7 @@ public class RobotContainer {
     JoystickButton kickerAdvanceButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
     kickerAdvanceButton.whenPressed(advanceKicker);
     JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
-    spinShooterButton.whenPressed(spinShooter);
-    JoystickButton stopShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
-    stopShooterButton.whenPressed(new InstantCommand(shooter::disable));
+    spinShooterButton.whileHeld(shootBall);
   }
 
   /**
