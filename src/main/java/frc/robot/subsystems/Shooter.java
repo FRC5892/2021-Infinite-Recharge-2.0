@@ -22,10 +22,10 @@ public class Shooter extends SubsystemBase {
     shooterMotor2 = new CANSparkMax(Constants.Shooter.SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
     shooterMotor2.follow(shooterMotor1, true);
     shooterPIDController = shooterMotor1.getPIDController();
-    shooterPIDController.setP(1);
-    shooterPIDController.setI(1);
-    shooterPIDController.setD(1);
-    shooterPIDController.setFF(1);
+    shooterPIDController.setP(Constants.Shooter.ShooterPID.P);
+    shooterPIDController.setI(Constants.Shooter.ShooterPID.I);
+    shooterPIDController.setD(Constants.Shooter.ShooterPID.D);
+    shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
   }
 
   public void SetSetpoint(double setpoint) {
