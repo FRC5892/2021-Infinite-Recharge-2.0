@@ -8,14 +8,17 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.Intake;
 
 public class RunIntakeRollers extends CommandBase {
   Intake intake;
+  Accumulator accumulator;
   /** Creates a new RunIntakeRollers. */
-  public RunIntakeRollers(Intake i) {
+  public RunIntakeRollers(Intake i, Accumulator a) {
     intake = i;
-    addRequirements(intake);
+    accumulator = a;
+    addRequirements(intake, accumulator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,6 +32,7 @@ public class RunIntakeRollers extends CommandBase {
   public void execute() {
     if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
       intake.setRollersSpeed(-(RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) * Constants.Intake.ROLLER_SPEED));
+      accumulator.setAccumulator(Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
     }
     else if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
       intake.setRollersSpeed((RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Intake.ROLLER_SPEED));
