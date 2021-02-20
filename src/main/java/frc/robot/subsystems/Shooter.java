@@ -40,6 +40,16 @@ public class Shooter extends SubsystemBase {
       return false;
     }
   }
+
+  public boolean BelowSetPoint (double setpoint, double difference) {
+    if (shooterMotor1.getEncoder().getVelocity() <= (setpoint-difference)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+  
   public void StopShooter() {
     shooterMotor1.stopMotor();
   }

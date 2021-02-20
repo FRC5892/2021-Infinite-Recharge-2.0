@@ -19,8 +19,8 @@ public class Kicker extends SubsystemBase {
     kickerSensor = new DigitalInput(Constants.Kicker.KICKER_SENSOR_PORT);
   }
 
-  public void startKicker() {
-    kickerMotor.set(Constants.Kicker.KICKER_MOTOR_SPEED);
+  public void setKicker(double speed) {
+    kickerMotor.set(speed);
   }
 
   public void stopKicker() {

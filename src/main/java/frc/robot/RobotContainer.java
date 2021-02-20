@@ -83,7 +83,7 @@ public class RobotContainer {
     advanceKicker = new AdvanceKicker(kicker);
 
     shooter = new Shooter();
-    shootBall = new ShootBall(shooter);
+    shootBall = new ShootBall(shooter, kicker, accumulator);
 
     compressor = new Compressor(0);
     // Configure the button bindings
