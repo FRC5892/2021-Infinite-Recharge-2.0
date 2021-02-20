@@ -30,32 +30,34 @@ public class DislodgeIntake extends CommandBase {
     doubleSolenoidValue = intake.getSolenoidValue();
     timer.reset();
     timer.start();
-      if (doubleSolenoidValue == Value.kReverse) {
-        while(timer.get() < Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
-          intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
-        }
-        timer.reset();
-        timer.start();
-        while(timer.get() < Constants.Intake.DISLODGE_SPIN_EXTEND_TIME){
-        intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
-      }
-        finish = true;
-      }
-      else {
         while(timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
-          intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
-        }
-        finish = true;
-      }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (doubleSolenoidValue == Value.kReverse) {
+      if(timer.get() <= Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+        intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      }
+      if(timer.get() == Constants.Intake.DISLODGE_SPIN_REVERSE_TIME && timer.get() > Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+      intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+    }
+      finish = true;
+    }
+    else {
+      while(timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
+        intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      }
+      finish = true;
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.stopRollers();
+  }
 
   // Returns true when the command should end.
   @Override
