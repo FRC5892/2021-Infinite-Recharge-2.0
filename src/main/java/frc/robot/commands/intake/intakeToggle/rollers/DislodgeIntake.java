@@ -30,7 +30,6 @@ public class DislodgeIntake extends CommandBase {
     doubleSolenoidValue = intake.getSolenoidValue();
     timer.reset();
     timer.start();
-        while(timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
   }
 
   // Called every time the scheduler runs while the command is scheduled.
