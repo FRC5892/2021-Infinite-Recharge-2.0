@@ -57,7 +57,7 @@ public final class Constants {
     public final class Shooter {
         public static final int SHOOTER_MOTOR_1_ID = 7;
 		public static final int SHOOTER_MOTOR_2_ID = 8;
-		public static final double SHOOTER_TARGET_SPEED = 500;
+		public static final double SHOOTER_TARGET_SPEED = 4000;
 		public static final double SHOOTER_SHOT_DIFFERENCE = 100;
 		public class ShooterPID {
 

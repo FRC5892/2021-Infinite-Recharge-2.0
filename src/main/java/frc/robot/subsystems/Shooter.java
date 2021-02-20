@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -29,7 +28,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void SetSetpoint(double setpoint) {
-    shooterPIDController.setReference(setpoint, ControlType.kVelocity);
+    shooterMotor1.set(setpoint);
   }
 
   public boolean AtSetpoint (double setpoint) {
