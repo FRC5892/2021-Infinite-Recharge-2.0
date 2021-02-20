@@ -46,7 +46,8 @@ public class RunIntakeRollers extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //intake.stopRollers();
+    intake.stopRollers();
+    accumulator.stopAccumulator();
   }
 
   // Returns true when the command should end.
