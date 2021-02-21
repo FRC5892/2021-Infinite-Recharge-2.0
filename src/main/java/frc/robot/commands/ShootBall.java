@@ -26,17 +26,17 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.SetSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
+    shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooter.AtSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+    if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
       kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
       accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
     }
-    if (shooter.BelowSetPoint(Constants.Shooter.SHOOTER_TARGET_SPEED, Constants.Shooter.SHOOTER_SHOT_DIFFERENCE)) {
+    if (shooter.belowSetPoint(Constants.Shooter.SHOOTER_TARGET_SPEED, Constants.Shooter.SHOOTER_SHOT_DIFFERENCE)) {
       kicker.stopKicker();
       accumulator.stopAccumulator();
     }
@@ -49,7 +49,7 @@ public class ShootBall extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.StopShooter();
+    shooter.stopShooter();
     kicker.stopKicker();
     accumulator.stopAccumulator();
   }

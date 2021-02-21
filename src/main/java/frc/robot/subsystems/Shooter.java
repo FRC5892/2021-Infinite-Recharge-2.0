@@ -27,29 +27,19 @@ public class Shooter extends SubsystemBase {
     shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
   }
 
-  public void SetSetpoint(double setpoint) {
+  public void setSetpoint(double setpoint) {
     shooterMotor1.set(setpoint);
   }
 
-  public boolean AtSetpoint (double setpoint) {
-    if (shooterMotor1.getEncoder().getVelocity() >= setpoint) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  public boolean atSetpoint (double setpoint) {
+    return (shooterMotor1.getEncoder().getVelocity() >= setpoint);
   }
 
-  public boolean BelowSetPoint (double setpoint, double difference) {
-    if (shooterMotor1.getEncoder().getVelocity() <= (setpoint-difference)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  public boolean belowSetPoint (double setpoint, double difference) {
+    return shooterMotor1.getEncoder().getVelocity() <= (setpoint-difference);
   }
   
-  public void StopShooter() {
+  public void stopShooter() {
     shooterMotor1.stopMotor();
   }
   @Override
