@@ -15,12 +15,14 @@ public class DislodgeIntake extends CommandBase {
   private boolean finish;
   Timer timer;
   Value doubleSolenoidValue;
+  Double timerOffset;
   /** Creates a new DislodgeBall. */
   public DislodgeIntake(Intake i) {
     finish = false;
     intake = i;
     addRequirements(intake);
     timer = new Timer();
+    timerOffset = 0.0;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -28,34 +30,44 @@ public class DislodgeIntake extends CommandBase {
   @Override
   public void initialize() {
     doubleSolenoidValue = intake.getSolenoidValue();
+    finish = false;
     timer.reset();
     timer.start();
-      if (doubleSolenoidValue == Value.kReverse) {
-        while(timer.get() < Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
-          intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
-        }
-        timer.reset();
-        timer.start();
-        while(timer.get() < Constants.Intake.DISLODGE_SPIN_EXTEND_TIME){
-        intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
-      }
-        finish = true;
-      }
-      else {
-        while(timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
-          intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
-        }
-        finish = true;
-      }
+    timerOffset = 0.0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (doubleSolenoidValue == Value.kReverse) {
+      if(timer.get() < Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+        intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+        timerOffset = timer.get();
+      }
+      else if(timer.get() < Constants.Intake.DISLODGE_SPIN_EXTEND_TIME + Constants.Intake.DISLODGE_SPIN_REVERSE_TIME && timer.get() > Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+        intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      }
+      else {
+        intake.stopRollers();
+        finish = true;
+      }
+    }
+    else if (doubleSolenoidValue == Value.kForward) {
+      if (timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
+        intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      }
+      else {
+        intake.stopRollers();
+        finish = true;
+      }
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intake.stopRollers();
+  }
 
   // Returns true when the command should end.
   @Override
