@@ -30,8 +30,10 @@ public class DislodgeIntake extends CommandBase {
   @Override
   public void initialize() {
     doubleSolenoidValue = intake.getSolenoidValue();
+    finish = false;
     timer.reset();
     timer.start();
+    timerOffset = 0.0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,12 +43,15 @@ public class DislodgeIntake extends CommandBase {
       if(timer.get() < Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
         intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
         timerOffset = timer.get();
+        System.out.println("stage1");
       }
-      else if(timer.get() < Constants.Intake.DISLODGE_SPIN_EXTEND_TIME && timer.get() > Constants.Intake.DISLODGE_SPIN_EXTEND_TIME + timerOffset){
-      intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      else if(timer.get() < Constants.Intake.DISLODGE_SPIN_EXTEND_TIME + Constants.Intake.DISLODGE_SPIN_REVERSE_TIME && timer.get() > Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+        intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+        System.out.println("stage2");
       }
       else {
         intake.stopRollers();
+        System.out.println("stoppedrollers");
         finish = true;
       }
     }
@@ -55,6 +60,7 @@ public class DislodgeIntake extends CommandBase {
         intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
       }
       else {
+        intake.stopRollers();
         finish = true;
       }
     }
