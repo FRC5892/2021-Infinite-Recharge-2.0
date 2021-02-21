@@ -12,8 +12,10 @@ import frc.robot.subsystems.Kicker;
 public class AdvanceKicker extends CommandBase {
   private final Kicker kicker;
   Timer timer;
+  private boolean finish;
   /** Creates a new AdvanceKicker. */
   public AdvanceKicker(Kicker k) {
+    finish = false;
     kicker = k;
     addRequirements(kicker);
     timer = new Timer();
@@ -23,20 +25,24 @@ public class AdvanceKicker extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    finish = false;
     if (kicker.ballLoaded() != true ){
       timer.reset();
       timer.start();
       kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
     }
   }
-  
-  //advance slowly when called unless shooting
-  //if shooting and shooter is at setpoint advance at full speed
-  //if ball present at shoot setpoint and shooting nudge kicker
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (timer.get() > 2) {
+      finish = true;
+    }
+    if (kicker.ballLoaded()) {
+      finish = true;
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
