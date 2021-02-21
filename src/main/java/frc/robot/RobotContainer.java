@@ -11,12 +11,14 @@ import frc.robot.commands.AdvanceKicker;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
@@ -57,6 +59,9 @@ public class RobotContainer {
   private final Shooter shooter;
   private final ShootBall shootBall;
 
+  private final Hood hood;
+  private final SetHood setHood;
+
   //Declaring compressor
   private final Compressor compressor;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -85,6 +90,9 @@ public class RobotContainer {
     shooter = new Shooter();
     shootBall = new ShootBall(shooter, kicker, accumulator);
 
+    hood = new Hood();
+    setHood = new SetHood(hood);
+
     compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
@@ -103,6 +111,8 @@ public class RobotContainer {
     kickerAdvanceButton.whenPressed(advanceKicker);
     JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
     spinShooterButton.whileHeld(shootBall);
+    JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
+    setHoodButton.whileHeld(setHood);
   }
 
   /**
