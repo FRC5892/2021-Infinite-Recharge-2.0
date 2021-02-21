@@ -38,6 +38,7 @@ public class ShootBall extends CommandBase {
     }
     if (shooter.BelowSetPoint(Constants.Shooter.SHOOTER_TARGET_SPEED, Constants.Shooter.SHOOTER_SHOT_DIFFERENCE)) {
       kicker.stopKicker();
+      accumulator.stopAccumulator();
     }
     if (!kicker.ballLoaded()) {
       kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);

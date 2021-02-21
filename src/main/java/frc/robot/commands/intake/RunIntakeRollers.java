@@ -36,6 +36,7 @@ public class RunIntakeRollers extends CommandBase {
     }
     else if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
       intake.setRollersSpeed((RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Intake.ROLLER_SPEED));
+      accumulator.setAccumulator(-RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
     }
     else {
       intake.stopRollers();
