@@ -15,12 +15,14 @@ public class DislodgeIntake extends CommandBase {
   private boolean finish;
   Timer timer;
   Value doubleSolenoidValue;
+  Double timerOffset;
   /** Creates a new DislodgeBall. */
   public DislodgeIntake(Intake i) {
     finish = false;
     intake = i;
     addRequirements(intake);
     timer = new Timer();
+    timerOffset = 0.0;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -36,19 +38,25 @@ public class DislodgeIntake extends CommandBase {
   @Override
   public void execute() {
     if (doubleSolenoidValue == Value.kReverse) {
-      if(timer.get() <= Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+      if(timer.get() < Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
         intake.setRollersSpeed(Constants.Intake.DISLODGE_ROLLERS_SPEED);
+        timerOffset = timer.get();
       }
-      if(timer.get() == Constants.Intake.DISLODGE_SPIN_REVERSE_TIME && timer.get() > Constants.Intake.DISLODGE_SPIN_REVERSE_TIME){
+      else if(timer.get() < Constants.Intake.DISLODGE_SPIN_EXTEND_TIME && timer.get() > Constants.Intake.DISLODGE_SPIN_EXTEND_TIME + timerOffset){
       intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
+      }
+      else {
+        intake.stopRollers();
+        finish = true;
+      }
     }
-      finish = true;
-    }
-    else {
-      while(timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
+    else if (doubleSolenoidValue == Value.kForward) {
+      if (timer.get() < Constants.Intake.DISLODGE_SPIN_RETRACT_TIME){
         intake.setRollersSpeed(-Constants.Intake.DISLODGE_ROLLERS_SPEED);
       }
-      finish = true;
+      else {
+        finish = true;
+      }
     }
   }
 
