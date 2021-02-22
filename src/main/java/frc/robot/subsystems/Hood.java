@@ -48,34 +48,8 @@ public class Hood extends PIDSubsystem {
     this.setSetpoint(setpoint);
   }
   
-  public boolean goingForward() {
-    if (!(this.getSetpoint() - getHoodPotentiometer() > 0)) {
-      return false;
-    }
-    else {
-      return false;
-    }
-  }
   public boolean atDirectionStop() {
-    if (getTopStop()) {
-      if (goingForward()) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    else if (getBottomStop()) {
-      if (!goingForward()){
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
-    else {
-      return false;
-    }
+    return (hoodMotor.getSpeed()>0 && getTopStop())||(hoodMotor.getSpeed()<0 && getBottomStop());
   }
   @Override
   public void useOutput(double output, double setpoint) {
