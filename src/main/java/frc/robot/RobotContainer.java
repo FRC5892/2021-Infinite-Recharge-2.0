@@ -13,6 +13,7 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.subsystems.Accumulator;
@@ -50,6 +51,7 @@ public class RobotContainer {
   
   //declaring accumulator and accumulator commands
   private final Accumulator accumulator;
+  private final RunAccumulator runAccumulator;
 
   //declaring kicker and kicker commands
   private final Kicker kicker;
@@ -77,10 +79,12 @@ public class RobotContainer {
     driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
     
     accumulator = new Accumulator();
+    runAccumulator = new RunAccumulator(accumulator);
+    accumulator.setDefaultCommand(runAccumulator);
 
     intake = new Intake();
     intakeToggle = new IntakeToggle(intake);
-    runIntakeRollers = new RunIntakeRollers(intake, accumulator);
+    runIntakeRollers = new RunIntakeRollers(intake);
     intake.setDefaultCommand(runIntakeRollers);
 
 
