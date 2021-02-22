@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,19 +27,19 @@ public class Shooter extends SubsystemBase {
     shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
   }
 
-  public void SetSetpoint(double setpoint) {
-    shooterPIDController.setReference(setpoint, ControlType.kVelocity);
+  public void setSetpoint(double setpoint) {
+    shooterMotor1.set(setpoint);
   }
 
-  public boolean AtSetpoint (double setpoint) {
-    if (shooterMotor1.getEncoder().getVelocity() >= setpoint) {
-      return true;
-    }
-    else {
-      return false;
-    }
+  public boolean atSetpoint (double setpoint) {
+    return (shooterMotor1.getEncoder().getVelocity() >= setpoint);
   }
-  public void StopShooter() {
+
+  public boolean belowSetPoint (double setpoint, double difference) {
+    return shooterMotor1.getEncoder().getVelocity() <= (setpoint-difference);
+  }
+  
+  public void stopShooter() {
     shooterMotor1.stopMotor();
   }
   @Override

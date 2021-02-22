@@ -50,13 +50,15 @@ public final class Constants {
     }
     public final class Kicker {
 		public static final int KICKER_MOTOR_PORT = 5;
-		public static final double KICKER_MOTOR_SPEED = .85;
+		public static final double KICKER_MOTOR_ADVANCE_SPEED = .75;
 		public static final int KICKER_SENSOR_PORT = 3;
+		public static final double KICKER_MOTOR_NUDGE_SPEED = 1;
     }
     public final class Shooter {
         public static final int SHOOTER_MOTOR_1_ID = 7;
 		public static final int SHOOTER_MOTOR_2_ID = 8;
-		public static final double SHOOTER_TARGET_SPEED = 0;
+		public static final double SHOOTER_TARGET_SPEED = 4000;
+		public static final double SHOOTER_SHOT_DIFFERENCE = 100;
 		public class ShooterPID {
 
             public static final double P = 0.00105;
@@ -65,4 +67,10 @@ public final class Constants {
             public static final double FF = 0.00018;
 		}
     }
+  public class Hood {
+
+	public static final int HOOD_MOTOR_PORT = 6;
+	public static final int HOOD_BOTTOM_STOP = 1;
+	public static final int HOOD_TOP_STOP = 5;
+	public static final int HOOD_POTENTIOMETER = 1;}
 }
