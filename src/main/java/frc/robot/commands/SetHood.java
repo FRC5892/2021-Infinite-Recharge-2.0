@@ -28,8 +28,9 @@ public class SetHood extends CommandBase {
   public void execute() {
     System.out.println(hood.getSetpoint());
     System.out.println(hood.getMeasurement());
-    //System.out.println("Bottom Stop " +hood.getBottomStop());
-    //System.out.println("Top Stop " +hood.getTopStop());
+    System.out.println("Bottom Stop " +hood.getBottomStop());
+    System.out.println("Top Stop " +hood.getTopStop());
+    System.out.println("At Direction Stop" +hood.atDirectionStop())
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +43,6 @@ public class SetHood extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return hood.atStop();
+    return hood.atDirectionStop();
   }
 }
