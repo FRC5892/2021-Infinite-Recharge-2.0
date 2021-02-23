@@ -26,7 +26,7 @@ public class ShootBall extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
+    //shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
