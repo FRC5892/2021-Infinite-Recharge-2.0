@@ -35,18 +35,15 @@ public class ShootBall extends CommandBase {
     if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
       kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
       accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-      System.out.println("Atsetpoint");
     }
     if (shooter.belowSetPoint(Constants.Shooter.SHOOTER_TARGET_SPEED, Constants.Shooter.SHOOTER_SHOT_DIFFERENCE)) {
       if (!kicker.ballLoaded()) {
         kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
         accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
-        System.out.println("loading ball");
       }
       else {
         kicker.stopKicker();
         accumulator.stopAccumulator();
-        System.out.println("stopping systems");
       }
     }
   }
