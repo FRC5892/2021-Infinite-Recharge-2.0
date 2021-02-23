@@ -37,7 +37,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean belowSetPoint () {
-    return shooterMotor1.getEncoder().getVelocity() <= (shooterMotor1.get()-Constants.Shooter.SHOOTER_SHOT_DIFFERENCE);
+    return shooterMotor1.getEncoder().getVelocity() <= (shooterMotor1.get()-Constants.Shooter.SHOOTER_SETPOINT_TOLERANCE);
   }
   
   public void stopShooter() {
