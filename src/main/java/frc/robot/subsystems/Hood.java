@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import frc.robot.Constants;
 
@@ -47,6 +48,8 @@ public class Hood extends PIDSubsystem {
 
   @Override
   public double getMeasurement() {
+    SmartDashboard.putNumber("Hood Setpoint", this.getSetpoint());
+    SmartDashboard.putNumber("Hood Potentiometer", hoodPotentiometer.getAverageVoltage());
     return hoodPotentiometer.getAverageVoltage();
   }
 }

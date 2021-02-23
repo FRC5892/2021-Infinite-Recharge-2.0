@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.MathUtils;
@@ -46,6 +47,14 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Left Motor 1", leftMotor1.get());
+    SmartDashboard.putNumber("Left Motor 2", leftMotor2.get());
+    SmartDashboard.putNumber("Left Motor 3", leftMotor3.get());
+    SmartDashboard.putNumber("Left Motors", leftMotors.get());
+    SmartDashboard.putNumber("Right Motor 1", rightMotor1.get());
+    SmartDashboard.putNumber("Right Motor 2", rightMotor2.get());
+    SmartDashboard.putNumber("Right Motor 3", rightMotor3.get());
+    SmartDashboard.putNumber("Right Motors", rightMotors.get());
     // This method will be called once per scheduler run
   }
 
