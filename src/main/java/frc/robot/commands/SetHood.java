@@ -25,23 +25,17 @@ public class SetHood extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    System.out.println(hood.getSetpoint());
-    System.out.println(hood.getMeasurement());
-    //System.out.println("Bottom Stop " +hood.getBottomStop());
-    //System.out.println("Top Stop " +hood.getTopStop());
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     hood.disable();
-    System.out.println("Stopped");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return hood.atStop();
+    return hood.atDirectionStop() || hood.atSetpoint();
   }
 }
