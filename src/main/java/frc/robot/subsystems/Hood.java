@@ -28,39 +28,25 @@ public class Hood extends PIDSubsystem {
       hoodPotentiometer = new AnalogInput(Constants.Hood.HOOD_POTENTIOMETER);
   }
 
-  public boolean getBottomStop() {
-    return !bottomStop.get();
-  }
-
-  public boolean getTopStop() {
-    return topStop.get();
-  }
-
-  public boolean atStop() {
-    return !bottomStop.get() || topStop.get();
-  }
-
-  public double getHoodPotentiometer() {
-    return hoodPotentiometer.getAverageVoltage();
-  }
-  
   public void setHoodVictorSPVictorSPPosition(double setpoint) {
     this.setSetpoint(setpoint);
   }
   
   public boolean atDirectionStop() {
-    return (hoodMotor.getSpeed()>0 && getTopStop())||(hoodMotor.getSpeed()<0 && getBottomStop());
+    return (hoodMotor.getSpeed()>0 && topStop.get())||(hoodMotor.getSpeed()<0 && !bottomStop.get());
+  }
+
+  public boolean atSetpoint() {
+    return hoodPotentiometer.getAverageVoltage() == this.getSetpoint();
   }
   @Override
   public void useOutput(double output, double setpoint) {
     hoodMotor.set(output);
-    System.out.println("output " + output);
     // Use the output here
   }
 
   @Override
   public double getMeasurement() {
     return hoodPotentiometer.getAverageVoltage();
-    //return 1;
   }
 }
