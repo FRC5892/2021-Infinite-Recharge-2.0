@@ -8,6 +8,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Limelight extends SubsystemBase {
   NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -37,6 +38,9 @@ public class Limelight extends SubsystemBase {
     return ta.getDouble(0);
   }
 
+  public double targetDistance(double height) {
+    return (height-Constants.Limelight.LIMELIGHT_MOUNTING_HEIGHT)/ Math.tan(yOffset() + Constants.Limelight.LIMELIGHT_MOUNTING_ANGLE);
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
