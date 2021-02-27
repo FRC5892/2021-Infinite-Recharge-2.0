@@ -23,7 +23,7 @@ public final class Constants {
     public static final int RIGHT_MOTOR2_ID = 5;
     public static final int RIGHT_MOTOR3_ID = 6;
     public static final double SPEED = 1;
-    public static final double SLOW_SPEED = .85;
+    public static final double SLOW_SPEED = .5;
     public static final double AUTONOMOUS_SPEED = 1; 
     public static final double DRIVE_FORWARD_TIME = 3;
   }
