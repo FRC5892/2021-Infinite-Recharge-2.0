@@ -32,11 +32,11 @@ public class ShootBall extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+    if (shooter.atSetpoint()) {
       kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
       accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
     }
-    if (shooter.belowSetPoint(Constants.Shooter.SHOOTER_TARGET_SPEED, Constants.Shooter.SHOOTER_SHOT_DIFFERENCE)) {
+    if (shooter.belowSetPoint()) {
       if (!kicker.ballLoaded()) {
         kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
         accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
