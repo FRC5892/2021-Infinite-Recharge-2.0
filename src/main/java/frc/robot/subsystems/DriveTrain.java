@@ -60,6 +60,10 @@ public class DriveTrain extends SubsystemBase {
     drive.tankDrive(leftSpeed, rightSpeed);
   }
 
+  public void arcadeDrive(double xSpeed, double zRotation) {
+    drive.arcadeDrive(xSpeed, zRotation);
+  }
+
   public void stop(){
     drive.stopMotor();
   }

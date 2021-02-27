@@ -4,49 +4,33 @@
 
 package frc.robot.commands.vision;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 
-public class Aim extends CommandBase {
-  private final Limelight limelight;
-  private final Double targetX;
-  private double steering;
-  private DriveTrain driveTrain;
-  private double leftSteering;
-  private double rightSteering;
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class Aim extends PIDCommand {
+  DriveTrain driveTrain;
+  Limelight limelight;
   /** Creates a new Aim. */
-  public Aim(Limelight l, DriveTrain d) {
-    limelight = l;
-    driveTrain = d;
-    targetX = limelight.getLimelightTable().getEntry("tx").getNumber(0).doubleValue();
-    steering = 0;
-    addRequirements(driveTrain);
+  public Aim(DriveTrain driveTrain, Limelight limelight) {
+    super(
+        // The controller that the command will use
+        new PIDController(0.1, 0, 0.015),
+        // This should return the measurement
+        () -> limelight.xOffset(),
+        // This should return the setpoint (can also be a constant)
+        () -> 0,
+        // This uses the output
+        output -> {
+          driveTrain.arcadeDrive(0, output);
+          // Use the output here
+        });
     // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (targetX > 1.0) {
-      steering = 1*targetX - .05;
-    }
-    else if (targetX < 1.0) {
-      steering = 1*targetX + .05;
-    }
-    leftSteering += steering;
-    rightSteering -= steering;
-    driveTrain.tankDrive(leftSteering, rightSteering);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    driveTrain.stop();
+    // Configure additional PID options by calling `getController` here.
   }
 
   // Returns true when the command should end.
