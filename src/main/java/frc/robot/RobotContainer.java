@@ -105,7 +105,7 @@ public class RobotContainer {
     setHood = new SetHood(hood);
 
     limelight = new Limelight();
-    aim = new Aim(limelight, driveTrain);
+    aim = new Aim(driveTrain, limelight);
 
     compressor = new Compressor(0);
     // Configure the button bindings
