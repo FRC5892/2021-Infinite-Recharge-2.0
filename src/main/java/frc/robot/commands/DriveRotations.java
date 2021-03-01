@@ -4,37 +4,38 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveForwardTimed extends CommandBase {
+public class DriveRotations extends CommandBase {
   DriveTrain driveTrain;
-  private boolean finish = false;
-  Timer timer;
-  /** Creates a new DriveForwardTimed. */
-  public DriveForwardTimed(DriveTrain dt) {
-    driveTrain = dt;
+  Boolean finish;
+  /** Creates a new DriveRotations. */
+  public DriveRotations(DriveTrain d) {
+    driveTrain = d;
     addRequirements(driveTrain);
-    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
-    while(timer.get() < Constants.DriveTrain.DRIVE_FORWARD_TIME){
-      driveTrain.tankDrive(Constants.DriveTrain.AUTONOMOUS_SPEED, Constants.DriveTrain.AUTONOMOUS_SPEED);
-    }
-    finish = true;
+    driveTrain.resetEncoders();
+    finish = false;
   }
-  
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (driveTrain.getLeftEncoder().getPosition() <= 200) {
+      driveTrain.arcadeDrive(.25, 0);
+    }
+    else {
+      driveTrain.stop();
+      finish = true;
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -46,6 +47,5 @@ public class DriveForwardTimed extends CommandBase {
   @Override
   public boolean isFinished() {
     return finish;
-    //when finish is true the command will end
   }
 }

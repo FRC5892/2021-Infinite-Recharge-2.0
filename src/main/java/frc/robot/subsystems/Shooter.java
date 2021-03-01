@@ -8,6 +8,7 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -31,12 +32,12 @@ public class Shooter extends SubsystemBase {
     shooterMotor1.set(setpoint);
   }
 
-  public boolean atSetpoint (double setpoint) {
-    return (shooterMotor1.getEncoder().getVelocity() >= setpoint);
+  public boolean atSetpoint () {
+    return (shooterMotor1.getEncoder().getVelocity() >= shooterMotor1.get());
   }
 
-  public boolean belowSetPoint (double setpoint, double difference) {
-    return shooterMotor1.getEncoder().getVelocity() <= (setpoint-difference);
+  public boolean belowSetPoint () {
+    return shooterMotor1.getEncoder().getVelocity() <= (shooterMotor1.get()-Constants.Shooter.SHOOTER_SETPOINT_TOLERANCE);
   }
   
   public void stopShooter() {
@@ -44,6 +45,10 @@ public class Shooter extends SubsystemBase {
   }
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Shooter RPM", shooterMotor1.getEncoder().getVelocity());
+    SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
+    SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint());
+    SmartDashboard.putBoolean("Shooter Below Setpoint", this.belowSetPoint());
     // This method will be called once per scheduler run
   }
 }

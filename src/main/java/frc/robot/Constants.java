@@ -23,7 +23,7 @@ public final class Constants {
     public static final int RIGHT_MOTOR2_ID = 5;
     public static final int RIGHT_MOTOR3_ID = 6;
     public static final double SPEED = 1;
-    public static final double SLOW_SPEED = .85;
+    public static final double SLOW_SPEED = .5;
     public static final double AUTONOMOUS_SPEED = 1; 
     public static final double DRIVE_FORWARD_TIME = 3;
     public class DriveCharacteristics {
@@ -73,7 +73,7 @@ public final class Constants {
     public static final int SHOOTER_MOTOR_1_ID = 7;
     public static final int SHOOTER_MOTOR_2_ID = 8;
     public static final double SHOOTER_TARGET_SPEED = 4000;
-    public static final double SHOOTER_SHOT_DIFFERENCE = 10;
+    public static final double SHOOTER_SETPOINT_TOLERANCE = 10;
       public class ShooterPID {
         public static final double P = 0.00105;
         public static final double I = 0;
@@ -81,9 +81,15 @@ public final class Constants {
         public static final double FF = 0.00018;
       }
   }
-  public class Hood {
+  public final class Hood {
     public static final int HOOD_MOTOR_PORT = 6;
     public static final int HOOD_BOTTOM_STOP = 1;
     public static final int HOOD_TOP_STOP = 5;
-    public static final int HOOD_POTENTIOMETER = 1;}
+    public static final int HOOD_POTENTIOMETER = 1;
+  }
+  public final class Limelight {
+    public static final double LIMELIGHT_MOUNTING_ANGLE = 30; // degrees
+    public static final double LIMELIGHT_MOUNTING_HEIGHT = 18; // inches
+    public static final double LIMELIGHT_TARGET_HEIGHT = 98.25; // inches
+  }
 }

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.AdvanceKicker;
 import frc.robot.commands.DriveForwardTimed;
+import frc.robot.commands.DriveRotations;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.SetHood;
@@ -16,12 +17,14 @@ import frc.robot.commands.ShootBall;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
+import frc.robot.commands.vision.Aim;
 import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Kicker;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -42,6 +45,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
   private final DriveForwardTimed driveForwardTimed;
+  private final DriveRotations driveRotations;
   public static XboxController driverJoystick;
 
   //declaring intake and intake commands
@@ -66,11 +70,17 @@ public class RobotContainer {
 
   //Declaring compressor
   private final Compressor compressor;
+
+  //Declaring limelight and limelight commands
+  private Limelight limelight;
+  private Aim aim;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     driveTrain = new DriveTrain();
     driveWithJoystick = new DriveWithJoysticks(driveTrain);
     driveWithJoystick.addRequirements(driveTrain);
+    driveRotations = new DriveRotations(driveTrain);
     driveTrain.setDefaultCommand(driveWithJoystick); //drive with joysticks by default
 
     driveForwardTimed = new DriveForwardTimed(driveTrain);
@@ -97,6 +107,9 @@ public class RobotContainer {
     hood = new Hood();
     setHood = new SetHood(hood);
 
+    limelight = new Limelight();
+    aim = new Aim(driveTrain, limelight);
+
     compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
@@ -117,6 +130,10 @@ public class RobotContainer {
     spinShooterButton.whileHeld(shootBall);
     JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
     setHoodButton.whileHeld(setHood);
+    JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
+    aimButton.whileHeld(aim);
+    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    driveRotationsButton.whenPressed(driveRotations);
   }
 
   /**
