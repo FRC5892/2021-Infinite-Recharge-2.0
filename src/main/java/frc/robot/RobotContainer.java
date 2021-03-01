@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveForwardTimed;
+import frc.robot.commands.DriveRotations;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LimelightGetInRange;
@@ -45,6 +46,7 @@ public class RobotContainer {
   private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
   private final DriveForwardTimed driveForwardTimed;
+  private final DriveRotations driveRotations;
   public static XboxController driverJoystick;
 
   //declaring intake and intake commands
@@ -80,6 +82,7 @@ public class RobotContainer {
     driveTrain = new DriveTrain();
     driveWithJoystick = new DriveWithJoysticks(driveTrain);
     driveWithJoystick.addRequirements(driveTrain);
+    driveRotations = new DriveRotations(driveTrain);
     driveTrain.setDefaultCommand(driveWithJoystick); //drive with joysticks by default
 
     driveForwardTimed = new DriveForwardTimed(driveTrain);
@@ -133,6 +136,8 @@ public class RobotContainer {
     aimButton.whileHeld(aim);
     JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     rangeButton.whileHeld(limelightGetInRane);
+    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    driveRotationsButton.whenPressed(driveRotations);
   }
 
   /**
