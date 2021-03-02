@@ -83,6 +83,11 @@ public class DriveTrain extends SubsystemBase {
     //x speed sets speed of forward motion, z speed sets turning speed 
   }
 
+  
+  public void driveForward(double speed){
+    drive.tankDrive(speed, speed);
+  }
+  
   public void tankDrive(double leftSpeed, double rightSpeed){
     drive.tankDrive(leftSpeed, rightSpeed);
   }
@@ -92,65 +97,6 @@ public class DriveTrain extends SubsystemBase {
   
   public void driveForward(double speed){
     drive.tankDrive(speed, speed);
-  }
-
-  public void resetEncoders() {
-    leftEncoder.setPosition(0);
-    leftEncoder.setPositionConversionFactor(1);
-    leftEncoder.setVelocityConversionFactor(1);
-    rightEncoder.setPosition(0);
-    rightEncoder.setPositionConversionFactor(1);
-    rightEncoder.setVelocityConversionFactor(1);
-  }
-
-  public void setMaxOutput(double maxOutput) {
-    drive.setMaxOutput(maxOutput);
-  }
-
-  //Used in trajectory
-  public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    odometry.resetPosition(pose, gyro.getRotation2d());
-  }
-  
-  public void zeroHeading() {
-    gyro.reset();
-  }
-
-  public double getAverageEncoderDistance() {
-    return (leftEncoder.getPosition() + rightEncoder.getPosition())/2;
-  }
-
-  public CANEncoder getLeftEncoder() {
-    return leftEncoder;
-  }
-
-  public CANEncoder getRightEncoder() {
-    return rightEncoder;
-  }
-
-  public double getHeading() {
-    return gyro.getRotation2d().getDegrees();
-  }
-
-  //Used in trajectory
-  public Pose2d getPose() {
-    return odometry.getPoseMeters();
-  }
-
-  //Used in trajectory
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
-  }
-
-  public double getTurnRate() {
-    return -gyro.getRate();
-  }
-
-  public void tankDriveVolts(double lefttVolts, double rightVolts) {
-    leftMotors.setVoltage(lefttVolts);
-    rightMotors.setVoltage(rightVolts);
-    drive.feed();
   }
 
   public void resetEncoders() {
