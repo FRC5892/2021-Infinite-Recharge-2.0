@@ -4,14 +4,18 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Hood;
 
 public class SetHood extends CommandBase {
   Hood hood;
+  NetworkTable smartdashboardTable;
   /** Creates a new SetHood. */
   public SetHood(Hood h) {
     hood = h;
+    smartdashboardTable = NetworkTableInstance.getDefault().getTable("Smartdashboard");
     addRequirements(hood);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -19,7 +23,7 @@ public class SetHood extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    hood.setSetpoint(1.5);
+    hood.setSetpoint(smartdashboardTable.getEntry("Set Hood Angle").getDouble(0));
     hood.enable();
   }
 
