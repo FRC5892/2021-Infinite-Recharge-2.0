@@ -26,14 +26,16 @@ public class Hood extends PIDSubsystem {
   public Hood() {
     super(
       // The PIDController used by the subsystem
-      new PIDController(2, 0, 0));
+      new PIDController(0.5, 0, 0));
       getController().setTolerance(1);
       hoodMotor = new VictorSP(Constants.Hood.HOOD_MOTOR_PORT);
       bottomStop = new DigitalInput(Constants.Hood.HOOD_BOTTOM_STOP);
       topStop = new DigitalInput(Constants.Hood.HOOD_TOP_STOP);
       hoodPotentiometer = new AnalogInput(Constants.Hood.HOOD_POTENTIOMETER);
     }
-    
+    public double getHoodAngle () {
+      return hoodPotentiometer.getAverageVoltage()*25.23+27.37;
+    }
     public void setHood(double setpoint) {
       this.setSetpoint(setpoint);
     }
@@ -54,8 +56,8 @@ public class Hood extends PIDSubsystem {
     @Override
     public double getMeasurement() {
     SmartDashboard.putNumber("Hood Setpoint", this.getSetpoint());
-    SmartDashboard.putNumber("Hood Potentiometer", hoodPotentiometer.getAverageVoltage());
     SmartDashboard.setDefaultNumber("Set Hood Angle", 0);
-    return hoodPotentiometer.getAverageVoltage();
+    SmartDashboard.putNumber("Hood Potentiometer", getHoodAngle());
+    return getHoodAngle();
   }
 }
