@@ -64,15 +64,6 @@ public class DriveTrain extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Left Motor 1", leftMotor1.get());
-    SmartDashboard.putNumber("Left Motor 2", leftMotor2.get());
-    SmartDashboard.putNumber("Left Motor 3", leftMotor3.get());
-    SmartDashboard.putNumber("Left Motors", leftMotors.get());
-    SmartDashboard.putNumber("Right Motor 1", rightMotor1.get());
-    SmartDashboard.putNumber("Right Motor 2", rightMotor2.get());
-    SmartDashboard.putNumber("Right Motor 3", rightMotor3.get()); 
-    SmartDashboard.putNumber("Right Motors", rightMotors.get());
-    SmartDashboard.putNumber("Drive Encoders", getLeftEncoder().getPosition());
     odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
     // This method will be called once per scheduler run
   }
