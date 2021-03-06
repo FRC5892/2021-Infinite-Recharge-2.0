@@ -11,11 +11,11 @@ import frc.robot.subsystems.Hood;
 
 public class SetHood extends CommandBase {
   Hood hood;
-  NetworkTable smartdashboardTable;
+  NetworkTable smartDashboardTable;
   /** Creates a new SetHood. */
   public SetHood(Hood h) {
     hood = h;
-    smartdashboardTable = NetworkTableInstance.getDefault().getTable("Smartdashboard");
+    smartDashboardTable = NetworkTableInstance.getDefault().getTable("SmartDashboard");
     addRequirements(hood);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -23,7 +23,7 @@ public class SetHood extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    hood.setSetpoint(smartdashboardTable.getEntry("Set Hood Angle").getDouble(0));
+    hood.setSetpoint(smartDashboardTable.getEntry("Set Hood Angle").getDouble(0));
     hood.enable();
   }
 
