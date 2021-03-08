@@ -40,11 +40,17 @@ public class Limelight extends SubsystemBase {
   }
 
   public double targetDistance(double height) {
-    return (height-Constants.Limelight.LIMELIGHT_MOUNTING_HEIGHT)/ Math.tan(yOffset() + Constants.Limelight.LIMELIGHT_MOUNTING_ANGLE);
+    if (!validTarget()) {
+      return 0;
+    }
+    else {
+      return (height-Constants.Limelight.LIMELIGHT_MOUNTING_HEIGHT)/ (Math.tan(Math.toRadians(yOffset() + Constants.Limelight.LIMELIGHT_MOUNTING_ANGLE)));
+    }
   }
   @Override
   public void periodic() {
     SmartDashboard.setDefaultNumber("Set Limelight Distance", 0);
+    SmartDashboard.putNumber("Limelight Distance", targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT));
     // This method will be called once per scheduler run
   }
 

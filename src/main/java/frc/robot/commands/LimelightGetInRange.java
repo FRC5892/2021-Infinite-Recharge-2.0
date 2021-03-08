@@ -6,7 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Limelight;
 
@@ -30,7 +32,7 @@ public class LimelightGetInRange extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double distanceAdjust = -0.1f * (smartDashboardTable.getEntry("Set Limelight Distance").getDouble(0) - limelight.targetDistance(96.5));
+    double distanceAdjust = 0.05 * (smartDashboardTable.getEntry("Set Limelight Distance").getDouble(0) - limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT));
     driveTrain.arcadeDrive(distanceAdjust, 0);
   }
 
