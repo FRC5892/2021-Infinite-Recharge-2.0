@@ -61,7 +61,7 @@ public final class Constants {
     public static final double SHOOTER_TARGET_SPEED = 4000;
       public class ShooterPID {
         public static final double P = 0.00105;
-        public static final double I = 0;
+        public static final double I = 0.001;
         public static final double D = 0.06;
         public static final double FF = 0.00018;
       }
@@ -73,8 +73,8 @@ public final class Constants {
     public static final int HOOD_POTENTIOMETER = 1;
   }
   public final class Limelight {
-    public static final double LIMELIGHT_MOUNTING_ANGLE = 30; // degrees
-    public static final double LIMELIGHT_MOUNTING_HEIGHT = 18; // inches
+    public static final double LIMELIGHT_MOUNTING_ANGLE = 27; // degrees
+    public static final double LIMELIGHT_MOUNTING_HEIGHT = 17; // inches
     public static final double LIMELIGHT_TARGET_HEIGHT = 98.25; // inches
   }
 }
