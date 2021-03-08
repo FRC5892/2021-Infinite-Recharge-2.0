@@ -54,6 +54,7 @@ public final class Constants {
     public static final double KICKER_MOTOR_ADVANCE_SPEED = .25;
     public static final int KICKER_SENSOR_PORT = 3;
     public static final double KICKER_MOTOR_NUDGE_SPEED = 1;
+	  public static final double KICKER_TIME_OUT = 2;
   }
   public final class Shooter {
     public static final int SHOOTER_MOTOR_1_ID = 7;

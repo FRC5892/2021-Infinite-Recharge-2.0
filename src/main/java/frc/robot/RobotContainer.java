@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.AdvanceKicker;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
@@ -15,6 +14,7 @@ import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
+import frc.robot.commands.intake.RunKicker;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.commands.vision.Aim;
 import frc.robot.subsystems.Accumulator;
@@ -57,7 +57,7 @@ public class RobotContainer {
 
   //declaring kicker and kicker commands
   private final Kicker kicker;
-  private final AdvanceKicker advanceKicker;
+  private final RunKicker runKicker;
 
   //declaring shooter
   private final Shooter shooter;
@@ -96,7 +96,8 @@ public class RobotContainer {
 
 
     kicker = new Kicker();
-    advanceKicker = new AdvanceKicker(kicker);
+    runKicker = new RunKicker(kicker);
+    kicker.setDefaultCommand(runKicker);
 
     shooter = new Shooter();
     shootBall = new ShootBall(shooter, kicker, accumulator);
@@ -121,8 +122,6 @@ public class RobotContainer {
   private void configureButtonBindings() {
     JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
     intakeToggleButton.whenPressed(intakeToggle);
-    JoystickButton kickerAdvanceButton = new JoystickButton(driverJoystick, XboxController.Button.kB.value);
-    kickerAdvanceButton.whenPressed(advanceKicker);
     JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
     spinShooterButton.whileHeld(shootBall);
     JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
