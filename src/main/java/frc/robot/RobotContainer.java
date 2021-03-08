@@ -15,6 +15,7 @@ import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
+import frc.robot.commands.intake.RunKicker;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.commands.vision.Aim;
 import frc.robot.subsystems.Accumulator;
@@ -58,6 +59,7 @@ public class RobotContainer {
   //declaring kicker and kicker commands
   private final Kicker kicker;
   private final AdvanceKicker advanceKicker;
+  private final RunKicker runKicker;
 
   //declaring shooter
   private final Shooter shooter;
@@ -97,6 +99,8 @@ public class RobotContainer {
 
     kicker = new Kicker();
     advanceKicker = new AdvanceKicker(kicker);
+    runKicker = new RunKicker(kicker);
+    kicker.setDefaultCommand(runKicker);
 
     shooter = new Shooter();
     shootBall = new ShootBall(shooter, kicker, accumulator);
