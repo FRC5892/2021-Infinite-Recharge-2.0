@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.LimelightGetInRange;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.intake.RunAccumulator;
@@ -72,6 +73,7 @@ public class RobotContainer {
   //Declaring limelight and limelight commands
   private Limelight limelight;
   private Aim aim;
+  private LimelightGetInRange limelightGetInRane;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -107,6 +109,7 @@ public class RobotContainer {
 
     limelight = new Limelight();
     aim = new Aim(driveTrain, limelight);
+    limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
 
     compressor = new Compressor(0);
     // Configure the button bindings
@@ -128,6 +131,8 @@ public class RobotContainer {
     setHoodButton.whileHeld(setHood);
     JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
     aimButton.whileHeld(aim);
+    JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
+    rangeButton.whileHeld(limelightGetInRane);
   }
 
   /**
