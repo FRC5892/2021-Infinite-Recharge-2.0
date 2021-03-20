@@ -45,14 +45,19 @@ public class ShootBall extends CommandBase {
         if (firstRun) {
           firstRun = false;
         }
+        RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
         timer.reset();
         timer.start();
         kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
         accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
       }
+      else {
+        RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+      }
     }
     if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
       RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+      RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
       if (!kicker.ballLoaded()) {
         kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
         accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
@@ -68,6 +73,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+    RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
     shooter.stopShooter();
     kicker.stopKicker();
     accumulator.stopAccumulator();
