@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -16,11 +17,15 @@ public class ShootBall extends CommandBase {
   Shooter shooter;
   Kicker kicker;
   Accumulator accumulator;
+  Timer timer;
+  boolean firstRun;
   /** Creates a new ShootBall. */
   public ShootBall(Shooter s, Kicker k, Accumulator a) {
     shooter = s;
     kicker = k;
     accumulator = a;
+    timer = new Timer();
+    firstRun = true;
     addRequirements(shooter, kicker, accumulator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
@@ -36,8 +41,15 @@ public class ShootBall extends CommandBase {
   public void execute() {
     if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
       RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
-      kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-      accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+      if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
+        if (firstRun) {
+          firstRun = false;
+        }
+        timer.reset();
+        timer.start();
+        kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+        accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+      }
     }
     if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
       RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
