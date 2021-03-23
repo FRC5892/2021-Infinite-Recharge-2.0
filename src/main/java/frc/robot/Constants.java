@@ -63,9 +63,9 @@ public final class Constants {
     public static final double SHOOTER_DELAY = 0.5;
       public class ShooterPID {
         public static final double P = 0.0006;
-        public static final double I = 0.00000000015;
-        public static final double D = 0;
-        public static final double FF = 0.0001945;
+        public static final double I = 0.000000000105;
+        public static final double D = 0.000001;
+        public static final double FF = 0.00018155;
       }
   }
   public final class Hood {
