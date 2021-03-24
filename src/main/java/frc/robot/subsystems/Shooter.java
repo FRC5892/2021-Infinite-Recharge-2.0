@@ -18,13 +18,17 @@ public class Shooter extends SubsystemBase {
   CANSparkMax shooterMotor1;
   CANSparkMax shooterMotor2;
   CANPIDController shooterPIDController;
+  public CANSparkMax shooterSparkMax (int ID, boolean inverted) {
+    CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
+    sparkMax.restoreFactoryDefaults();
+    sparkMax.setInverted(inverted);
+    sparkMax.setIdleMode(IdleMode.kCoast);
+    return sparkMax;
+  }
   /** Creates a new Shooter. */
   public Shooter() {
-    shooterMotor1 = new CANSparkMax(Constants.Shooter.SHOOTER_MOTOR_1_ID, MotorType.kBrushless);
-    shooterMotor2 = new CANSparkMax(Constants.Shooter.SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
-    shooterMotor1.restoreFactoryDefaults();
-    shooterMotor2.restoreFactoryDefaults();
-    shooterMotor1.setIdleMode(IdleMode.kCoast);
+    shooterMotor1 = shooterSparkMax(Constants.Shooter.SHOOTER_MOTOR_1_ID, false);
+    shooterMotor2 = shooterSparkMax(Constants.Shooter.SHOOTER_MOTOR_2_ID, false);
     shooterMotor2.follow(shooterMotor1, true);
     shooterPIDController = shooterMotor1.getPIDController();
     shooterPIDController.setP(Constants.Shooter.ShooterPID.P);
@@ -32,11 +36,10 @@ public class Shooter extends SubsystemBase {
     shooterPIDController.setD(Constants.Shooter.ShooterPID.D);
     shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
 
-    SmartDashboard.setDefaultNumber("Shooter P", Constants.Shooter.ShooterPID.P);
-    SmartDashboard.setDefaultNumber("Shooter I", Constants.Shooter.ShooterPID.I);
-    SmartDashboard.setDefaultNumber("Shooter D", Constants.Shooter.ShooterPID.D);
-    SmartDashboard.setDefaultNumber("Shooter FF", Constants.Shooter.ShooterPID.FF);
-
+    SmartDashboard.putNumber("Shooter P", Constants.Shooter.ShooterPID.P);
+    SmartDashboard.putNumber("Shooter I", Constants.Shooter.ShooterPID.I);
+    SmartDashboard.putNumber("Shooter D", Constants.Shooter.ShooterPID.D);
+    SmartDashboard.putNumber("Shooter FF", Constants.Shooter.ShooterPID.FF);
   }
 
   public void setSetpoint(double setpoint) {
