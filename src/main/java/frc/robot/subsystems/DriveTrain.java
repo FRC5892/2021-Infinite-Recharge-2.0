@@ -89,6 +89,7 @@ public class DriveTrain extends SubsystemBase {
 
   public void arcadeDrive(double xSpeed, double zRotation) {
     drive.arcadeDrive(xSpeed, zRotation);
+  }
   
   public void driveForward(double speed){
     drive.tankDrive(speed, speed);
