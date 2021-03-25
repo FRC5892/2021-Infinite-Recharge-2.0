@@ -83,11 +83,6 @@ public class DriveTrain extends SubsystemBase {
     //x speed sets speed of forward motion, z speed sets turning speed 
   }
 
-  
-  public void driveForward(double speed){
-    drive.tankDrive(speed, speed);
-  }
-  
   public void tankDrive(double leftSpeed, double rightSpeed){
     drive.tankDrive(leftSpeed, rightSpeed);
   }
