@@ -68,6 +68,7 @@ public final class Constants {
     public static final double KICKER_MOTOR_ADVANCE_SPEED = .25;
     public static final int KICKER_SENSOR_PORT = 3;
     public static final double KICKER_MOTOR_NUDGE_SPEED = 1;
+	  public static final double KICKER_TIME_OUT = 2;
   }
   public final class Shooter {
     public static final int SHOOTER_MOTOR_1_ID = 7;
@@ -87,8 +88,8 @@ public final class Constants {
     public static final int HOOD_POTENTIOMETER = 1;
   }
   public final class Limelight {
-    public static final double LIMELIGHT_MOUNTING_ANGLE = 30; // degrees
-    public static final double LIMELIGHT_MOUNTING_HEIGHT = 18; // inches
+    public static final double LIMELIGHT_MOUNTING_ANGLE = 27; // degrees
+    public static final double LIMELIGHT_MOUNTING_HEIGHT = 17; // inches
     public static final double LIMELIGHT_TARGET_HEIGHT = 98.25; // inches
   }
 }
