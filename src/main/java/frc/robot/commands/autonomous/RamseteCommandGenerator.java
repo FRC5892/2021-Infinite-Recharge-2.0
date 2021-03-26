@@ -26,8 +26,8 @@ import frc.robot.subsystems.DriveTrain;
 public class RamseteCommandGenerator {
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH);
     DriveTrain driveTrain;
-    Trajectory trajectory;
     public SequentialCommandGroup ramseteCommandGenerator (DriveTrain d, String trajectoryJSON) {
+        Trajectory trajectory;
         driveTrain = d;
         // // Create a voltage constraint to ensure we don't accelerate too fast
         // var autoVoltageConstraint =
