@@ -138,7 +138,8 @@ public class RobotContainer {
     driveRotationsButton.whenPressed(driveRotations);
     JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     rangeButton.whileHeld(limelightGetInRane);
-
+    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    driveRotationsButton.whenPressed(driveRotations);
   }
 
   /**

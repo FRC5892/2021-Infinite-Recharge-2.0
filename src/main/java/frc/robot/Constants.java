@@ -74,11 +74,12 @@ public final class Constants {
     public static final int SHOOTER_MOTOR_1_ID = 7;
     public static final int SHOOTER_MOTOR_2_ID = 8;
     public static final double SHOOTER_TARGET_SPEED = 4000;
+    public static final double SHOOTER_DELAY = 0.5;
       public class ShooterPID {
-        public static final double P = 0.00105;
-        public static final double I = 0;
-        public static final double D = 0.06;
-        public static final double FF = 0.00018;
+        public static final double P = 0.0006;
+        public static final double I = 0.000000000105;
+        public static final double D = 0.000001;
+        public static final double FF = 0.0001865;
       }
   }
   public final class Hood {
