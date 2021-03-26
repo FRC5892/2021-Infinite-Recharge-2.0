@@ -26,36 +26,15 @@ import frc.robot.subsystems.DriveTrain;
 public class RamseteCommandGenerator {
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH);
     DriveTrain driveTrain;
-    Trajectory trajectory;
     public SequentialCommandGroup ramseteCommandGenerator (DriveTrain d, String trajectoryJSON) {
+        Trajectory trajectory;
         driveTrain = d;
-        trajectory = null;
-        // // Create a voltage constraint to ensure we don't accelerate too fast
-        // var autoVoltageConstraint =
-        // new DifferentialDriveVoltageConstraint(
-        //     new SimpleMotorFeedforward(
-        //         Constants.DriveTrain.DriveCharacteristics.VOLTS,
-        //         Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_PER_METER,
-        //         Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
-        //         kinematics,
-        //     10);
-
-        // // Create config for trajectory
-        // TrajectoryConfig config =
-        //     new TrajectoryConfig(
-        //             Constants.DriveTrain.DriveCharacteristics.MAX_SPEED,
-        //             Constants.DriveTrain.DriveCharacteristics.MAX_ACCELERATION)
-        //         // Add kinematics to ensure max speed is actually obeyed
-        //         .setKinematics(kinematics)
-        //         // Apply the voltage constraint
-        //         .addConstraint(autoVoltageConstraint);
-    
-        // An example trajectory to follow.  All units in meters.
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
             trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+            trajectory = null;
         }
     
         RamseteCommand ramseteCommand =
