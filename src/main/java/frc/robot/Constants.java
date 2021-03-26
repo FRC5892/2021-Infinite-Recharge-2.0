@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -27,6 +28,7 @@ public final class Constants {
     public static final double AUTONOMOUS_SPEED = 1; 
     public static final double DRIVE_FORWARD_TIME = 3;
     public class DriveCharacteristics {
+      //distance unit is meters
       //characteristics from robot characterization tool
       public static final double VOLTS = 0;
       public static final double VOLT_SECONDS_PER_METER = 0;
@@ -39,6 +41,8 @@ public final class Constants {
       //RAMSETE Values
       public static final double RAMSETE_B = 0;
       public static final double RAMSETE_ZETA = 0;
+      //P
+      public static final double P = 0;
     }
   }
   public final class XboxController {
