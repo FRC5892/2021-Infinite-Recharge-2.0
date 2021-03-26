@@ -29,6 +29,7 @@ public class RamseteCommandGenerator {
     Trajectory trajectory;
     public SequentialCommandGroup ramseteCommandGenerator (DriveTrain d, String trajectoryJSON) {
         driveTrain = d;
+        trajectory = null;
         // // Create a voltage constraint to ensure we don't accelerate too fast
         // var autoVoltageConstraint =
         // new DifferentialDriveVoltageConstraint(
