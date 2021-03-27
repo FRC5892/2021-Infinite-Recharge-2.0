@@ -31,7 +31,8 @@ public final class Constants {
       //distance unit is meters
       //characteristics from robot characterization tool
       //kV in characterization tool
-      public static final double VOLTS = 13.4;
+      //public static final double VOLTS = 13.4;
+      public static final double VOLTS = 3;
       //kS in characterization tool
       public static final double VOLT_SECONDS_PER_METER = 0.19;
       //kA in characterization tool
