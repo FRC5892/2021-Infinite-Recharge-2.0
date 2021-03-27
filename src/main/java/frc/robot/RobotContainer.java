@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveRotations;
 import frc.robot.commands.DriveWithJoysticks;
@@ -126,6 +127,8 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("None", null);
     autonomousChooser.addOption("Test Path", testAutonPath);
     autonomousChooser.addOption("Drive Forward", driveForwardTimed);
+    SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
+
     
     compressor = new Compressor(0);
     // Configure the button bindings

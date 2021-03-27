@@ -152,8 +152,8 @@ public class DriveTrain extends SubsystemBase {
     return -gyro.getRate();
   }
 
-  public void tankDriveVolts(double lefttVolts, double rightVolts) {
-    leftMotors.setVoltage(lefttVolts);
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
     drive.feed();
   }
