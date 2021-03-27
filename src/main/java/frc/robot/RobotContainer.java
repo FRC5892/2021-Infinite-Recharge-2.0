@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import frc.robot.commands.DriveForwardTimed;
 import frc.robot.commands.DriveRotations;
 import frc.robot.commands.DriveWithJoysticks;
@@ -41,7 +42,8 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
+  private final SendableChooser autonomousChooser;
   //Declaring drivetrain
   private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
@@ -79,6 +81,8 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    autonomousChooser = new SendableChooser<>();
+    
     driveTrain = new DriveTrain();
     driveWithJoystick = new DriveWithJoysticks(driveTrain);
     driveWithJoystick.addRequirements(driveTrain);
@@ -138,8 +142,8 @@ public class RobotContainer {
     driveRotationsButton.whenPressed(driveRotations);
     JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     rangeButton.whileHeld(limelightGetInRane);
-    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-    driveRotationsButton.whenPressed(driveRotations);
+    // JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    // driveRotationsButton.whenPressed(driveRotations);
   }
 
   /**
@@ -148,6 +152,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    autonChooser.setDefaultOption("None", null);
     // An ExampleCommand will run in autonomous
     return driveForwardTimed;
   }
