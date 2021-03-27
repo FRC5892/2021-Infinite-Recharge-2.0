@@ -27,7 +27,7 @@ public class RamseteCommandGenerator {
     DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH);
     DriveTrain driveTrain;
     public SequentialCommandGroup ramseteCommandGenerator (DriveTrain d, String trajectoryJSON) {
-        Trajectory trajectory;
+        Trajectory trajectory = new Trajectory();
         driveTrain = d;
         try {
             Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
