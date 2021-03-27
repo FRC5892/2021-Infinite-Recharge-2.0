@@ -34,7 +34,7 @@ public final class Constants {
       public static final double VOLT_SECONDS_PER_METER = 0;
       public static final double VOLT_SECONDS_SQUARED_PER_METER = 0;
       //width between sets of wheels
-      public static final double TRACK_WIDTH = 0;
+      public static final double TRACK_WIDTH = 0.572516;
       //max speed and acceleration
       public static final double MAX_SPEED = 0;
       public static final double MAX_ACCELERATION = 0;
