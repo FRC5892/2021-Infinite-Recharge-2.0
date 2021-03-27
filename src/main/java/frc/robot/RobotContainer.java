@@ -15,6 +15,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LimelightGetInRange;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.autonomous.TestAutonPath;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.RunKicker;
@@ -43,7 +44,7 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
-  private final SendableChooser autonomousChooser;
+  private final SendableChooser<Command> autonomousChooser;
   //Declaring drivetrain
   private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
@@ -79,10 +80,12 @@ public class RobotContainer {
   private Aim aim;
   private LimelightGetInRange limelightGetInRane;
 
+  //Autonomous Commands
+  private TestAutonPath testAutonPath;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     autonomousChooser = new SendableChooser<>();
-    
+
     driveTrain = new DriveTrain();
     driveWithJoystick = new DriveWithJoysticks(driveTrain);
     driveWithJoystick.addRequirements(driveTrain);
@@ -118,6 +121,12 @@ public class RobotContainer {
     aim = new Aim(driveTrain, limelight);
     limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
 
+    testAutonPath = new TestAutonPath(driveTrain);
+
+    autonomousChooser.setDefaultOption("None", null);
+    autonomousChooser.addOption("Test Path", testAutonPath);
+    autonomousChooser.addOption("Drive Forward", driveForwardTimed);
+    
     compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
@@ -152,8 +161,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    autonChooser.setDefaultOption("None", null);
+
     // An ExampleCommand will run in autonomous
-    return driveForwardTimed;
+    return autonomousChooser.getSelected();
   }
 }
