@@ -31,12 +31,13 @@ public final class Constants {
       //distance unit is meters
       //characteristics from robot characterization tool
       //kV in characterization tool
-      //public static final double VOLTS = 13.4;
-      public static final double VOLTS = 3;
+      public static final double VOLTS = 0.842;
+      //public static final double VOLTS = 3;
       //kS in characterization tool
-      public static final double VOLT_SECONDS_PER_METER = 0.19;
+      public static final double VOLT_SECONDS_PER_METER = 0.239;
       //kA in characterization tool
-      public static final double VOLT_SECONDS_SQUARED_PER_METER = 2.71;
+      public static final double VOLT_SECONDS_SQUARED_PER_METER = 0.204;
+      //public static final double VOLT_SECONDS_SQUARED_PER_METER = 1;
       //width between sets of wheels
       public static final double TRACK_WIDTH = 0.572516;
       //max speed and acceleration
@@ -46,7 +47,7 @@ public final class Constants {
       public static final double RAMSETE_B = 2;
       public static final double RAMSETE_ZETA = 0.7;
       //P
-      public static final double P = 0.748;
+      public static final double P = 0.202;
     }
   }
   public final class XboxController {
