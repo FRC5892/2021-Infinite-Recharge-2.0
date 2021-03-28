@@ -40,7 +40,7 @@ public class Hood extends PIDSubsystem {
     }
     
     public boolean atDirectionStop() {
-      return (hoodMotor.getSpeed()>0 && topStop.get())||(hoodMotor.getSpeed()<0 && !bottomStop.get());
+      return (hoodMotor.getSpeed()>0 && topStop.get())||(hoodMotor.getSpeed()<0 && bottomStop.get());
     }
     
     public boolean atSetpoint() {
