@@ -58,14 +58,6 @@ public class DriveTrain extends SubsystemBase {
     rightEncoder = rightMotor1.getEncoder();
     resetEncoders();
 
-    leftEncoder = leftMotor1.getEncoder();
-    rightEncoder = rightMotor1.getEncoder();
-    resetEncoders();
-
-    leftEncoder = leftMotor1.getEncoder();
-    rightEncoder = rightMotor1.getEncoder();
-    resetEncoders();
-
     leftMotors = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
     rightMotors = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
     drive = new DifferentialDrive(leftMotors, rightMotors);
