@@ -7,12 +7,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.DriveForwardTimed;
+import frc.robot.commands.DriveRotations;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.LimelightGetInRange;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.autonomous.TestAutonPath;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.RunKicker;
@@ -40,11 +44,13 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
+  //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
+  private final SendableChooser<Command> autonomousChooser;
   //Declaring drivetrain
   private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
   private final DriveForwardTimed driveForwardTimed;
+  private final DriveRotations driveRotations;
   public static XboxController driverJoystick;
 
   //declaring intake and intake commands
@@ -75,11 +81,16 @@ public class RobotContainer {
   private Aim aim;
   private LimelightGetInRange limelightGetInRane;
 
+  //Autonomous Commands
+  private TestAutonPath testAutonPath;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    autonomousChooser = new SendableChooser<>();
+
     driveTrain = new DriveTrain();
     driveWithJoystick = new DriveWithJoysticks(driveTrain);
     driveWithJoystick.addRequirements(driveTrain);
+    driveRotations = new DriveRotations(driveTrain);
     driveTrain.setDefaultCommand(driveWithJoystick); //drive with joysticks by default
 
     driveForwardTimed = new DriveForwardTimed(driveTrain);
@@ -111,6 +122,13 @@ public class RobotContainer {
     aim = new Aim(driveTrain, limelight);
     limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
 
+    testAutonPath = new TestAutonPath(driveTrain);
+
+    autonomousChooser.setDefaultOption("None", null);
+    autonomousChooser.addOption("Test Path", testAutonPath);
+    autonomousChooser.addOption("Drive Forward", driveForwardTimed);
+    SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
+
     compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
@@ -131,8 +149,12 @@ public class RobotContainer {
     setHoodButton.whileHeld(setHood);
     JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
     aimButton.whileHeld(aim);
+    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    driveRotationsButton.whenPressed(driveRotations);
     JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     rangeButton.whileHeld(limelightGetInRane);
+    // JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    // driveRotationsButton.whenPressed(driveRotations);
   }
 
   /**
@@ -141,7 +163,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
     // An ExampleCommand will run in autonomous
-    return driveForwardTimed;
+    return autonomousChooser.getSelected();
   }
 }
