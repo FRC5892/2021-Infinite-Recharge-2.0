@@ -41,9 +41,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
   private final SendableChooser<Command> autonomousChooser;
   //Declaring drivetrain
