@@ -129,7 +129,6 @@ public class RobotContainer {
     autonomousChooser.addOption("Drive Forward", driveForwardTimed);
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
 
-    
     compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
