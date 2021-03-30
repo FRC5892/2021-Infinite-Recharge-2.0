@@ -59,7 +59,7 @@ public class AimAndShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (pidController.atSetpoint()) {      
+    if (pidController.atSetpoint() && limelight.validTarget()) {      
       if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
         RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
         if ((timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) && hood.atSetpoint()) {
