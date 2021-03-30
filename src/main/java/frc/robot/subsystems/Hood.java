@@ -40,7 +40,7 @@ public class Hood extends PIDSubsystem {
     }
     
     public boolean atDirectionStop() {
-      return (hoodMotor.getSpeed()>0 && topStop.get())||(hoodMotor.getSpeed()<0 && bottomStop.get());
+      return (hoodMotor.get()>0 && topStop.get())||(hoodMotor.get()<0 && bottomStop.get());
     }
     
     public boolean atSetpoint() {
@@ -48,15 +48,17 @@ public class Hood extends PIDSubsystem {
     }
     @Override
     public void useOutput(double output, double setpoint) {
-      hoodMotor.set(output);
+      if (!atDirectionStop()) {
+        hoodMotor.set(output);
+      }
+      SmartDashboard.putNumber("Hood Setpoint", this.getSetpoint());
+      SmartDashboard.setDefaultNumber("Set Hood Angle", 0);
+      SmartDashboard.putNumber("Hood Potentiometer", getHoodAngle());
       // Use the output here
     }
     
     @Override
     public double getMeasurement() {
-    SmartDashboard.putNumber("Hood Setpoint", this.getSetpoint());
-    SmartDashboard.setDefaultNumber("Set Hood Angle", 0);
-    SmartDashboard.putNumber("Hood Potentiometer", getHoodAngle());
     return getHoodAngle();
   }
 }
