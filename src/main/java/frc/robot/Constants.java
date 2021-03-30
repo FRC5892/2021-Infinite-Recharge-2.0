@@ -26,6 +26,26 @@ public final class Constants {
     public static final double SLOW_SPEED = .5;
     public static final double AUTONOMOUS_SPEED = 1; 
     public static final double DRIVE_FORWARD_TIME = 3;
+    public class DriveCharacteristics {
+      //distance unit is meters
+      //characteristics from robot characterization tool
+      //kV in characterization tool
+      public static final double VOLTS = 0.842;
+      //kS in characterization tool
+      public static final double VOLT_SECONDS_PER_METER = 0.239;
+      //kA in characterization tool
+      public static final double VOLT_SECONDS_SQUARED_PER_METER = 0.204;
+      //width between sets of wheels
+      public static final double TRACK_WIDTH = 0.572516;
+      //max speed and acceleration
+      public static final double MAX_SPEED = 0;
+      public static final double MAX_ACCELERATION = 0;
+      //RAMSETE Values
+      public static final double RAMSETE_B = 2;
+      public static final double RAMSETE_ZETA = 0.7;
+      //P
+      public static final double P = 0.202;
+    }
   }
   public final class XboxController {
     public static final int LEFT_Y_AXIS = 0;

@@ -44,7 +44,7 @@ public class Hood extends PIDSubsystem {
     }
     
     public boolean atSetpoint() {
-      return hoodPotentiometer.getAverageVoltage() == this.getSetpoint();
+      return this.getController().atSetpoint();
     }
     @Override
     public void useOutput(double output, double setpoint) {
