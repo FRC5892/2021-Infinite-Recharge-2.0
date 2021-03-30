@@ -21,6 +21,7 @@ import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.RunKicker;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.commands.vision.Aim;
+import frc.robot.commands.vision.AimAndShoot;
 import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hood;
@@ -39,15 +40,13 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
-  private final SendableChooser<Command> autonomousChooser;
   //Declaring drivetrain
   private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
   private final DriveForward driveForwardTimed;
   private final DriveRotations driveRotations;
   public static XboxController driverJoystick;
-
+  
   //declaring intake and intake commands
   private final Intake intake;
   private final IntakeToggle intakeToggle;
@@ -56,24 +55,28 @@ public class RobotContainer {
   //declaring accumulator and accumulator commands
   private final Accumulator accumulator;
   private final RunAccumulator runAccumulator;
-
+  
   //declaring kicker and kicker commands
   private final Kicker kicker;
   private final RunKicker runKicker;
-
+  
   //declaring shooter
   private final Shooter shooter;
   private final ShootBall shootBall;
-
+  
   private final Hood hood;
   private final SetHood setHood;
-
+  
+  //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
+  private final SendableChooser<Command> autonomousChooser;
+  
   //Declaring compressor
   private final Compressor compressor;
-
+  
   //Declaring limelight and limelight commands
   private Limelight limelight;
   private Aim aim;
+  private AimAndShoot aimAndShoot;
   private LimelightGetInRange limelightGetInRane;
 
   //Autonomous Commands
@@ -115,6 +118,7 @@ public class RobotContainer {
 
     limelight = new Limelight();
     aim = new Aim(driveTrain, limelight);
+    aimAndShoot = new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
     limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
 
     testAutonPath = new TestAutonPath(driveTrain);
@@ -144,12 +148,12 @@ public class RobotContainer {
     setHoodButton.whileHeld(setHood);
     JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
     aimButton.whileHeld(aim);
-    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-    driveRotationsButton.whenPressed(driveRotations);
-    JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-    rangeButton.whileHeld(limelightGetInRane);
+    JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
+    aimAndShootButton.whileHeld(aimAndShoot);
     // JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
     // driveRotationsButton.whenPressed(driveRotations);
+    // JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
+    // rangeButton.whileHeld(limelightGetInRane);
   }
 
   /**
