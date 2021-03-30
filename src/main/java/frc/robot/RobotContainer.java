@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DriveForwardTimed;
+import frc.robot.commands.DriveForward;
 import frc.robot.commands.DriveRotations;
 import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.LimelightGetInRange;
@@ -44,7 +44,7 @@ public class RobotContainer {
   //Declaring drivetrain
   private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
-  private final DriveForwardTimed driveForwardTimed;
+  private final DriveForward driveForwardTimed;
   private final DriveRotations driveRotations;
   public static XboxController driverJoystick;
 
@@ -88,7 +88,7 @@ public class RobotContainer {
     driveRotations = new DriveRotations(driveTrain);
     driveTrain.setDefaultCommand(driveWithJoystick); //drive with joysticks by default
 
-    driveForwardTimed = new DriveForwardTimed(driveTrain);
+    driveForwardTimed = new DriveForward(driveTrain);
     driveForwardTimed.addRequirements(driveTrain);
 
     driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
@@ -121,7 +121,7 @@ public class RobotContainer {
 
     autonomousChooser.setDefaultOption("None", null);
     autonomousChooser.addOption("Test Path", testAutonPath);
-    autonomousChooser.addOption("Drive Forward", driveForwardTimed);
+    autonomousChooser.addOption("Drive Forward", driveForwardTimed.withTimeout(Constants.DriveTrain.DRIVE_FORWARD_TIME));
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
 
     compressor = new Compressor(0);

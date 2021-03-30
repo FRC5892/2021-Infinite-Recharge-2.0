@@ -4,32 +4,23 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 
-public class DriveForwardTimed extends CommandBase {
+public class DriveForward extends CommandBase {
   DriveTrain driveTrain;
-  private boolean finish = false;
-  Timer timer;
   /** Creates a new DriveForwardTimed. */
-  public DriveForwardTimed(DriveTrain dt) {
+  public DriveForward(DriveTrain dt) {
     driveTrain = dt;
     addRequirements(driveTrain);
-    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
-    while(timer.get() < Constants.DriveTrain.DRIVE_FORWARD_TIME){
       driveTrain.tankDrive(Constants.DriveTrain.AUTONOMOUS_SPEED, Constants.DriveTrain.AUTONOMOUS_SPEED);
-    }
-    finish = true;
   }
   
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +36,5 @@ public class DriveForwardTimed extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finish;
-    //when finish is true the command will end
-  }
+    return false;  }
 }
