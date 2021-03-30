@@ -71,7 +71,7 @@ public class DriveTrain extends SubsystemBase {
     odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
     // This method will be called once per scheduler run
   }
-  
+
   public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
     drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS))*xSpeed, MathUtils.signedSquare(-controller.getRawAxis(4))*zRotation, false);
     //squares the controller input before the speed factor is multiplied to make the drive smoother
