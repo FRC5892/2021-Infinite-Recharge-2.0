@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -32,12 +31,10 @@ public final class Constants {
       //characteristics from robot characterization tool
       //kV in characterization tool
       public static final double VOLTS = 0.842;
-      //public static final double VOLTS = 3;
       //kS in characterization tool
       public static final double VOLT_SECONDS_PER_METER = 0.239;
       //kA in characterization tool
       public static final double VOLT_SECONDS_SQUARED_PER_METER = 0.204;
-      //public static final double VOLT_SECONDS_SQUARED_PER_METER = 1;
       //width between sets of wheels
       public static final double TRACK_WIDTH = 0.572516;
       //max speed and acceleration
