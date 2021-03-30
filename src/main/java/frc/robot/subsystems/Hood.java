@@ -44,7 +44,7 @@ public class Hood extends PIDSubsystem {
     }
     
     public boolean atSetpoint() {
-      return this.getController().atSetpoint()
+      return this.getController().atSetpoint();
     }
     @Override
     public void useOutput(double output, double setpoint) {
