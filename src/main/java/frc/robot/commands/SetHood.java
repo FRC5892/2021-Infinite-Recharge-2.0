@@ -16,7 +16,6 @@ public class SetHood extends CommandBase {
   /** Creates a new SetHood. */
   public SetHood(Hood h) {
     hood = h;
-    SmartDashboard.putNumber("Set Hood Angle", 1);
     smartDashboardTable = NetworkTableInstance.getDefault().getTable("SmartDashboard");
     addRequirements(hood);
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,7 +24,7 @@ public class SetHood extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    hood.setSetpoint(smartDashboardTable.getEntry("Set Hood Angle").getDouble(0));
+    hood.setHood(smartDashboardTable.getEntry("Set Hood Angle").getDouble(0));
     hood.enable();
   }
 
