@@ -93,10 +93,10 @@ public class DriveTrain extends SubsystemBase {
   public void resetEncoders() {
     leftEncoder.setPosition(0);
     leftEncoder.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
-    leftEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
+    leftEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
     rightEncoder.setPosition(0);
     rightEncoder.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
-    rightEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
+    rightEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
   }
 
   public void setMaxOutput(double maxOutput) {
