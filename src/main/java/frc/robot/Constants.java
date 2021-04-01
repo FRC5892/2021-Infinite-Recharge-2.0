@@ -30,11 +30,11 @@ public final class Constants {
       //distance unit is meters
       //characteristics from robot characterization tool
       //kV in characterization tool
-      public static final double VOLTS = 12.4;
+      public static final double VOLTS = 12.8;
       //kS in characterization tool
-      public static final double VOLT_SECONDS_PER_METER = 0.41;
+      public static final double VOLT_SECONDS_PER_METER = 0.237;
       //kA in characterization tool
-      public static final double VOLT_SECONDS_SQUARED_PER_METER = 3.04;
+      public static final double VOLT_SECONDS_SQUARED_PER_METER = 3.1;
       //width between sets of wheels
       public static final double TRACK_WIDTH = 0.572516;
       //max speed and acceleration
@@ -44,7 +44,7 @@ public final class Constants {
       public static final double RAMSETE_B = 2;
       public static final double RAMSETE_ZETA = 0.7;
       //P
-      public static final double P = 0.0614;
+      public static final double P = 0.657;
 	    public static final double ROTATIONS_TO_METERS_CONSTANT = 0.06567932;
     }
   }
