@@ -45,7 +45,8 @@ public final class Constants {
       public static final double RAMSETE_ZETA = 0.7;
       //P
       public static final double P = 0.657;
-	    public static final double ROTATIONS_TO_METERS_CONSTANT = 0.06567932;
+      public static final double ROTATIONS_TO_METERS_CONSTANT = 0.06567932;
+      public static final double RPM_TO_METERSPS = ROTATIONS_TO_METERS_CONSTANT/60;
     }
   }
   public final class XboxController {
