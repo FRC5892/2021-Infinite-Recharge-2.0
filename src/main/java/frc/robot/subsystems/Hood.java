@@ -26,7 +26,7 @@ public class Hood extends PIDSubsystem {
     super(
       // The PIDController used by the subsystem
       new PIDController(0.5, 0, 0));
-      getController().setTolerance(1);
+      getController().setTolerance(0);
       hoodMotor = new VictorSP(Constants.Hood.HOOD_MOTOR_PORT);
       bottomStop = new DigitalInput(Constants.Hood.HOOD_BOTTOM_STOP);
       topStop = new DigitalInput(Constants.Hood.HOOD_TOP_STOP);
@@ -37,15 +37,17 @@ public class Hood extends PIDSubsystem {
     }
     public void setHood(double setpoint) {
       this.setSetpoint(setpoint);
+      this.enable();
     }
     
     public boolean atDirectionStop() {
-      return (hoodMotor.get()>0 && !topStop.get())||(hoodMotor.get()<0 && !bottomStop.get());
+      return (hoodMotor.get()>0 && topStop.get())||(hoodMotor.get()<0 && bottomStop.get());
     }
     
     public boolean atSetpoint() {
       return this.getController().atSetpoint();
     }
+
     @Override
     public void useOutput(double output, double setpoint) {
       if (!atDirectionStop()) {
@@ -53,10 +55,12 @@ public class Hood extends PIDSubsystem {
       }
       else {
         hoodMotor.stopMotor();
+        this.disable();
       }
       SmartDashboard.putNumber("Hood Setpoint", this.getSetpoint());
       SmartDashboard.setDefaultNumber("Set Hood Angle", 0);
       SmartDashboard.putNumber("Hood Potentiometer", getHoodAngle());
+      SmartDashboard.putBoolean("Hood At Endstop", atDirectionStop());
       // Use the output here
     }
     

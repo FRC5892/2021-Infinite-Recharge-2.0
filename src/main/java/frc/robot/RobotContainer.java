@@ -145,7 +145,7 @@ public class RobotContainer {
     JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
     spinShooterButton.whileHeld(shootBall);
     JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
-    setHoodButton.whileHeld(setHood);
+    setHoodButton.whenPressed(setHood);
     JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
     aimButton.whileHeld(aim);
     JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
