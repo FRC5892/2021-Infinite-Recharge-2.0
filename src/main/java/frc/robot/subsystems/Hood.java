@@ -59,7 +59,8 @@ public class Hood extends PIDSubsystem {
       }
       SmartDashboard.putNumber("Hood Setpoint", this.getSetpoint());
       SmartDashboard.setDefaultNumber("Set Hood Angle", 0);
-      SmartDashboard.putNumber("Hood Potentiometer", getHoodAngle());
+      SmartDashboard.putNumber("Hood Potentiometer Angle", getHoodAngle());
+      SmartDashboard.putNumber("Hood Potentiometer", hoodPotentiometer.getAverageVoltage());
       SmartDashboard.putBoolean("Hood At Endstop", atDirectionStop());
       // Use the output here
     }
