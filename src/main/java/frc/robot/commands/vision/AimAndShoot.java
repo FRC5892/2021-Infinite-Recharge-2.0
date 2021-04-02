@@ -5,6 +5,7 @@
 package frc.robot.commands.vision;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -54,6 +55,7 @@ public class AimAndShoot extends CommandBase {
     if (limelight.validTarget()) {
       shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
       hood.setSetpoint(polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
+      SmartDashboard.putNumber("Equation Output", polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
     }
     firstRun = true;
   }

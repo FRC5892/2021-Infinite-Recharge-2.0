@@ -11,7 +11,7 @@ public class PolynomialFunction {
          Integer i = 0;
          for (double coefficient : coefficients) {
             if (i>0) {
-                value = value + Math.pow(coefficient*x, i);
+                value = value + coefficient*(Math.pow(x, i));
             }
             else {
                 value = value + coefficient;
