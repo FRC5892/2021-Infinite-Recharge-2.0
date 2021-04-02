@@ -92,11 +92,11 @@ public class DriveTrain extends SubsystemBase {
 
   public void resetEncoders() {
     leftEncoder.setPosition(0);
-    leftEncoder.setPositionConversionFactor(1);
-    leftEncoder.setVelocityConversionFactor(1);
+    leftEncoder.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
+    leftEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
     rightEncoder.setPosition(0);
-    rightEncoder.setPositionConversionFactor(1);
-    rightEncoder.setVelocityConversionFactor(1);
+    rightEncoder.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
+    rightEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
   }
 
   public void setMaxOutput(double maxOutput) {
@@ -144,7 +144,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(leftVolts);
+    leftMotors.setVoltage(-leftVolts);
     rightMotors.setVoltage(rightVolts);
     drive.feed();
   }
