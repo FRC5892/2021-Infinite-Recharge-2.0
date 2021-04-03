@@ -26,7 +26,7 @@ public class Hood extends PIDSubsystem {
     super(
       // The PIDController used by the subsystem
       new PIDController(0.5, 0, 0));
-      getController().setTolerance(0);
+      getController().setTolerance(0.5);
       hoodMotor = new VictorSP(Constants.Hood.HOOD_MOTOR_PORT);
       bottomStop = new DigitalInput(Constants.Hood.HOOD_BOTTOM_STOP);
       topStop = new DigitalInput(Constants.Hood.HOOD_TOP_STOP);
@@ -54,7 +54,6 @@ public class Hood extends PIDSubsystem {
         hoodMotor.set(output);
       }
       else {
-        hoodMotor.stopMotor();
         this.disable();
       }
       SmartDashboard.putNumber("Hood Setpoint", this.getSetpoint());

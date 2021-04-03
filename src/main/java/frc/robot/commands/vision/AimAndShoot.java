@@ -50,11 +50,11 @@ public class AimAndShoot extends CommandBase {
   public void initialize() {
     double[] coefficients = {
       -947.289, 49.8499, -1.05574, 0.0125854, -0.0000932031, 4.4594*Math.pow(10, -7), -1.382*Math.pow(10, -9), 2.6801*Math.pow(10, -12), -2.9558*Math.pow(10, -15),
-      1.413*Math.pow(10, -18)
+      1.4143*Math.pow(10, -18)
     };
     if (limelight.validTarget()) {
       shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
-      hood.setSetpoint(polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
+      hood.setHood(polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
       SmartDashboard.putNumber("Equation Output", polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
     }
     firstRun = true;
@@ -63,11 +63,11 @@ public class AimAndShoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (pidController.atSetpoint() && limelight.validTarget()) {      
+    if (limelight.validTarget()) {      
       driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
       if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
         RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
-        if ((timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) && hood.atSetpoint()) {
+        if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
           firstRun = !firstRun;
           RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
           timer.reset();
@@ -82,6 +82,9 @@ public class AimAndShoot extends CommandBase {
       if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
         RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
         RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+        if (!firstRun) {
+          shooter.idleFF();
+        }
         if (!kicker.ballLoaded()) {
           kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
           accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
@@ -107,6 +110,7 @@ public class AimAndShoot extends CommandBase {
     hood.disable();
     kicker.stopKicker();
     shooter.stopShooter();
+    shooter.resetFF();
   }
 
   // Returns true when the command should end.
