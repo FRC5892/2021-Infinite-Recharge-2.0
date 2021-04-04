@@ -47,7 +47,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean atSetpoint (double setpoint) {
-    return (shooterMotor1.getEncoder().getVelocity() <= setpoint + 10 && shooterMotor1.getEncoder().getVelocity() >= setpoint - 10 );
+    return (shooterMotor1.getEncoder().getVelocity() <= setpoint + 20 && shooterMotor1.getEncoder().getVelocity() >= setpoint - 20 );
   }
 
   public void stopShooter() {
@@ -66,10 +66,10 @@ public class Shooter extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
     SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED));
 
-    shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", Constants.Shooter.ShooterPID.P));
-    shooterPIDController.setI(SmartDashboard.getNumber("Shooter I", Constants.Shooter.ShooterPID.I));
-    shooterPIDController.setD(SmartDashboard.getNumber("Shooter D", Constants.Shooter.ShooterPID.D));
-    shooterPIDController.setFF(SmartDashboard.getNumber("Shooter FF", Constants.Shooter.ShooterPID.FF));
+    // shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", Constants.Shooter.ShooterPID.P));
+    // shooterPIDController.setI(SmartDashboard.getNumber("Shooter I", Constants.Shooter.ShooterPID.I));
+    // shooterPIDController.setD(SmartDashboard.getNumber("Shooter D", Constants.Shooter.ShooterPID.D));
+    // shooterPIDController.setFF(SmartDashboard.getNumber("Shooter FF", Constants.Shooter.ShooterPID.FF));
 
     // This method will be called once per scheduler run
   }
