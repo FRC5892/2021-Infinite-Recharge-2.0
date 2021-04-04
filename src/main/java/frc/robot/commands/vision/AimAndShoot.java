@@ -72,19 +72,23 @@ public class AimAndShoot extends CommandBase {
     else {
       driveTrain.stop();
     }
-    if (hood.atSetpoint() && shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED) && 
-    (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun)) {
-      kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-      accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-      firstRun = false;
-      timer.reset();
-      timer.start();
+    if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+      RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+      if (hood.atSetpoint() && (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun)) {
+        kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+        accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+        firstRun = false;
+        timer.reset();
+        timer.start();
+      }
     }
     else if (!kicker.ballLoaded()) {
+      RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
       kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
       accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
     }
     else {
+      RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
       kicker.stopKicker();
       accumulator.stopAccumulator();
     }
@@ -94,7 +98,6 @@ public class AimAndShoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-    RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
     accumulator.stopAccumulator();
     driveTrain.stop();
     hood.disable();
