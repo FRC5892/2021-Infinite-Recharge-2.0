@@ -8,7 +8,7 @@ package frc.robot.commands.vision;
 public class PolynomialFunction {
     public double polynomailFunction (double x, double[] coefficients) {
         double value = 0;
-         Integer i = 0;
+         int i = 0;
          for (double coefficient : coefficients) {
             if (i>0) {
                 value = value + coefficient*(Math.pow(x, i));
