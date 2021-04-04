@@ -52,51 +52,38 @@ public class AimAndShoot extends CommandBase {
       -947.289, 49.8499, -1.05574, 0.0125854, -0.0000932031, 4.4594*Math.pow(10, -7), -1.382*Math.pow(10, -9), 2.6801*Math.pow(10, -12), -2.9558*Math.pow(10, -15),
       1.4143*Math.pow(10, -18)
     };
+    shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
+    firstRun = true;
     if (limelight.validTarget()) {
-      shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
       hood.setHood(polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
       SmartDashboard.putNumber("Equation Output", polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
     }
-    firstRun = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (limelight.validTarget()) {      
+    if (limelight.validTarget()) {
       driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
-      if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
-        RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
-        if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
-          firstRun = !firstRun;
-          RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
-          timer.reset();
-          timer.start();
-          kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-          accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-        }
-        else {
-          RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
-        }
-      }
-      if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
-        RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-        RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
-        if (!firstRun) {
-          shooter.idleFF();
-        }
-        if (!kicker.ballLoaded()) {
-          kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
-          accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
-        }
-        else {
-          kicker.stopKicker();
-          accumulator.stopAccumulator();
-        }
-      }
     }
     else {
       driveTrain.stop();
+    }
+    if (hood.atSetpoint() && shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED) && 
+    (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun)) {
+      kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+      accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+      firstRun = false;
+      timer.reset();
+      timer.start();
+    }
+    else if (!kicker.ballLoaded()) {
+      kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+      accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+    }
+    else {
+      kicker.stopKicker();
+      accumulator.stopAccumulator();
     }
   }
 
