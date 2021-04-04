@@ -48,9 +48,12 @@ public class AimAndShoot extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // double[] coefficients = {
+    //   -947.289, 49.8499, -1.05574, 0.0125854, -0.0000932031, 4.4594e-7, -1.382e-9, 2.6801e-12, -2.9558e-15,
+    //   1.4143e-18
+    // };
     double[] coefficients = {
-      -947.289, 49.8499, -1.05574, 0.0125854, -0.0000932031, 4.4594*Math.pow(10, -7), -1.382*Math.pow(10, -9), 2.6801*Math.pow(10, -12), -2.9558*Math.pow(10, -15),
-      1.4143*Math.pow(10, -18)
+      10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8
     };
     shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
     firstRun = true;

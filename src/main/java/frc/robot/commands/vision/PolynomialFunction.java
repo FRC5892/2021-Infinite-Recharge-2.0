@@ -14,7 +14,7 @@ public class PolynomialFunction {
                 value = value + coefficient*(Math.pow(x, i));
             }
             else {
-                value = value + coefficient;
+                value = coefficient;
             }
             i++;
          }
