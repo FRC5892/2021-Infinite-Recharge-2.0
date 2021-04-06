@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.MathUtils;
@@ -68,6 +69,11 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+    SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
+    SmartDashboard.putNumber("Left Encoder", getLeftEncoder().getPosition());
+    SmartDashboard.putNumber("Right Encoder", getRightEncoder().getPosition());
+    SmartDashboard.putNumber("Left Velocity", -getLeftEncoder().getVelocity());
+    System.out.println(getWheelSpeeds());
     // This method will be called once per scheduler run
   }
 

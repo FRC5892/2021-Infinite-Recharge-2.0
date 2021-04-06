@@ -34,7 +34,6 @@ public class RamseteCommandGenerator {
             trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-            trajectory = null;
         }
     
         RamseteCommand ramseteCommand =
@@ -58,7 +57,7 @@ public class RamseteCommandGenerator {
         driveTrain.resetOdometry(trajectory.getInitialPose());
     
         // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
+        return ramseteCommand.andThen(() -> driveTrain.stop());
     }
     
 }
