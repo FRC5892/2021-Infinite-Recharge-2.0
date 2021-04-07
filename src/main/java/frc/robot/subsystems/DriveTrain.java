@@ -47,9 +47,9 @@ public class DriveTrain extends SubsystemBase {
   
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID, true);
-    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID, true);
-    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID, true);
+    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID, false);
+    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID, false);
+    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID, false);
     rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID, false);
     rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID, false);
     rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID, false);
@@ -61,7 +61,7 @@ public class DriveTrain extends SubsystemBase {
     leftMotors = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
     rightMotors = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
     drive = new DifferentialDrive(leftMotors, rightMotors);
-    drive.setRightSideInverted(false);
+    drive.setRightSideInverted(true);
 
     gyro = new AHRS(SPI.Port.kMXP);
     odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
@@ -143,7 +143,7 @@ public class DriveTrain extends SubsystemBase {
 
   //Used in trajectory
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
+    return new DifferentialDriveWheelSpeeds(-leftEncoder.getVelocity(), rightEncoder.getVelocity());
   }
 
   public double getTurnRate() {
@@ -151,7 +151,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(leftVolts);
+    leftMotors.setVoltage(-leftVolts);
     rightMotors.setVoltage(rightVolts);
     drive.feed();
   }
