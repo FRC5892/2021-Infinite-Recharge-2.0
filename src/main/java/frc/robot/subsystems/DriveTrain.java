@@ -17,6 +17,10 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.MathUtils;
@@ -35,6 +39,12 @@ public class DriveTrain extends SubsystemBase {
   DifferentialDrive drive;
   AHRS gyro;
   DifferentialDriveOdometry odometry;
+
+  //Simulation classes
+  DifferentialDrivetrainSim drivetrainSimulator;
+  EncoderSim leftEncoderSim;
+  EncoderSim rightEncoderSim;
+  Field2d fieldSimulator;
 
   public CANSparkMax driveCANSparkMax (int ID) {
     CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
