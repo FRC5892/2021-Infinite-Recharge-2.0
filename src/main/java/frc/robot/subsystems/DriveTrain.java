@@ -15,8 +15,10 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -36,6 +38,7 @@ public class DriveTrain extends SubsystemBase {
   DifferentialDrive drive;
   AHRS gyro;
   DifferentialDriveOdometry odometry;
+  Field2d field = new Field2d();
 
   public CANSparkMax driveCANSparkMax (int ID, boolean inverted) {
     CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
@@ -64,18 +67,22 @@ public class DriveTrain extends SubsystemBase {
     drive.setRightSideInverted(true);
 
     gyro = new AHRS(SPI.Port.kMXP);
-    odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
   }
   
   @Override
   public void periodic() {
-    odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+    odometry.update(Rotation2d.fromDegrees(getGyroAngle()), leftEncoder.getPosition(), rightEncoder.getPosition());
     SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
     SmartDashboard.putNumber("Left Encoder", getLeftEncoder().getPosition());
     SmartDashboard.putNumber("Right Encoder", getRightEncoder().getPosition());
     SmartDashboard.putNumber("Left Velocity", getLeftEncoder().getVelocity());
-    System.out.println(getWheelSpeeds());
+    SmartDashboard.putNumber("Left", getWheelSpeeds().leftMetersPerSecond);
+    SmartDashboard.putNumber("Right", getWheelSpeeds().rightMetersPerSecond);
+    SmartDashboard.putData("Field2D", field);
+    // System.out.println(getWheelSpeeds());
     // This method will be called once per scheduler run
+    field.setRobotPose(odometry.getPoseMeters());
   }
 
   public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
@@ -109,11 +116,14 @@ public class DriveTrain extends SubsystemBase {
   public void setMaxOutput(double maxOutput) {
     drive.setMaxOutput(maxOutput);
   }
-
+  //from ligerbots code
+  private double getGyroAngle() {
+    return Math.IEEEremainder(gyro.getAngle(), 360) * -1; // -1 here for unknown reason look in documatation
+  }
   //Used in trajectory
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    odometry.resetPosition(pose, gyro.getRotation2d());
+    odometry.resetPosition(pose, Rotation2d.fromDegrees(getGyroAngle()));
   }
   
   public void zeroHeading() {
@@ -133,7 +143,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return gyro.getRotation2d().getDegrees();
+    return odometry.getPoseMeters().getRotation().getDegrees();
   }
 
   //Used in trajectory
