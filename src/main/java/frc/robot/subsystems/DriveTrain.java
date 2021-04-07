@@ -37,22 +37,22 @@ public class DriveTrain extends SubsystemBase {
   AHRS gyro;
   DifferentialDriveOdometry odometry;
 
-  public CANSparkMax driveCANSparkMax (int ID) {
+  public CANSparkMax driveCANSparkMax (int ID, boolean inverted) {
     CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
     sparkMax.restoreFactoryDefaults();
-    sparkMax.setInverted(false);
+    sparkMax.setInverted(inverted);
     sparkMax.setIdleMode(IdleMode.kBrake);
     return sparkMax;
   }
   
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID);
-    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID);
-    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID);
-    rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID);
-    rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID);
-    rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID);
+    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID, true);
+    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID, true);
+    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID, true);
+    rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID, false);
+    rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID, false);
+    rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID, false);
 
     leftEncoder = leftMotor1.getEncoder();
     rightEncoder = rightMotor1.getEncoder();
@@ -61,6 +61,7 @@ public class DriveTrain extends SubsystemBase {
     leftMotors = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
     rightMotors = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
     drive = new DifferentialDrive(leftMotors, rightMotors);
+    drive.setRightSideInverted(false);
 
     gyro = new AHRS(SPI.Port.kMXP);
     odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
@@ -72,7 +73,7 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
     SmartDashboard.putNumber("Left Encoder", getLeftEncoder().getPosition());
     SmartDashboard.putNumber("Right Encoder", getRightEncoder().getPosition());
-    SmartDashboard.putNumber("Left Velocity", -getLeftEncoder().getVelocity());
+    SmartDashboard.putNumber("Left Velocity", getLeftEncoder().getVelocity());
     System.out.println(getWheelSpeeds());
     // This method will be called once per scheduler run
   }
@@ -150,7 +151,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(-leftVolts);
+    leftMotors.setVoltage(leftVolts);
     rightMotors.setVoltage(rightVolts);
     drive.feed();
   }
