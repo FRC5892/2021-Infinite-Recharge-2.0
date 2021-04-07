@@ -127,7 +127,7 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("None", null);
     autonomousChooser.addOption("Test Path", testAutonPath);
     autonomousChooser.addOption("Drive Forward", null/*driveForwardTimed.withTimeout(Constants.DriveTrain.DRIVE_FORWARD_TIME)*/);
-    autonomousChooser.addOption("Generated Trajectory", new GeneratedTrajectory().generatedTrajectory(driveTrain));
+    autonomousChooser.addOption("Generated Trajectory", null);
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
 
     compressor = new Compressor(0);
