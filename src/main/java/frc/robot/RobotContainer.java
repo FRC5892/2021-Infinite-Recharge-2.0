@@ -15,6 +15,7 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.LimelightGetInRange;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.autonomous.GeneratedTrajectory;
 import frc.robot.commands.autonomous.TestAutonPath;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
@@ -126,6 +127,7 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("None", null);
     autonomousChooser.addOption("Test Path", testAutonPath);
     autonomousChooser.addOption("Drive Forward", null/*driveForwardTimed.withTimeout(Constants.DriveTrain.DRIVE_FORWARD_TIME)*/);
+    autonomousChooser.addOption("Generated Trajectory", new GeneratedTrajectory().generatedTrajectory(driveTrain));
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
 
     compressor = new Compressor(0);
