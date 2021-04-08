@@ -17,6 +17,7 @@ import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.autonomous.CurvedPath;
 import frc.robot.commands.autonomous.GeneratedTrajectory;
+import frc.robot.commands.autonomous.Slalom;
 import frc.robot.commands.autonomous.TestAutonPath;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
@@ -81,9 +82,6 @@ public class RobotContainer {
   private AimAndShoot aimAndShoot;
   private LimelightGetInRange limelightGetInRane;
 
-  //Autonomous Commands
-  private TestAutonPath testAutonPath;
-  private CurvedPath curvedPath;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     autonomousChooser = new SendableChooser<>();
@@ -128,6 +126,7 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("None", null);
     autonomousChooser.addOption("Test Path", "testAutonPath");
     autonomousChooser.addOption("Curved Path", "curvedPath");
+    autonomousChooser.addOption("Slalom Path", "slalomPath");
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
     // Configure the button bindings
     configureButtonBindings();
@@ -162,15 +161,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    testAutonPath = new TestAutonPath(driveTrain);
-    curvedPath = new CurvedPath(driveTrain);
-
-    // An ExampleCommand will run in autonomous
     switch (autonomousChooser.getSelected()) {
       case "testAutonPath": 
-        return testAutonPath;
+        return new TestAutonPath(driveTrain);
       case "curvedPath":
-        return curvedPath;
+        return new CurvedPath(driveTrain);
+      case "slalomPath":
+        return new Slalom(driveTrain);
       default:
         return null;
     }
