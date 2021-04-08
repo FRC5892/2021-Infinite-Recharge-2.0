@@ -15,7 +15,7 @@ public class Slalom extends SequentialCommandGroup {
   /** Creates a new Slalom. */
   public Slalom(DriveTrain d) {
     driveTrain = d;
-    SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain, "paths/CurvedPath.wpilib.json");
+    SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain, "paths/Slalom.wpilib.json");
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ResetEncoders(driveTrain), ramseteCommand);
