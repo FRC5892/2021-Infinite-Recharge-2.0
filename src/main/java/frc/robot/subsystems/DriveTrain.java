@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -22,6 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.autonomous.ResetEncoders;
 import frc.MathUtils;
 
 public class DriveTrain extends SubsystemBase {
@@ -68,6 +70,7 @@ public class DriveTrain extends SubsystemBase {
 
     gyro = new AHRS(SPI.Port.kMXP);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
+    SmartDashboard.putData("Reset Encoders", new ResetEncoders(this));
   }
   
   @Override
@@ -165,7 +168,11 @@ public class DriveTrain extends SubsystemBase {
     rightMotors.setVoltage(rightVolts);
     drive.feed();
   }
-
+  
+  public void setMotorSafety(boolean enabled) {
+    drive.setSafetyEnabled(enabled);
+  }
+  
   public void stop(){
     drive.stopMotor();
   }

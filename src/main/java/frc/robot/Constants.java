@@ -44,7 +44,8 @@ public final class Constants {
       public static final double RAMSETE_B = 2;
       public static final double RAMSETE_ZETA = 0.7;
       //P
-      public static final double P = 0.657;
+      public static final double P = 1.89;
+      public static final double D = 0;
       public static final double ROTATIONS_TO_METERS_CONSTANT = 0.06567932;
       public static final double RPM_TO_METERSPS = ROTATIONS_TO_METERS_CONSTANT/60;
     }
