@@ -47,8 +47,8 @@ public class RamseteCommandGenerator {
                     Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
                     kinematics,
                 driveTrain::getWheelSpeeds,
-                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
-                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
+                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, Constants.DriveTrain.DriveCharacteristics.D),
+                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, Constants.DriveTrain.DriveCharacteristics.D),
                 // RamseteCommand passes volts to the callback
                 driveTrain::tankDriveVolts,
                 driveTrain);

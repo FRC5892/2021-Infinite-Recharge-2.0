@@ -149,8 +149,8 @@ public class RobotContainer {
     aimButton.whileHeld(aim);
     JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     aimAndShootButton.toggleWhenPressed(aimAndShoot);
-    // JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-    // driveRotationsButton.whenPressed(driveRotations);
+    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    driveRotationsButton.whenPressed(driveRotations);
     // JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     // rangeButton.whileHeld(limelightGetInRane);
   }
