@@ -11,6 +11,10 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.hal.SimDevice;
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
@@ -19,6 +23,14 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
+import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,6 +53,17 @@ public class DriveTrain extends SubsystemBase {
   AHRS gyro;
   DifferentialDriveOdometry odometry;
   Field2d field = new Field2d();
+
+  //Simulation classes
+  DifferentialDrivetrainSim drivetrainSimulator;
+  SimDouble leftEncoderSimPosition;
+  SimDouble leftEncoderSimVelocity;
+  SimDouble rightEncoderSimPosition;
+  SimDouble rightEncoderSimVelocity;
+  Field2d fieldSimulator;
+  SimDouble gyroSim;
+  int previousBallLocation = 0;
+  int previousStartLocation = 10;
 
   public CANSparkMax driveCANSparkMax (int ID, boolean inverted) {
     CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
@@ -69,8 +92,33 @@ public class DriveTrain extends SubsystemBase {
     drive.setRightSideInverted(true);
 
     gyro = new AHRS(SPI.Port.kMXP);
+    
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
     SmartDashboard.putData("Reset Encoders", new ResetEncoders(this));
+    
+    if (RobotBase.isSimulation()) {
+      drivetrainSimulator = new DifferentialDrivetrainSim(
+      LinearSystemId.identifyDrivetrainSystem(
+        Constants.DriveTrain.DriveCharacteristics.VOLTS, 
+        Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER, 
+        Constants.DriveTrain.DriveCharacteristics.VOLTS*1.1, 
+        Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER*1.1),
+      DCMotor.getNEO(3),
+      6.7368,
+      Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH,
+      Units.inchesToMeters(5.75),
+      null
+      );
+      leftEncoderSimPosition = new SimDouble(0);
+      leftEncoderSimVelocity = new SimDouble(0);
+      rightEncoderSimPosition = new SimDouble(0);
+      rightEncoderSimVelocity = new SimDouble(0);
+      gyroSim = new SimDeviceSim("navX-Sensor[0]").getDouble("Yaw");
+      fieldSimulator = new Field2d();
+      SmartDashboard.putData("Field", fieldSimulator);
+      SmartDashboard.putNumber("moveAroundField/startPos", previousStartLocation);
+      SmartDashboard.putNumber("moveAroundField/ballPos", previousBallLocation);
+    }
   }
   
   @Override
@@ -86,6 +134,18 @@ public class DriveTrain extends SubsystemBase {
     // System.out.println(getWheelSpeeds());
     // This method will be called once per scheduler run
     field.setRobotPose(odometry.getPoseMeters());
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    drivetrainSimulator.setInputs(-leftMotors.get()*RobotController.getBatteryVoltage(), rightMotors.get()*RobotController.getBatteryVoltage());
+    drivetrainSimulator.update(0.020);
+    leftEncoderSimPosition.set(drivetrainSimulator.getLeftPositionMeters());
+    leftEncoderSimVelocity.set(drivetrainSimulator.getLeftVelocityMetersPerSecond());
+    rightEncoderSimPosition.set(drivetrainSimulator.getRightPositionMeters());
+    rightEncoderSimVelocity.set(drivetrainSimulator.getRightVelocityMetersPerSecond());
+    gyroSim.set(-drivetrainSimulator.getHeading().getDegrees());
+    fieldSimulator.setRobotPose(getPose());
   }
 
   public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
