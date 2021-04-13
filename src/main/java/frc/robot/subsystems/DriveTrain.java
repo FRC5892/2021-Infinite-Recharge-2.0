@@ -11,11 +11,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -24,18 +22,16 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.autonomous.ResetEncoders;
+import frc.robot.simulationWrappers.SparkMaxWrapper;
 import frc.MathUtils;
 
 public class DriveTrain extends SubsystemBase {
@@ -60,13 +56,12 @@ public class DriveTrain extends SubsystemBase {
   SimDouble leftEncoderSimVelocity;
   SimDouble rightEncoderSimPosition;
   SimDouble rightEncoderSimVelocity;
-  Field2d fieldSimulator;
   SimDouble gyroSim;
   int previousBallLocation = 0;
   int previousStartLocation = 10;
 
   public CANSparkMax driveCANSparkMax (int ID, boolean inverted) {
-    CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
+    CANSparkMax sparkMax = new SparkMaxWrapper(ID, MotorType.kBrushless);
     sparkMax.restoreFactoryDefaults();
     sparkMax.setInverted(inverted);
     sparkMax.setIdleMode(IdleMode.kBrake);
@@ -114,8 +109,6 @@ public class DriveTrain extends SubsystemBase {
       rightEncoderSimPosition = new SimDouble(0);
       rightEncoderSimVelocity = new SimDouble(0);
       gyroSim = new SimDeviceSim("navX-Sensor[0]").getDouble("Yaw");
-      fieldSimulator = new Field2d();
-      SmartDashboard.putData("Field", fieldSimulator);
       SmartDashboard.putNumber("moveAroundField/startPos", previousStartLocation);
       SmartDashboard.putNumber("moveAroundField/ballPos", previousBallLocation);
     }
@@ -131,9 +124,8 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Left", getWheelSpeeds().leftMetersPerSecond);
     SmartDashboard.putNumber("Right", getWheelSpeeds().rightMetersPerSecond);
     SmartDashboard.putData("Field2D", field);
-    // System.out.println(getWheelSpeeds());
-    // This method will be called once per scheduler run
     field.setRobotPose(odometry.getPoseMeters());
+    // This method will be called once per scheduler run
   }
 
   @Override
@@ -145,7 +137,6 @@ public class DriveTrain extends SubsystemBase {
     rightEncoderSimPosition.set(drivetrainSimulator.getRightPositionMeters());
     rightEncoderSimVelocity.set(drivetrainSimulator.getRightVelocityMetersPerSecond());
     gyroSim.set(-drivetrainSimulator.getHeading().getDegrees());
-    fieldSimulator.setRobotPose(getPose());
   }
 
   public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
@@ -227,10 +218,6 @@ public class DriveTrain extends SubsystemBase {
     leftMotors.setVoltage(-leftVolts);
     rightMotors.setVoltage(rightVolts);
     drive.feed();
-  }
-  
-  public void setMotorSafety(boolean enabled) {
-    drive.setSafetyEnabled(enabled);
   }
   
   public void stop(){

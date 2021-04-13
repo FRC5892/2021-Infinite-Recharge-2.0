@@ -19,7 +19,7 @@ public class SparkMaxWrapper extends CANSparkMax {
     public SparkMaxWrapper(int deviceID, MotorType type) {
         super(deviceID,type);
 
-        simSparkMax = SimDevice.create("SparkMax",deviceID);
+        simSparkMax = SimDevice.create("SparkMaxSim",deviceID);
         if (simSparkMax != null){
             simSpeed = simSparkMax.createDouble("speed", false, 0.0);
         }
