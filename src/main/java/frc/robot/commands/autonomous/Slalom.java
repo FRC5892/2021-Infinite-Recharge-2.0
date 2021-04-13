@@ -10,12 +10,12 @@ import frc.robot.subsystems.DriveTrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TestAutonPath extends SequentialCommandGroup {
+public class Slalom extends SequentialCommandGroup {
   DriveTrain driveTrain;
-  /** Creates a new testAutonPath. */
-  public TestAutonPath(DriveTrain d) {
+  /** Creates a new Slalom. */
+  public Slalom(DriveTrain d) {
     driveTrain = d;
-    SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain, "paths/TestPath.wpilib.json");
+    SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain, "paths/Slalom.wpilib.json");
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(new ResetEncoders(driveTrain), ramseteCommand);

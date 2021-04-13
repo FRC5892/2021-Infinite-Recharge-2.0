@@ -15,10 +15,12 @@ import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.MotorSafety;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -29,8 +31,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.autonomous.ResetEncoders;
 import frc.MathUtils;
 
 public class DriveTrain extends SubsystemBase {
@@ -47,6 +52,7 @@ public class DriveTrain extends SubsystemBase {
   DifferentialDrive drive;
   AHRS gyro;
   DifferentialDriveOdometry odometry;
+  Field2d field = new Field2d();
 
   //Simulation classes
   DifferentialDrivetrainSim drivetrainSimulator;
@@ -59,22 +65,22 @@ public class DriveTrain extends SubsystemBase {
   int previousBallLocation = 0;
   int previousStartLocation = 10;
 
-  public CANSparkMax driveCANSparkMax (int ID) {
+  public CANSparkMax driveCANSparkMax (int ID, boolean inverted) {
     CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
     sparkMax.restoreFactoryDefaults();
-    sparkMax.setInverted(false);
+    sparkMax.setInverted(inverted);
     sparkMax.setIdleMode(IdleMode.kBrake);
     return sparkMax;
   }
   
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID);
-    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID);
-    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID);
-    rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID);
-    rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID);
-    rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID);
+    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID, false);
+    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID, false);
+    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID, false);
+    rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID, false);
+    rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID, false);
+    rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID, false);
 
     leftEncoder = leftMotor1.getEncoder();
     rightEncoder = rightMotor1.getEncoder();
@@ -83,10 +89,13 @@ public class DriveTrain extends SubsystemBase {
     leftMotors = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
     rightMotors = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
     drive = new DifferentialDrive(leftMotors, rightMotors);
+    drive.setRightSideInverted(true);
 
     gyro = new AHRS(SPI.Port.kMXP);
-    odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
-
+    
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
+    SmartDashboard.putData("Reset Encoders", new ResetEncoders(this));
+    
     if (RobotBase.isSimulation()) {
       drivetrainSimulator = new DifferentialDrivetrainSim(
       LinearSystemId.identifyDrivetrainSystem(
@@ -114,8 +123,17 @@ public class DriveTrain extends SubsystemBase {
   
   @Override
   public void periodic() {
-    odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+    odometry.update(Rotation2d.fromDegrees(getGyroAngle()), -leftEncoder.getPosition(), rightEncoder.getPosition());
+    SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
+    SmartDashboard.putNumber("Left Encoder", -leftEncoder.getPosition());
+    SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
+    SmartDashboard.putNumber("Left Velocity", -leftEncoder.getVelocity());
+    SmartDashboard.putNumber("Left", getWheelSpeeds().leftMetersPerSecond);
+    SmartDashboard.putNumber("Right", getWheelSpeeds().rightMetersPerSecond);
+    SmartDashboard.putData("Field2D", field);
+    // System.out.println(getWheelSpeeds());
     // This method will be called once per scheduler run
+    field.setRobotPose(odometry.getPoseMeters());
   }
 
   @Override
@@ -161,11 +179,14 @@ public class DriveTrain extends SubsystemBase {
   public void setMaxOutput(double maxOutput) {
     drive.setMaxOutput(maxOutput);
   }
-
+  //from ligerbots code
+  private double getGyroAngle() {
+    return Math.IEEEremainder(gyro.getAngle(), 360) * -1; // -1 here for unknown reason look in documatation
+  }
   //Used in trajectory
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    odometry.resetPosition(pose, gyro.getRotation2d());
+    odometry.resetPosition(pose, Rotation2d.fromDegrees(getGyroAngle()));
   }
   
   public void zeroHeading() {
@@ -185,7 +206,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return gyro.getRotation2d().getDegrees();
+    return odometry.getPoseMeters().getRotation().getDegrees();
   }
 
   //Used in trajectory
@@ -195,7 +216,7 @@ public class DriveTrain extends SubsystemBase {
 
   //Used in trajectory
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
+    return new DifferentialDriveWheelSpeeds(-leftEncoder.getVelocity(), rightEncoder.getVelocity());
   }
 
   public double getTurnRate() {
@@ -207,7 +228,11 @@ public class DriveTrain extends SubsystemBase {
     rightMotors.setVoltage(rightVolts);
     drive.feed();
   }
-
+  
+  public void setMotorSafety(boolean enabled) {
+    drive.setSafetyEnabled(enabled);
+  }
+  
   public void stop(){
     drive.stopMotor();
   }
