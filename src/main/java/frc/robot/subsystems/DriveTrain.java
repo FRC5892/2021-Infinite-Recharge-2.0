@@ -116,7 +116,12 @@ public class DriveTrain extends SubsystemBase {
   
   @Override
   public void periodic() {
-    odometry.update(Rotation2d.fromDegrees(getGyroAngle()), -leftEncoder.getPosition(), rightEncoder.getPosition());
+    if (RobotBase.isSimulation()) {
+      odometry.update(Rotation2d.fromDegrees(getGyroAngle()), leftEncoderSimPosition.get(), rightEncoderSimPosition.get());
+    }
+    else {
+      odometry.update(Rotation2d.fromDegrees(getGyroAngle()), -leftEncoder.getPosition(), rightEncoder.getPosition());
+    }
     SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
     SmartDashboard.putNumber("Left Encoder", -leftEncoder.getPosition());
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
