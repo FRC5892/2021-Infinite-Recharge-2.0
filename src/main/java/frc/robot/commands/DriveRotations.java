@@ -28,8 +28,8 @@ public class DriveRotations extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (-driveTrain.getLeftEncoder().getPosition() <= 30) {
-      driveTrain.arcadeDrive(-.25, 0);
+    if (driveTrain.getLeftEncoder().getPosition() <= 200) {
+      driveTrain.arcadeDrive(.25, 0);
     }
     else {
       driveTrain.stop();

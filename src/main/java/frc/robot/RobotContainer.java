@@ -15,9 +15,6 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.LimelightGetInRange;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
-import frc.robot.commands.autonomous.CurvedPath;
-import frc.robot.commands.autonomous.GeneratedTrajectory;
-import frc.robot.commands.autonomous.Slalom;
 import frc.robot.commands.autonomous.TestAutonPath;
 import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
@@ -44,7 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   //Declaring drivetrain
-  public final DriveTrain driveTrain;
+  private final DriveTrain driveTrain;
   private final DriveWithJoysticks driveWithJoystick;
   private final DriveForward driveForwardTimed;
   private final DriveRotations driveRotations;
@@ -71,7 +68,7 @@ public class RobotContainer {
   private final SetHood setHood;
   
   //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
-  private final SendableChooser<String> autonomousChooser;
+  private final SendableChooser<Command> autonomousChooser;
   
   //Declaring compressor
   private final Compressor compressor;
@@ -82,6 +79,8 @@ public class RobotContainer {
   private AimAndShoot aimAndShoot;
   private LimelightGetInRange limelightGetInRane;
 
+  //Autonomous Commands
+  private TestAutonPath testAutonPath;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     autonomousChooser = new SendableChooser<>();
@@ -122,12 +121,14 @@ public class RobotContainer {
     aimAndShoot = new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
     limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
 
-    compressor = new Compressor(0);
+    testAutonPath = new TestAutonPath(driveTrain);
+
     autonomousChooser.setDefaultOption("None", null);
-    autonomousChooser.addOption("Test Path", "testAutonPath");
-    autonomousChooser.addOption("Curved Path", "curvedPath");
-    autonomousChooser.addOption("Slalom Path", "slalomPath");
+    autonomousChooser.addOption("Test Path", testAutonPath);
+    autonomousChooser.addOption("Drive Forward", driveForwardTimed.withTimeout(Constants.DriveTrain.DRIVE_FORWARD_TIME));
     SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
+
+    compressor = new Compressor(0);
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -149,8 +150,8 @@ public class RobotContainer {
     aimButton.whileHeld(aim);
     JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     aimAndShootButton.toggleWhenPressed(aimAndShoot);
-    JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-    driveRotationsButton.whenPressed(driveRotations);
+    // JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+    // driveRotationsButton.whenPressed(driveRotations);
     // JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
     // rangeButton.whileHeld(limelightGetInRane);
   }
@@ -161,15 +162,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    switch (autonomousChooser.getSelected()) {
-      case "testAutonPath": 
-        return new TestAutonPath(driveTrain);
-      case "curvedPath":
-        return new CurvedPath(driveTrain);
-      case "slalomPath":
-        return new Slalom(driveTrain);
-      default:
-        return null;
-    }
+
+    // An ExampleCommand will run in autonomous
+    return autonomousChooser.getSelected();
   }
 }

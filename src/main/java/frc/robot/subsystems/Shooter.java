@@ -36,10 +36,10 @@ public class Shooter extends SubsystemBase {
     shooterPIDController.setD(Constants.Shooter.ShooterPID.D);
     shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
 
-    // SmartDashboard.putNumber("Shooter P", Constants.Shooter.ShooterPID.P);
-    // SmartDashboard.putNumber("Shooter I", Constants.Shooter.ShooterPID.I);
-    // SmartDashboard.putNumber("Shooter D", Constants.Shooter.ShooterPID.D);
-    // SmartDashboard.putNumber("Shooter FF", Constants.Shooter.ShooterPID.FF);
+    SmartDashboard.putNumber("Shooter P", Constants.Shooter.ShooterPID.P);
+    SmartDashboard.putNumber("Shooter I", Constants.Shooter.ShooterPID.I);
+    SmartDashboard.putNumber("Shooter D", Constants.Shooter.ShooterPID.D);
+    SmartDashboard.putNumber("Shooter FF", Constants.Shooter.ShooterPID.FF);
   }
 
   public void setSetpoint(double setpoint) {
@@ -63,7 +63,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("Shooter RPM", shooterMotor1.getEncoder().getVelocity());
-    // SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
+    SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
     SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED));
 
     // shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", Constants.Shooter.ShooterPID.P));

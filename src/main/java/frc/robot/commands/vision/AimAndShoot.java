@@ -58,7 +58,7 @@ public class AimAndShoot extends CommandBase {
     if (limelight.validTarget()) {
       shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
       hood.setHood(polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
-      // SmartDashboard.putNumber("Equation Output", polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
+      SmartDashboard.putNumber("Equation Output", polynomialFunction.polynomailFunction(limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
     }
     firstRun = true;
   }

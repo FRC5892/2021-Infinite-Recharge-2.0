@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 //import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 //import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import frc.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
@@ -34,6 +34,7 @@ public class RamseteCommandGenerator {
             trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
         } catch (IOException ex) {
             DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+            trajectory = null;
         }
     
         RamseteCommand ramseteCommand =
@@ -47,8 +48,8 @@ public class RamseteCommandGenerator {
                     Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
                     kinematics,
                 driveTrain::getWheelSpeeds,
-                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, Constants.DriveTrain.DriveCharacteristics.D),
-                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, Constants.DriveTrain.DriveCharacteristics.D),
+                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
+                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
                 // RamseteCommand passes volts to the callback
                 driveTrain::tankDriveVolts,
                 driveTrain);
@@ -57,7 +58,7 @@ public class RamseteCommandGenerator {
         driveTrain.resetOdometry(trajectory.getInitialPose());
     
         // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> driveTrain.stop());
+        return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
     }
     
 }
