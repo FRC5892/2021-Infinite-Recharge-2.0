@@ -41,7 +41,7 @@ public class Hood extends PIDSubsystem {
     }
     
     public boolean atDirectionStop() {
-      return (this.getSetpoint() > hoodPotentiometer.getAverageVoltage() && topStop.get())||(this.getSetpoint() < hoodPotentiometer.getAverageVoltage() && bottomStop.get());
+      return (this.getSetpoint() > getMeasurement() && topStop.get())||(this.getSetpoint() < getMeasurement() && bottomStop.get());
     }
     
     public boolean atSetpoint() {
