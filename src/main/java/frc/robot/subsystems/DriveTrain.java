@@ -88,7 +88,7 @@ public class DriveTrain extends SubsystemBase {
 
     gyro = new AHRS(SPI.Port.kMXP);
     
-    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroAngle()));
+    odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     SmartDashboard.putData("Reset Encoders", new ResetEncoders(this));
     
     if (RobotBase.isSimulation()) {
@@ -117,10 +117,10 @@ public class DriveTrain extends SubsystemBase {
   @Override
   public void periodic() {
     if (RobotBase.isSimulation()) {
-      odometry.update(Rotation2d.fromDegrees(getGyroAngle()), leftEncoderSimPosition.get(), rightEncoderSimPosition.get());
+      odometry.update(gyro.getRotation2d(), leftEncoderSimPosition.get(), rightEncoderSimPosition.get());
     }
     else {
-      odometry.update(Rotation2d.fromDegrees(getGyroAngle()), -leftEncoder.getPosition(), rightEncoder.getPosition());
+      odometry.update(gyro.getRotation2d(), -leftEncoder.getPosition(), rightEncoder.getPosition());
     }
     SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
     SmartDashboard.putNumber("Left Encoder", -leftEncoder.getPosition());
@@ -175,14 +175,11 @@ public class DriveTrain extends SubsystemBase {
   public void setMaxOutput(double maxOutput) {
     drive.setMaxOutput(maxOutput);
   }
-  //from ligerbots code
-  private double getGyroAngle() {
-    return Math.IEEEremainder(gyro.getAngle(), 360) * -1; // -1 here for unknown reason look in documatation
-  }
+
   //Used in trajectory
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    odometry.resetPosition(pose, Rotation2d.fromDegrees(getGyroAngle()));
+    odometry.resetPosition(pose, gyro.getRotation2d());
   }
   
   public void zeroHeading() {
