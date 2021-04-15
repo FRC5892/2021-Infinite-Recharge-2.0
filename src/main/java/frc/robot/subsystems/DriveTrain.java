@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.commands.autonomous.ResetEncoders;
+import frc.robot.simulationWrappers.SparkMaxSim;
 import frc.robot.simulationWrappers.SparkMaxWrapper;
 import frc.MathUtils;
 
@@ -52,10 +53,8 @@ public class DriveTrain extends SubsystemBase {
 
   //Simulation classes
   DifferentialDrivetrainSim drivetrainSimulator;
-  SimDouble leftEncoderSimPosition;
-  SimDouble leftEncoderSimVelocity;
-  SimDouble rightEncoderSimPosition;
-  SimDouble rightEncoderSimVelocity;
+  SparkMaxSim leftMotorSim1;
+  SparkMaxSim rightMotorSim1;
   SimDouble gyroSim;
   int previousBallLocation = 0;
   int previousStartLocation = 10;
@@ -91,24 +90,22 @@ public class DriveTrain extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
     SmartDashboard.putData("Reset Encoders", new ResetEncoders(this));
     
-    if (RobotBase.isSimulation()) {
-      drivetrainSimulator = new DifferentialDrivetrainSim(
+    drivetrainSimulator = new DifferentialDrivetrainSim(
       LinearSystemId.identifyDrivetrainSystem(
         Constants.DriveTrain.DriveCharacteristics.VOLTS, 
         Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER, 
         Constants.DriveTrain.DriveCharacteristics.VOLTS*1.1, 
         Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER*1.1),
-      DCMotor.getNEO(3),
-      6.7368,
-      Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH,
-      Units.inchesToMeters(5.75),
-      null
-      );
-      leftEncoderSimPosition = new SimDouble(0);
-      leftEncoderSimVelocity = new SimDouble(0);
-      rightEncoderSimPosition = new SimDouble(0);
-      rightEncoderSimVelocity = new SimDouble(0);
-      gyroSim = new SimDeviceSim("navX-Sensor[0]").getDouble("Yaw");
+    DCMotor.getNEO(3),
+    6.7368,
+    Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH,
+    Units.inchesToMeters(5.75),
+    null
+    );
+    gyroSim = new SimDeviceSim("navX-Sensor[0]").getDouble("Yaw");
+    leftMotorSim1 = new SparkMaxSim(1);
+    rightMotorSim1 = new SparkMaxSim(4);
+    if (RobotBase.isSimulation()) {
       SmartDashboard.putNumber("moveAroundField/startPos", previousStartLocation);
       SmartDashboard.putNumber("moveAroundField/ballPos", previousBallLocation);
     }
@@ -116,16 +113,12 @@ public class DriveTrain extends SubsystemBase {
   
   @Override
   public void periodic() {
-    if (RobotBase.isSimulation()) {
-      odometry.update(gyro.getRotation2d(), leftEncoderSimPosition.get(), rightEncoderSimPosition.get());
-    }
-    else {
-      odometry.update(gyro.getRotation2d(), -leftEncoder.getPosition(), rightEncoder.getPosition());
-    }
+    odometry.update(gyro.getRotation2d(), -leftEncoder.getPosition(), rightEncoder.getPosition());
     SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
     SmartDashboard.putNumber("Left Encoder", -leftEncoder.getPosition());
     SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
     SmartDashboard.putNumber("Left Velocity", -leftEncoder.getVelocity());
+    SmartDashboard.putNumber("Right Velocity", rightEncoder.getVelocity());
     SmartDashboard.putNumber("Left", getWheelSpeeds().leftMetersPerSecond);
     SmartDashboard.putNumber("Right", getWheelSpeeds().rightMetersPerSecond);
     SmartDashboard.putData("Field2D", field);
@@ -135,12 +128,12 @@ public class DriveTrain extends SubsystemBase {
 
   @Override
   public void simulationPeriodic() {
+    leftMotorSim1.setVelocity(-drivetrainSimulator.getLeftVelocityMetersPerSecond());
+    leftMotorSim1.setPosition(-drivetrainSimulator.getLeftPositionMeters());
+    rightMotorSim1.setVelocity(drivetrainSimulator.getRightVelocityMetersPerSecond());
+    rightMotorSim1.setPosition(drivetrainSimulator.getRightPositionMeters());
     drivetrainSimulator.setInputs(-leftMotors.get()*RobotController.getBatteryVoltage(), rightMotors.get()*RobotController.getBatteryVoltage());
     drivetrainSimulator.update(0.020);
-    leftEncoderSimPosition.set(drivetrainSimulator.getLeftPositionMeters());
-    leftEncoderSimVelocity.set(drivetrainSimulator.getLeftVelocityMetersPerSecond());
-    rightEncoderSimPosition.set(drivetrainSimulator.getRightPositionMeters());
-    rightEncoderSimVelocity.set(drivetrainSimulator.getRightVelocityMetersPerSecond());
     gyroSim.set(-drivetrainSimulator.getHeading().getDegrees());
   }
 
