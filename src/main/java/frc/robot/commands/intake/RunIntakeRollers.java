@@ -12,44 +12,47 @@ import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.Intake;
 
 public class RunIntakeRollers extends CommandBase {
-  Intake intake;
-  Accumulator accumulator;
-  /** Creates a new RunIntakeRollers. */
-  public RunIntakeRollers(Intake i) {
-    intake = i;
-    addRequirements(intake);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+	Intake intake;
+	Accumulator accumulator;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
+	/** Creates a new RunIntakeRollers. */
+	public RunIntakeRollers(Intake i) {
+		intake = i;
+		addRequirements(intake);
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
-      intake.setRollersSpeed(-(RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) * Constants.Intake.ROLLER_SPEED));
-      
-    }
-    else if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
-      intake.setRollersSpeed((RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Intake.ROLLER_SPEED));
-    }
-    else {
-      intake.stopRollers();
-    }
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    intake.stopRollers();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
+			intake.setRollersSpeed(
+					-(RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) * Constants.Intake.ROLLER_SPEED));
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+		}
+		else if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
+			intake.setRollersSpeed(
+					(RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Intake.ROLLER_SPEED));
+		}
+		else {
+			intake.stopRollers();
+		}
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		intake.stopRollers();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

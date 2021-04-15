@@ -12,43 +12,47 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Kicker;
 
 public class RunKicker extends CommandBase {
-  Kicker kicker;
-  Timer timer;
-  /** Creates a new RunKicker. */
-  public RunKicker(Kicker k) {
-    kicker = k;
-    addRequirements(kicker);
-    timer = new Timer();
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+	Kicker kicker;
+	Timer timer;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	/** Creates a new RunKicker. */
+	public RunKicker(Kicker k) {
+		kicker = k;
+		addRequirements(kicker);
+		timer = new Timer();
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if ((RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0 || RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) && !kicker.ballLoaded()) {
-      timer.reset();
-      timer.start();
-      kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
-    }
-    if (timer.get() > Constants.Kicker.KICKER_TIME_OUT) {
-      kicker.stopKicker();
-    }
-    if (kicker.ballLoaded()) {
-      kicker.stopKicker();
-    }
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if ((RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0
+				|| RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) && !kicker.ballLoaded()) {
+			timer.reset();
+			timer.start();
+			kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+		}
+		if (timer.get() > Constants.Kicker.KICKER_TIME_OUT) {
+			kicker.stopKicker();
+		}
+		if (kicker.ballLoaded()) {
+			kicker.stopKicker();
+		}
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

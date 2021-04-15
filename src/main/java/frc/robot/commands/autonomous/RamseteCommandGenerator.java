@@ -24,41 +24,39 @@ import frc.robot.subsystems.DriveTrain;
 
 /** Add your docs here. */
 public class RamseteCommandGenerator {
-    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH);
-    DriveTrain driveTrain;
-    public SequentialCommandGroup ramseteCommandGenerator (DriveTrain d, String trajectoryJSON) {
-        Trajectory trajectory = new Trajectory();
-        driveTrain = d;
-        try {
-            Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-            trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-        } catch (IOException ex) {
-            DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
-            trajectory = null;
-        }
-    
-        RamseteCommand ramseteCommand =
-            new RamseteCommand(
-                trajectory,
-                driveTrain::getPose,
-                new RamseteController(Constants.DriveTrain.DriveCharacteristics.RAMSETE_B, Constants.DriveTrain.DriveCharacteristics.RAMSETE_ZETA),
-                new SimpleMotorFeedforward(
-                    Constants.DriveTrain.DriveCharacteristics.VOLTS,
-                    Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_PER_METER,
-                    Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
-                    kinematics,
-                driveTrain::getWheelSpeeds,
-                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
-                new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
-                // RamseteCommand passes volts to the callback
-                driveTrain::tankDriveVolts,
-                driveTrain);
-    
-        // Reset odometry to the starting pose of the trajectory.
-        driveTrain.resetOdometry(trajectory.getInitialPose());
-    
-        // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
-    }
-    
+	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
+			Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH);
+	DriveTrain driveTrain;
+
+	public SequentialCommandGroup ramseteCommandGenerator(DriveTrain d, String trajectoryJSON) {
+		Trajectory trajectory = new Trajectory();
+		driveTrain = d;
+		try {
+			Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+			trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+		}
+		catch (IOException ex) {
+			DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+			trajectory = null;
+		}
+
+		RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveTrain::getPose,
+				new RamseteController(Constants.DriveTrain.DriveCharacteristics.RAMSETE_B,
+						Constants.DriveTrain.DriveCharacteristics.RAMSETE_ZETA),
+				new SimpleMotorFeedforward(Constants.DriveTrain.DriveCharacteristics.VOLTS,
+						Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_PER_METER,
+						Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
+				kinematics, driveTrain::getWheelSpeeds,
+				new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
+				new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
+				// RamseteCommand passes volts to the callback
+				driveTrain::tankDriveVolts, driveTrain);
+
+		// Reset odometry to the starting pose of the trajectory.
+		driveTrain.resetOdometry(trajectory.getInitialPose());
+
+		// Run path following command, then stop at the end.
+		return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
+	}
+
 }

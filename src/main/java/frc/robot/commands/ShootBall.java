@@ -14,74 +14,75 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Shooter;
 
 public class ShootBall extends CommandBase {
-  Shooter shooter;
-  Kicker kicker;
-  Accumulator accumulator;
-  Timer timer;
-  boolean firstRun;
-  /** Creates a new ShootBall. */
-  public ShootBall(Shooter s, Kicker k, Accumulator a) {
-    shooter = s;
-    kicker = k;
-    accumulator = a;
-    timer = new Timer();
-    firstRun = true;
-    addRequirements(shooter, kicker, accumulator);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+	Shooter shooter;
+	Kicker kicker;
+	Accumulator accumulator;
+	Timer timer;
+	boolean firstRun;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
-  }
+	/** Creates a new ShootBall. */
+	public ShootBall(Shooter s, Kicker k, Accumulator a) {
+		shooter = s;
+		kicker = k;
+		accumulator = a;
+		timer = new Timer();
+		firstRun = true;
+		addRequirements(shooter, kicker, accumulator);
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
-      RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
-      if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
-        if (firstRun) {
-          firstRun = false;
-        }
-        RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
-        timer.reset();
-        timer.start();
-        kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-        accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
-      }
-      else {
-        RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
-      }
-    }
-    if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
-      RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-      RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
-      if (!kicker.ballLoaded()) {
-        kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
-        accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
-      }
-      else {
-        kicker.stopKicker();
-        accumulator.stopAccumulator();
-      }
-    }
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-    RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
-    shooter.stopShooter();
-    kicker.stopKicker();
-    accumulator.stopAccumulator();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
+			if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
+				if (firstRun) {
+					firstRun = false;
+				}
+				RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
+				timer.reset();
+				timer.start();
+				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+			}
+			else {
+				RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+			}
+		}
+		if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+			if (!kicker.ballLoaded()) {
+				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+			}
+			else {
+				kicker.stopKicker();
+				accumulator.stopAccumulator();
+			}
+		}
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+		RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+		shooter.stopShooter();
+		kicker.stopKicker();
+		accumulator.stopAccumulator();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

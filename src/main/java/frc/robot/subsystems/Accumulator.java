@@ -9,22 +9,23 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Accumulator extends SubsystemBase {
-  VictorSP accumulatorMotor;
-  
-  /** Creates a new Accumulator. */
-  public Accumulator() {
-    accumulatorMotor = new VictorSP(Constants.Accumulator.ACCUMULATOR_MOTOR_PORT);
-  }
+	VictorSP accumulatorMotor;
 
-  public void setAccumulator(double speed) {
-    accumulatorMotor.set(speed);
-  }
+	/** Creates a new Accumulator. */
+	public Accumulator() {
+		accumulatorMotor = new VictorSP(Constants.Accumulator.ACCUMULATOR_MOTOR_PORT);
+	}
 
-  public void stopAccumulator() {
-    accumulatorMotor.stopMotor();
-  }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	public void setAccumulator(double speed) {
+		accumulatorMotor.set(speed);
+	}
+
+	public void stopAccumulator() {
+		accumulatorMotor.stopMotor();
+	}
+
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }

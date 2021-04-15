@@ -13,29 +13,30 @@ import frc.robot.subsystems.Limelight;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Aim extends PIDCommand {
-  DriveTrain driveTrain;
-  Limelight limelight;
-  /** Creates a new Aim. */
-  public Aim(DriveTrain driveTrain, Limelight limelight) {
-    super(
-        // The controller that the command will use
-        new PIDController(0.1, 0, 0.015),
-        // This should return the measurement
-        () -> limelight.xOffset(),
-        // This should return the setpoint (can also be a constant)
-        () -> 0,
-        // This uses the output
-        output -> {
-          driveTrain.arcadeDrive(0, output);
-          // Use the output here
-        });
-    // Use addRequirements() here to declare subsystem dependencies.
-    // Configure additional PID options by calling `getController` here.
-  }
+	DriveTrain driveTrain;
+	Limelight limelight;
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	/** Creates a new Aim. */
+	public Aim(DriveTrain driveTrain, Limelight limelight) {
+		super(
+				// The controller that the command will use
+				new PIDController(0.1, 0, 0.015),
+				// This should return the measurement
+				() -> limelight.xOffset(),
+				// This should return the setpoint (can also be a constant)
+				() -> 0,
+				// This uses the output
+				output -> {
+					driveTrain.arcadeDrive(0, output);
+					// Use the output here
+				});
+		// Use addRequirements() here to declare subsystem dependencies.
+		// Configure additional PID options by calling `getController` here.
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }
