@@ -33,137 +33,137 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
+ * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
+ * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
+ * Instead, the structure of the robot (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  //Declaring drivetrain
-  private final DriveTrain driveTrain;
-  private final DriveWithJoysticks driveWithJoystick;
-  private final DriveForward driveForwardTimed;
-  private final DriveRotations driveRotations;
-  public static XboxController driverJoystick;
-  
-  //declaring intake and intake commands
-  private final Intake intake;
-  private final IntakeToggle intakeToggle;
-  private final RunIntakeRollers runIntakeRollers;
-  
-  //declaring accumulator and accumulator commands
-  private final Accumulator accumulator;
-  private final RunAccumulator runAccumulator;
-  
-  //declaring kicker and kicker commands
-  private final Kicker kicker;
-  private final RunKicker runKicker;
-  
-  //declaring shooter
-  private final Shooter shooter;
-  private final ShootBall shootBall;
-  
-  private final Hood hood;
-  private final SetHood setHood;
-  
-  //Auton chooser, see https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
-  private final SendableChooser<Command> autonomousChooser;
-  
-  //Declaring compressor
-  private final Compressor compressor;
-  
-  //Declaring limelight and limelight commands
-  private Limelight limelight;
-  private Aim aim;
-  private AimAndShoot aimAndShoot;
-  private LimelightGetInRange limelightGetInRane;
+	// The robot's subsystems and commands are defined here...
+	// Declaring drivetrain
+	private final DriveTrain driveTrain;
+	private final DriveWithJoysticks driveWithJoystick;
+	private final DriveForward driveForwardTimed;
+	private final DriveRotations driveRotations;
+	public static XboxController driverJoystick;
 
-  //Autonomous Commands
-  private TestAutonPath testAutonPath;
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    autonomousChooser = new SendableChooser<>();
+	// declaring intake and intake commands
+	private final Intake intake;
+	private final IntakeToggle intakeToggle;
+	private final RunIntakeRollers runIntakeRollers;
 
-    driveTrain = new DriveTrain();
-    driveWithJoystick = new DriveWithJoysticks(driveTrain);
-    driveWithJoystick.addRequirements(driveTrain);
-    driveRotations = new DriveRotations(driveTrain);
-    driveTrain.setDefaultCommand(driveWithJoystick); //drive with joysticks by default
+	// declaring accumulator and accumulator commands
+	private final Accumulator accumulator;
+	private final RunAccumulator runAccumulator;
 
-    driveForwardTimed = new DriveForward(driveTrain);
-    driveForwardTimed.addRequirements(driveTrain);
+	// declaring kicker and kicker commands
+	private final Kicker kicker;
+	private final RunKicker runKicker;
 
-    driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
-    
-    accumulator = new Accumulator();
-    runAccumulator = new RunAccumulator(accumulator);
-    accumulator.setDefaultCommand(runAccumulator);
+	// declaring shooter
+	private final Shooter shooter;
+	private final ShootBall shootBall;
 
-    intake = new Intake();
-    intakeToggle = new IntakeToggle(intake);
-    runIntakeRollers = new RunIntakeRollers(intake);
-    intake.setDefaultCommand(runIntakeRollers);
+	private final Hood hood;
+	private final SetHood setHood;
 
+	// Auton chooser, see
+	// https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
+	private final SendableChooser<Command> autonomousChooser;
 
-    kicker = new Kicker();
-    runKicker = new RunKicker(kicker);
-    kicker.setDefaultCommand(runKicker);
+	// Declaring compressor
+	private final Compressor compressor;
 
-    shooter = new Shooter();
-    shootBall = new ShootBall(shooter, kicker, accumulator);
+	// Declaring limelight and limelight commands
+	private Limelight limelight;
+	private Aim aim;
+	private AimAndShoot aimAndShoot;
+	private LimelightGetInRange limelightGetInRane;
 
-    hood = new Hood();
-    setHood = new SetHood(hood);
+	// Autonomous Commands
+	private TestAutonPath testAutonPath;
 
-    limelight = new Limelight();
-    aim = new Aim(driveTrain, limelight);
-    aimAndShoot = new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
-    limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
+	/** The container for the robot. Contains subsystems, OI devices, and commands. */
+	public RobotContainer() {
+		autonomousChooser = new SendableChooser<>();
 
-    testAutonPath = new TestAutonPath(driveTrain);
+		driveTrain = new DriveTrain();
+		driveWithJoystick = new DriveWithJoysticks(driveTrain);
+		driveWithJoystick.addRequirements(driveTrain);
+		driveRotations = new DriveRotations(driveTrain);
+		driveTrain.setDefaultCommand(driveWithJoystick); // drive with joysticks by default
 
-    autonomousChooser.setDefaultOption("None", null);
-    autonomousChooser.addOption("Test Path", testAutonPath);
-    autonomousChooser.addOption("Drive Forward", driveForwardTimed.withTimeout(Constants.DriveTrain.DRIVE_FORWARD_TIME));
-    SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
+		driveForwardTimed = new DriveForward(driveTrain);
+		driveForwardTimed.addRequirements(driveTrain);
 
-    compressor = new Compressor(0);
-    // Configure the button bindings
-    configureButtonBindings();
-  }
+		driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
-    intakeToggleButton.whenPressed(intakeToggle);
-    JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
-    spinShooterButton.whileHeld(shootBall);
-    JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
-    setHoodButton.whenPressed(setHood);
-    JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
-    aimButton.whileHeld(aim);
-    JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-    aimAndShootButton.toggleWhenPressed(aimAndShoot);
-    // JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-    // driveRotationsButton.whenPressed(driveRotations);
-    // JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-    // rangeButton.whileHeld(limelightGetInRane);
-  }
+		accumulator = new Accumulator();
+		runAccumulator = new RunAccumulator(accumulator);
+		accumulator.setDefaultCommand(runAccumulator);
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
+		intake = new Intake();
+		intakeToggle = new IntakeToggle(intake);
+		runIntakeRollers = new RunIntakeRollers(intake);
+		intake.setDefaultCommand(runIntakeRollers);
 
-    // An ExampleCommand will run in autonomous
-    return autonomousChooser.getSelected();
-  }
+		kicker = new Kicker();
+		runKicker = new RunKicker(kicker);
+		kicker.setDefaultCommand(runKicker);
+
+		shooter = new Shooter();
+		shootBall = new ShootBall(shooter, kicker, accumulator);
+
+		hood = new Hood();
+		setHood = new SetHood(hood);
+
+		limelight = new Limelight();
+		aim = new Aim(driveTrain, limelight);
+		aimAndShoot = new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
+		limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
+
+		testAutonPath = new TestAutonPath(driveTrain);
+
+		autonomousChooser.setDefaultOption("None", null);
+		autonomousChooser.addOption("Test Path", testAutonPath);
+		autonomousChooser.addOption("Drive Forward",
+				driveForwardTimed.withTimeout(Constants.DriveTrain.DRIVE_FORWARD_TIME));
+		SmartDashboard.putData("Autonomous mode chooser", autonomousChooser);
+
+		compressor = new Compressor(0);
+		// Configure the button bindings
+		configureButtonBindings();
+	}
+
+	/**
+	 * Use this method to define your button->command mappings. Buttons can be created by instantiating a
+	 * {@link GenericHID} or one of its subclasses ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}),
+	 * and then passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+	 */
+	private void configureButtonBindings() {
+		JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
+		intakeToggleButton.whenPressed(intakeToggle);
+		JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
+		spinShooterButton.whileHeld(shootBall);
+		JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
+		setHoodButton.whenPressed(setHood);
+		JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
+		aimButton.whileHeld(aim);
+		JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
+		aimAndShootButton.toggleWhenPressed(aimAndShoot);
+		// JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+		// driveRotationsButton.whenPressed(driveRotations);
+		// JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
+		// rangeButton.whileHeld(limelightGetInRane);
+	}
+
+	/**
+	 * Use this to pass the autonomous command to the main {@link Robot} class.
+	 *
+	 * @return the command to run in autonomous
+	 */
+	public Command getAutonomousCommand() {
+
+		// An ExampleCommand will run in autonomous
+		return autonomousChooser.getSelected();
+	}
 }

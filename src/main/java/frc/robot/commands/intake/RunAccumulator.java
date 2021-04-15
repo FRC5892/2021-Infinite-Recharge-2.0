@@ -11,41 +11,45 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Accumulator;
 
 public class RunAccumulator extends CommandBase {
-  Accumulator accumulator;
-  /** Creates a new RunAccumulator. */
-  public RunAccumulator(Accumulator a) {
-    accumulator = a;
-    addRequirements(accumulator);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+	Accumulator accumulator;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	/** Creates a new RunAccumulator. */
+	public RunAccumulator(Accumulator a) {
+		accumulator = a;
+		addRequirements(accumulator);
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
-      accumulator.setAccumulator(RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) * Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
-    }
-    else if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
-      accumulator.setAccumulator(-RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
-    }
-    else {
-      accumulator.stopAccumulator();
-    }
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    accumulator.stopAccumulator();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
+			accumulator.setAccumulator(RobotContainer.driverJoystick.getTriggerAxis(Hand.kRight)
+					* Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
+		}
+		else if (RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
+			accumulator.setAccumulator(-RobotContainer.driverJoystick.getTriggerAxis(Hand.kLeft)
+					* Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
+		}
+		else {
+			accumulator.stopAccumulator();
+		}
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		accumulator.stopAccumulator();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

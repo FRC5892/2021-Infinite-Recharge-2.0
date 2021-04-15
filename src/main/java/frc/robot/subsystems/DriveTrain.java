@@ -22,134 +22,136 @@ import frc.robot.Constants;
 import frc.MathUtils;
 
 public class DriveTrain extends SubsystemBase {
-  CANSparkMax leftMotor1;
-  CANSparkMax leftMotor2;
-  CANSparkMax leftMotor3;
-  CANSparkMax rightMotor1;
-  CANSparkMax rightMotor2;
-  CANSparkMax rightMotor3;
-  CANEncoder leftEncoder;
-  CANEncoder rightEncoder;
-  SpeedControllerGroup leftMotors;
-  SpeedControllerGroup rightMotors;
-  DifferentialDrive drive;
-  AHRS gyro;
-  DifferentialDriveOdometry odometry;
+	CANSparkMax leftMotor1;
+	CANSparkMax leftMotor2;
+	CANSparkMax leftMotor3;
+	CANSparkMax rightMotor1;
+	CANSparkMax rightMotor2;
+	CANSparkMax rightMotor3;
+	CANEncoder leftEncoder;
+	CANEncoder rightEncoder;
+	SpeedControllerGroup leftMotors;
+	SpeedControllerGroup rightMotors;
+	DifferentialDrive drive;
+	AHRS gyro;
+	DifferentialDriveOdometry odometry;
 
-  public CANSparkMax driveCANSparkMax (int ID) {
-    CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
-    sparkMax.restoreFactoryDefaults();
-    sparkMax.setInverted(false);
-    sparkMax.setIdleMode(IdleMode.kBrake);
-    return sparkMax;
-  }
-  
-  /** Creates a new DriveTrain. */
-  public DriveTrain() {
-    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID);
-    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID);
-    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID);
-    rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID);
-    rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID);
-    rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID);
+	public CANSparkMax driveCANSparkMax(int ID) {
+		CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
+		sparkMax.restoreFactoryDefaults();
+		sparkMax.setInverted(false);
+		sparkMax.setIdleMode(IdleMode.kBrake);
+		return sparkMax;
+	}
 
-    leftEncoder = leftMotor1.getEncoder();
-    rightEncoder = rightMotor1.getEncoder();
-    resetEncoders();
+	/** Creates a new DriveTrain. */
+	public DriveTrain() {
+		leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID);
+		leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID);
+		leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID);
+		rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID);
+		rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID);
+		rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID);
 
-    leftMotors = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
-    rightMotors = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
-    drive = new DifferentialDrive(leftMotors, rightMotors);
+		leftEncoder = leftMotor1.getEncoder();
+		rightEncoder = rightMotor1.getEncoder();
+		resetEncoders();
 
-    gyro = new AHRS(SPI.Port.kMXP);
-    odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
-  }
-  
-  @Override
-  public void periodic() {
-    odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
-    // This method will be called once per scheduler run
-  }
+		leftMotors = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
+		rightMotors = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
+		drive = new DifferentialDrive(leftMotors, rightMotors);
 
-  public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
-    drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS))*xSpeed, MathUtils.signedSquare(-controller.getRawAxis(4))*zRotation, false);
-    //squares the controller input before the speed factor is multiplied to make the drive smoother
-    //false at the end tells the library not to square it because we already did
-    //x speed sets speed of forward motion, z speed sets turning speed 
-  }
-  
-  public void driveForward(double speed){
-    drive.tankDrive(speed, speed);
-  }
-  
-  public void tankDrive(double leftSpeed, double rightSpeed){
-    drive.tankDrive(leftSpeed, rightSpeed);
-  }
+		gyro = new AHRS(SPI.Port.kMXP);
+		odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
+	}
 
-  public void arcadeDrive(double xSpeed, double zRotation) {
-    drive.arcadeDrive(xSpeed, zRotation);
-  }
+	@Override
+	public void periodic() {
+		odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
+		// This method will be called once per scheduler run
+	}
 
-  public void resetEncoders() {
-    leftEncoder.setPosition(0);
-    leftEncoder.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
-    leftEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
-    rightEncoder.setPosition(0);
-    rightEncoder.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
-    rightEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
-  }
+	public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
+		drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS)) * xSpeed,
+				MathUtils.signedSquare(-controller.getRawAxis(4)) * zRotation, false);
+		// squares the controller input before the speed factor is multiplied to make the drive smoother
+		// false at the end tells the library not to square it because we already did
+		// x speed sets speed of forward motion, z speed sets turning speed
+	}
 
-  public void setMaxOutput(double maxOutput) {
-    drive.setMaxOutput(maxOutput);
-  }
+	public void driveForward(double speed) {
+		drive.tankDrive(speed, speed);
+	}
 
-  //Used in trajectory
-  public void resetOdometry(Pose2d pose) {
-    resetEncoders();
-    odometry.resetPosition(pose, gyro.getRotation2d());
-  }
-  
-  public void zeroHeading() {
-    gyro.reset();
-  }
+	public void tankDrive(double leftSpeed, double rightSpeed) {
+		drive.tankDrive(leftSpeed, rightSpeed);
+	}
 
-  public double getAverageEncoderDistance() {
-    return (leftEncoder.getPosition() + rightEncoder.getPosition())/2;
-  }
+	public void arcadeDrive(double xSpeed, double zRotation) {
+		drive.arcadeDrive(xSpeed, zRotation);
+	}
 
-  public CANEncoder getLeftEncoder() {
-    return leftEncoder;
-  }
+	public void resetEncoders() {
+		leftEncoder.setPosition(0);
+		leftEncoder.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
+		leftEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
+		rightEncoder.setPosition(0);
+		rightEncoder
+				.setPositionConversionFactor(Constants.DriveTrain.DriveCharacteristics.ROTATIONS_TO_METERS_CONSTANT);
+		rightEncoder.setVelocityConversionFactor(Constants.DriveTrain.DriveCharacteristics.RPM_TO_METERSPS);
+	}
 
-  public CANEncoder getRightEncoder() {
-    return rightEncoder;
-  }
+	public void setMaxOutput(double maxOutput) {
+		drive.setMaxOutput(maxOutput);
+	}
 
-  public double getHeading() {
-    return gyro.getRotation2d().getDegrees();
-  }
+	// Used in trajectory
+	public void resetOdometry(Pose2d pose) {
+		resetEncoders();
+		odometry.resetPosition(pose, gyro.getRotation2d());
+	}
 
-  //Used in trajectory
-  public Pose2d getPose() {
-    return odometry.getPoseMeters();
-  }
+	public void zeroHeading() {
+		gyro.reset();
+	}
 
-  //Used in trajectory
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
-  }
+	public double getAverageEncoderDistance() {
+		return (leftEncoder.getPosition() + rightEncoder.getPosition()) / 2;
+	}
 
-  public double getTurnRate() {
-    return -gyro.getRate();
-  }
+	public CANEncoder getLeftEncoder() {
+		return leftEncoder;
+	}
 
-  public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMotors.setVoltage(-leftVolts);
-    rightMotors.setVoltage(rightVolts);
-    drive.feed();
-  }
+	public CANEncoder getRightEncoder() {
+		return rightEncoder;
+	}
 
-  public void stop(){
-    drive.stopMotor();
-  }
+	public double getHeading() {
+		return gyro.getRotation2d().getDegrees();
+	}
+
+	// Used in trajectory
+	public Pose2d getPose() {
+		return odometry.getPoseMeters();
+	}
+
+	// Used in trajectory
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+		return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
+	}
+
+	public double getTurnRate() {
+		return -gyro.getRate();
+	}
+
+	public void tankDriveVolts(double leftVolts, double rightVolts) {
+		leftMotors.setVoltage(-leftVolts);
+		rightMotors.setVoltage(rightVolts);
+		drive.feed();
+	}
+
+	public void stop() {
+		drive.stopMotor();
+	}
 }
