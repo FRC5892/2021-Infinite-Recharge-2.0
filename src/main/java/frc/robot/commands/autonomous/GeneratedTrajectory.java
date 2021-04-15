@@ -24,64 +24,52 @@ import frc.robot.subsystems.DriveTrain;
 
 /** Add your docs here. */
 public class GeneratedTrajectory {
-    DriveTrain driveTrain;
-    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH);
-    public SequentialCommandGroup generatedTrajectory (DriveTrain d) {
-        driveTrain = d;
-        var autoVoltageConstraint =
-            new DifferentialDriveVoltageConstraint(
-                new SimpleMotorFeedforward(Constants.DriveTrain.DriveCharacteristics.VOLTS,
-                                           Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_PER_METER,
-                                           Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
-                kinematics,
-                10);
-    
-        // Create config for trajectory
-        TrajectoryConfig config =
-            new TrajectoryConfig(1,
-                                 .1)
-                // Add kinematics to ensure max speed is actually obeyed
-                .setKinematics(kinematics)
-                // Apply the voltage constraint
-                .addConstraint(autoVoltageConstraint);
-    
-        // An example trajectory to follow.  All units in meters.
-        Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-            // Start at the origin facing the +X direction
-            new Pose2d(0, 0, new Rotation2d(0)),
-            // Pass through these two interior waypoints, making an 's' curve path
-            List.of(
-                new Translation2d(1, 1),
-                new Translation2d(2, -1)
-            ),
-            // End 3 meters straight ahead of where we started, facing forward
-            new Pose2d(3, 0, new Rotation2d(0)),
-            // Pass config
-            config
-        );
-    
-        RamseteCommand ramseteCommand =
-        new RamseteCommand(
-            trajectory,
-            driveTrain::getPose,
-            new RamseteController(Constants.DriveTrain.DriveCharacteristics.RAMSETE_B, Constants.DriveTrain.DriveCharacteristics.RAMSETE_ZETA),
-            new SimpleMotorFeedforward(
-                Constants.DriveTrain.DriveCharacteristics.VOLTS,
-                Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_PER_METER,
-                Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
-                kinematics,
-            driveTrain::getWheelSpeeds,
-            new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
-            new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
-            // RamseteCommand passes volts to the callback
-            driveTrain::tankDriveVolts,
-            driveTrain);
+	DriveTrain driveTrain;
+	DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
+			Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH);
 
-    
-        // Reset odometry to the starting pose of the trajectory.
-        driveTrain.resetOdometry(trajectory.getInitialPose());
-    
-        // Run path following command, then stop at the end.
-        return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
-    }
+	public SequentialCommandGroup generatedTrajectory(DriveTrain d) {
+		driveTrain = d;
+		var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+				new SimpleMotorFeedforward(Constants.DriveTrain.DriveCharacteristics.VOLTS,
+						Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_PER_METER,
+						Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
+				kinematics, 10);
+
+		// Create config for trajectory
+		TrajectoryConfig config = new TrajectoryConfig(1, .1)
+				// Add kinematics to ensure max speed is actually obeyed
+				.setKinematics(kinematics)
+				// Apply the voltage constraint
+				.addConstraint(autoVoltageConstraint);
+
+		// An example trajectory to follow. All units in meters.
+		Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+				// Start at the origin facing the +X direction
+				new Pose2d(0, 0, new Rotation2d(0)),
+				// Pass through these two interior waypoints, making an 's' curve path
+				List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+				// End 3 meters straight ahead of where we started, facing forward
+				new Pose2d(3, 0, new Rotation2d(0)),
+				// Pass config
+				config);
+
+		RamseteCommand ramseteCommand = new RamseteCommand(trajectory, driveTrain::getPose,
+				new RamseteController(Constants.DriveTrain.DriveCharacteristics.RAMSETE_B,
+						Constants.DriveTrain.DriveCharacteristics.RAMSETE_ZETA),
+				new SimpleMotorFeedforward(Constants.DriveTrain.DriveCharacteristics.VOLTS,
+						Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_PER_METER,
+						Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER),
+				kinematics, driveTrain::getWheelSpeeds,
+				new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
+				new PIDController(Constants.DriveTrain.DriveCharacteristics.P, 0, 0),
+				// RamseteCommand passes volts to the callback
+				driveTrain::tankDriveVolts, driveTrain);
+
+		// Reset odometry to the starting pose of the trajectory.
+		driveTrain.resetOdometry(trajectory.getInitialPose());
+
+		// Run path following command, then stop at the end.
+		return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
+	}
 }

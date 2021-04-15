@@ -9,26 +9,26 @@ import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
 
 /** Add your docs here. */
 public class SparkMaxSim {
-    private final SimDouble simVelocity;
-    private final SimDouble simPosition;
-    private final SimDouble simAppliedOutput;
+	private final SimDouble simVelocity;
+	private final SimDouble simPosition;
+	private final SimDouble simAppliedOutput;
 
-    public SparkMaxSim(int deviceID) {
-        SimDeviceSim simSparkMax = new SimDeviceSim("SPARK MAX " + "[" + deviceID + "]" );
-        simVelocity = simSparkMax.getDouble("Velocity");
-        simPosition = simSparkMax.getDouble("Position");
-        simAppliedOutput = simSparkMax.getDouble("Applied Output");
-    }
-    
-    public void setVelocity (double velocity) {
-        simVelocity.set(velocity);
-    }
-    
-    public void setPosition (double position) {
-        simPosition.set(position);
-    }
-    
-    public void setAppliedOutput (double appliedOutput) {
-        simAppliedOutput.set(appliedOutput);
-    }
+	public SparkMaxSim(int deviceID) {
+		SimDeviceSim simSparkMax = new SimDeviceSim("SPARK MAX " + "[" + deviceID + "]");
+		simVelocity = simSparkMax.getDouble("Velocity");
+		simPosition = simSparkMax.getDouble("Position");
+		simAppliedOutput = simSparkMax.getDouble("Applied Output");
+	}
+
+	public void setVelocity(double velocity) {
+		simVelocity.set(velocity);
+	}
+
+	public void setPosition(double position) {
+		simPosition.set(position);
+	}
+
+	public void setAppliedOutput(double appliedOutput) {
+		simAppliedOutput.set(appliedOutput);
+	}
 }

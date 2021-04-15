@@ -11,13 +11,15 @@ import frc.robot.subsystems.DriveTrain;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Slalom extends SequentialCommandGroup {
-  DriveTrain driveTrain;
-  /** Creates a new Slalom. */
-  public Slalom(DriveTrain d) {
-    driveTrain = d;
-    SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain, "paths/Slalom.wpilib.json");
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ResetEncoders(driveTrain), ramseteCommand);
-  }
+	DriveTrain driveTrain;
+
+	/** Creates a new Slalom. */
+	public Slalom(DriveTrain d) {
+		driveTrain = d;
+		SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain,
+				"paths/Slalom.wpilib.json");
+		// Add your commands in the addCommands() call, e.g.
+		// addCommands(new FooCommand(), new BarCommand());
+		addCommands(new ResetEncoders(driveTrain), ramseteCommand);
+	}
 }

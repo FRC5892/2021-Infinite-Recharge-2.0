@@ -8,34 +8,37 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class ToggleIntakePistons extends CommandBase {
-  Intake intake;
-  Boolean finished;
-  /** Creates a new ToggleIntakePistons. */
-  public ToggleIntakePistons(Intake i) {
-    intake = i;
-    finished = false;
-    addRequirements(intake);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+	Intake intake;
+	Boolean finished;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    intake.toggleIntakePistons();
-    finished = true;
-  }
+	/** Creates a new ToggleIntakePistons. */
+	public ToggleIntakePistons(Intake i) {
+		intake = i;
+		finished = false;
+		addRequirements(intake);
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		intake.toggleIntakePistons();
+		finished = true;
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return finished;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return finished;
+	}
 }

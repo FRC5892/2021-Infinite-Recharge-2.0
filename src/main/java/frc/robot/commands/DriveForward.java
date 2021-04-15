@@ -9,32 +9,35 @@ import frc.robot.Constants;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveForward extends CommandBase {
-  DriveTrain driveTrain;
-  /** Creates a new DriveForwardTimed. */
-  public DriveForward(DriveTrain dt) {
-    driveTrain = dt;
-    addRequirements(driveTrain);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+	DriveTrain driveTrain;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-      driveTrain.tankDrive(Constants.DriveTrain.AUTONOMOUS_SPEED, Constants.DriveTrain.AUTONOMOUS_SPEED);
-  }
-  
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+	/** Creates a new DriveForwardTimed. */
+	public DriveForward(DriveTrain dt) {
+		driveTrain = dt;
+		addRequirements(driveTrain);
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    driveTrain.stop();
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		driveTrain.tankDrive(Constants.DriveTrain.AUTONOMOUS_SPEED, Constants.DriveTrain.AUTONOMOUS_SPEED);
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+	}
+
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		driveTrain.stop();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

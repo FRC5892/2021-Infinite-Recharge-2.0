@@ -11,38 +11,42 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveWithJoysticks extends CommandBase {
-  private final DriveTrain driveTrain;
-  /** Creates a new DriveWithJoysticks. */
-  public DriveWithJoysticks(DriveTrain dt) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    driveTrain = dt;
-    addRequirements(driveTrain);
-  }
+	private final DriveTrain driveTrain;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+	/** Creates a new DriveWithJoysticks. */
+	public DriveWithJoysticks(DriveTrain dt) {
+		// Use addRequirements() here to declare subsystem dependencies.
+		driveTrain = dt;
+		addRequirements(driveTrain);
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (RobotContainer.driverJoystick.getBumper(Hand.kRight)) {
-      driveTrain.driveWithJoysticks(RobotContainer.driverJoystick, Constants.DriveTrain.SLOW_SPEED, Constants.DriveTrain.SLOW_SPEED);
-    }
-    else {
-      driveTrain.driveWithJoysticks(RobotContainer.driverJoystick, Constants.DriveTrain.SPEED, Constants.DriveTrain.SPEED);
-    }
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    driveTrain.stop();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if (RobotContainer.driverJoystick.getBumper(Hand.kRight)) {
+			driveTrain.driveWithJoysticks(RobotContainer.driverJoystick, Constants.DriveTrain.SLOW_SPEED,
+					Constants.DriveTrain.SLOW_SPEED);
+		}
+		else {
+			driveTrain.driveWithJoysticks(RobotContainer.driverJoystick, Constants.DriveTrain.SPEED,
+					Constants.DriveTrain.SPEED);
+		}
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		driveTrain.stop();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
 }

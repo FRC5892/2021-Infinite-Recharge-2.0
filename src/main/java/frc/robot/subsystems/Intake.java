@@ -11,40 +11,42 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
-  VictorSP rollerMotor;
-  DoubleSolenoid solenoid;
+	VictorSP rollerMotor;
+	DoubleSolenoid solenoid;
 
-  /** Creates a new Intake. */
-  public Intake() {
-    rollerMotor = new VictorSP(Constants.Intake.ROLLER_MOTOR_PORT);
-    solenoid = new DoubleSolenoid(Constants.Intake.SOLENOID_FORWARD, Constants.Intake.SOLENOID_REVERSE);
-    solenoid.set(Value.kReverse);
-  }
+	/** Creates a new Intake. */
+	public Intake() {
+		rollerMotor = new VictorSP(Constants.Intake.ROLLER_MOTOR_PORT);
+		solenoid = new DoubleSolenoid(Constants.Intake.SOLENOID_FORWARD, Constants.Intake.SOLENOID_REVERSE);
+		solenoid.set(Value.kReverse);
+	}
 
-  public void setRollersSpeed (double speed) {
-    rollerMotor.set(speed);
-  }
+	public void setRollersSpeed(double speed) {
+		rollerMotor.set(speed);
+	}
 
-  public void stopRollers () {
-    rollerMotor.stopMotor();
-  }
-  public void toggleIntakePistons() {
-    solenoid.toggle();
-  }
+	public void stopRollers() {
+		rollerMotor.stopMotor();
+	}
 
-  public void extendIntakePistons() {
-    solenoid.set(Value.kForward);
-  }
+	public void toggleIntakePistons() {
+		solenoid.toggle();
+	}
 
-  public void retractIntakePistons() {
-    solenoid.set(Value.kReverse);
-  }
+	public void extendIntakePistons() {
+		solenoid.set(Value.kForward);
+	}
 
-  public Value getSolenoidValue() {
-    return solenoid.get();
-  }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	public void retractIntakePistons() {
+		solenoid.set(Value.kReverse);
+	}
+
+	public Value getSolenoidValue() {
+		return solenoid.get();
+	}
+
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }

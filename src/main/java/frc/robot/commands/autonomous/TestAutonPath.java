@@ -11,13 +11,15 @@ import frc.robot.subsystems.DriveTrain;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TestAutonPath extends SequentialCommandGroup {
-  DriveTrain driveTrain;
-  /** Creates a new testAutonPath. */
-  public TestAutonPath(DriveTrain d) {
-    driveTrain = d;
-    SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain, "paths/TestPath.wpilib.json");
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ResetEncoders(driveTrain), ramseteCommand);
-  }
+	DriveTrain driveTrain;
+
+	/** Creates a new testAutonPath. */
+	public TestAutonPath(DriveTrain d) {
+		driveTrain = d;
+		SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain,
+				"paths/TestPath.wpilib.json");
+		// Add your commands in the addCommands() call, e.g.
+		// addCommands(new FooCommand(), new BarCommand());
+		addCommands(new ResetEncoders(driveTrain), ramseteCommand);
+	}
 }

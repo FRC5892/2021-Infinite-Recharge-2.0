@@ -13,23 +13,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
 public class SparkMaxWrapper extends CANSparkMax {
-    private SimDeviceSim simSparkMax;
-    private SimDouble simAppliedOutput;
+	private SimDeviceSim simSparkMax;
+	private SimDouble simAppliedOutput;
 
-    public SparkMaxWrapper (int deviceID, MotorType type) {
-        super(deviceID, type);
-        simSparkMax = new SimDeviceSim("SPARK MAX " + "[" + deviceID + "]" );
-        if (simSparkMax != null) {
-            simAppliedOutput = simSparkMax.getDouble("Applied Output");
-        }
-    }
+	public SparkMaxWrapper(int deviceID, MotorType type) {
+		super(deviceID, type);
+		simSparkMax = new SimDeviceSim("SPARK MAX " + "[" + deviceID + "]");
+		if (simSparkMax != null) {
+			simAppliedOutput = simSparkMax.getDouble("Applied Output");
+		}
+	}
 
-    @Override
-    public void set (double speed) {
-        super.set(speed);
-        if (simSparkMax != null) {
-            simAppliedOutput.set(speed*RobotController.getBatteryVoltage());
-            SmartDashboard.putNumber("Applied Output", simAppliedOutput.get());
-        }
-    }
+	@Override
+	public void set(double speed) {
+		super.set(speed);
+		if (simSparkMax != null) {
+			simAppliedOutput.set(speed * RobotController.getBatteryVoltage());
+			SmartDashboard.putNumber("Applied Output", simAppliedOutput.get());
+		}
+	}
 }
