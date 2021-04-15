@@ -1,53 +1,35 @@
-/*
- * Copied from LigerBots 2877 2021 Infinite Recharge Code, variable names changed
- * https://github.com/ligerbots/InfiniteRecharge2021/blob/main/src/main/java/frc/robot/simulation/SparkMaxWrapper.java
- * Create a wrapper around the CANSparkMax class to support simulation
- */
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.simulationWrappers;
 
 import com.revrobotics.CANSparkMax;
 
-import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/** Add your docs here. */
 public class SparkMaxWrapper extends CANSparkMax {
-    private SimDouble simSpeed;
-    private SimDevice simSparkMax;
+    private SimDeviceSim simSparkMax;
+    private SimDouble simAppliedOutput;
 
-    public SparkMaxWrapper(int deviceID, MotorType type) {
-        super(deviceID,type);
-
-        simSparkMax = SimDevice.create("SparkMaxSim",deviceID);
-        if (simSparkMax != null){
-            simSpeed = simSparkMax.createDouble("speed", false, 0.0);
+    public SparkMaxWrapper (int deviceID, MotorType type) {
+        super(deviceID, type);
+        simSparkMax = new SimDeviceSim("SPARK MAX " + "[" + deviceID + "]" );
+        if (simSparkMax != null) {
+            simAppliedOutput = simSparkMax.getDouble("Applied Output");
         }
     }
 
     @Override
-    public double get(){
-        if (simSparkMax != null){
-            return simSpeed.get();
-        }
-        return super.get();
-    }
-
-    @Override
-    public void set(double speed){
-        if (simSparkMax != null){
-            simSpeed.set(speed);
-        }else{
-            super.set(speed);
-        }
-    }
-
-    @Override
-    public void setVoltage(double outputVolts) { //For simulation purposes, we are expecting that the battery voltage stays constant.
-        if (simSparkMax != null){
-            set(outputVolts / RobotController.getBatteryVoltage());
-        } else {
-            super.setVoltage(outputVolts);
+    public void set (double speed) {
+        super.set(speed);
+        if (simSparkMax != null) {
+            simAppliedOutput.set(speed*RobotController.getBatteryVoltage());
+            SmartDashboard.putNumber("Applied Output", simAppliedOutput.get());
         }
     }
 }
