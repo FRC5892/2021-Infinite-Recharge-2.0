@@ -11,30 +11,32 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Kicker extends SubsystemBase {
-  VictorSP kickerMotor;
-  DigitalInput kickerSensor;
-  /** Creates a new Kicker. */
-  public Kicker() {
-    kickerMotor = new VictorSP(Constants.Kicker.KICKER_MOTOR_PORT);
-    kickerMotor.setInverted(true);
-    kickerSensor = new DigitalInput(Constants.Kicker.KICKER_SENSOR_PORT);
-  }
+	VictorSP kickerMotor;
+	DigitalInput kickerSensor;
 
-  public void setKicker(double speed) {
-    kickerMotor.set(speed);
-  }
+	/** Creates a new Kicker. */
+	public Kicker() {
+		kickerMotor = new VictorSP(Constants.Kicker.KICKER_MOTOR_PORT);
+		kickerMotor.setInverted(true);
+		kickerSensor = new DigitalInput(Constants.Kicker.KICKER_SENSOR_PORT);
+	}
 
-  public void stopKicker() {
-    kickerMotor.stopMotor();
-  }
+	public void setKicker(double speed) {
+		kickerMotor.set(speed);
+	}
 
-  public boolean ballLoaded() {
-    return kickerSensor.get();
-  }
-  @Override
-  public void periodic() {
-    SmartDashboard.putBoolean("Ball Loaded", this.ballLoaded());
-    SmartDashboard.putNumber("Kicker Speed", kickerMotor.getSpeed());
-    // This method will be called once per scheduler run
-  }
+	public void stopKicker() {
+		kickerMotor.stopMotor();
+	}
+
+	public boolean ballLoaded() {
+		return kickerSensor.get();
+	}
+
+	@Override
+	public void periodic() {
+		SmartDashboard.putBoolean("Ball Loaded", this.ballLoaded());
+		SmartDashboard.putNumber("Kicker Speed", kickerMotor.getSpeed());
+		// This method will be called once per scheduler run
+	}
 }

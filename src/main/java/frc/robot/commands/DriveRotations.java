@@ -4,48 +4,48 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveRotations extends CommandBase {
-  DriveTrain driveTrain;
-  Boolean finish;
-  /** Creates a new DriveRotations. */
-  public DriveRotations(DriveTrain d) {
-    driveTrain = d;
-    addRequirements(driveTrain);
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+	DriveTrain driveTrain;
+	Boolean finish;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    driveTrain.resetEncoders();
-    finish = false;
-  }
+	/** Creates a new DriveRotations. */
+	public DriveRotations(DriveTrain d) {
+		driveTrain = d;
+		addRequirements(driveTrain);
+		// Use addRequirements() here to declare subsystem dependencies.
+	}
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (driveTrain.getLeftEncoder().getPosition() <= 200) {
-      driveTrain.arcadeDrive(.25, 0);
-    }
-    else {
-      driveTrain.stop();
-      finish = true;
-    }
-  }
+	// Called when the command is initially scheduled.
+	@Override
+	public void initialize() {
+		driveTrain.resetEncoders();
+		finish = false;
+	}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    driveTrain.stop();
-  }
+	// Called every time the scheduler runs while the command is scheduled.
+	@Override
+	public void execute() {
+		if (driveTrain.getLeftEncoder().getPosition() <= 200) {
+			driveTrain.arcadeDrive(.25, 0);
+		}
+		else {
+			driveTrain.stop();
+			finish = true;
+		}
+	}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return finish;
-  }
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		driveTrain.stop();
+	}
+
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		return finish;
+	}
 }
