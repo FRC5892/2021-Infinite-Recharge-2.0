@@ -18,6 +18,6 @@ public class TestAutonPath extends SequentialCommandGroup {
     SequentialCommandGroup ramseteCommand = new RamseteCommandGenerator().ramseteCommandGenerator(driveTrain, "paths/TestPath.wpilib.json");
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new ResetEncoders(driveTrain), ramseteCommand);
+    addCommands(ramseteCommand);
   }
 }

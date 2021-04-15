@@ -11,28 +11,14 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
-import edu.wpi.first.hal.SimDouble;
-import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.autonomous.ResetEncoders;
-import frc.robot.simulationWrappers.SparkMaxSim;
-import frc.robot.simulationWrappers.SparkMaxWrapper;
 import frc.MathUtils;
 
 public class DriveTrain extends SubsystemBase {
@@ -49,32 +35,23 @@ public class DriveTrain extends SubsystemBase {
   DifferentialDrive drive;
   AHRS gyro;
   DifferentialDriveOdometry odometry;
-  Field2d field = new Field2d();
 
-  //Simulation classes
-  DifferentialDrivetrainSim drivetrainSimulator;
-  SparkMaxSim leftMotorSim1;
-  SparkMaxSim rightMotorSim1;
-  SimDouble gyroSim;
-  int previousBallLocation = 0;
-  int previousStartLocation = 10;
-
-  public CANSparkMax driveCANSparkMax (int ID, boolean inverted) {
-    CANSparkMax sparkMax = new SparkMaxWrapper(ID, MotorType.kBrushless);
+  public CANSparkMax driveCANSparkMax (int ID) {
+    CANSparkMax sparkMax = new CANSparkMax(ID, MotorType.kBrushless);
     sparkMax.restoreFactoryDefaults();
-    sparkMax.setInverted(inverted);
+    sparkMax.setInverted(false);
     sparkMax.setIdleMode(IdleMode.kBrake);
     return sparkMax;
   }
   
   /** Creates a new DriveTrain. */
   public DriveTrain() {
-    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID, false);
-    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID, false);
-    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID, false);
-    rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID, false);
-    rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID, false);
-    rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID, false);
+    leftMotor1 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR1_ID);
+    leftMotor2 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR2_ID);
+    leftMotor3 = driveCANSparkMax(Constants.DriveTrain.LEFT_MOTOR3_ID);
+    rightMotor1 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR1_ID);
+    rightMotor2 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR2_ID);
+    rightMotor3 = driveCANSparkMax(Constants.DriveTrain.RIGHT_MOTOR3_ID);
 
     leftEncoder = leftMotor1.getEncoder();
     rightEncoder = rightMotor1.getEncoder();
@@ -83,58 +60,15 @@ public class DriveTrain extends SubsystemBase {
     leftMotors = new SpeedControllerGroup(leftMotor1, leftMotor2, leftMotor3);
     rightMotors = new SpeedControllerGroup(rightMotor1, rightMotor2, rightMotor3);
     drive = new DifferentialDrive(leftMotors, rightMotors);
-    drive.setRightSideInverted(true);
 
     gyro = new AHRS(SPI.Port.kMXP);
-    
     odometry = new DifferentialDriveOdometry(gyro.getRotation2d());
-    SmartDashboard.putData("Reset Encoders", new ResetEncoders(this));
-    
-    drivetrainSimulator = new DifferentialDrivetrainSim(
-      LinearSystemId.identifyDrivetrainSystem(
-        Constants.DriveTrain.DriveCharacteristics.VOLTS, 
-        Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER, 
-        Constants.DriveTrain.DriveCharacteristics.VOLTS*1.1, 
-        Constants.DriveTrain.DriveCharacteristics.VOLT_SECONDS_SQUARED_PER_METER*1.1),
-    DCMotor.getNEO(3),
-    6.7368,
-    Constants.DriveTrain.DriveCharacteristics.TRACK_WIDTH,
-    Units.inchesToMeters(5.75),
-    null
-    );
-    gyroSim = new SimDeviceSim("navX-Sensor[0]").getDouble("Yaw");
-    leftMotorSim1 = new SparkMaxSim(1);
-    rightMotorSim1 = new SparkMaxSim(4);
-    if (RobotBase.isSimulation()) {
-      SmartDashboard.putNumber("moveAroundField/startPos", previousStartLocation);
-      SmartDashboard.putNumber("moveAroundField/ballPos", previousBallLocation);
-    }
   }
   
   @Override
   public void periodic() {
-    odometry.update(gyro.getRotation2d(), -leftEncoder.getPosition(), rightEncoder.getPosition());
-    SmartDashboard.putNumber("Encoder Average", getAverageEncoderDistance());
-    SmartDashboard.putNumber("Left Encoder", -leftEncoder.getPosition());
-    SmartDashboard.putNumber("Right Encoder", rightEncoder.getPosition());
-    SmartDashboard.putNumber("Left Velocity", -leftEncoder.getVelocity());
-    SmartDashboard.putNumber("Right Velocity", rightEncoder.getVelocity());
-    SmartDashboard.putNumber("Left", getWheelSpeeds().leftMetersPerSecond);
-    SmartDashboard.putNumber("Right", getWheelSpeeds().rightMetersPerSecond);
-    SmartDashboard.putData("Field2D", field);
-    field.setRobotPose(odometry.getPoseMeters());
+    odometry.update(gyro.getRotation2d(), leftEncoder.getPosition(), rightEncoder.getPosition());
     // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    leftMotorSim1.setVelocity(-drivetrainSimulator.getLeftVelocityMetersPerSecond());
-    leftMotorSim1.setPosition(-drivetrainSimulator.getLeftPositionMeters());
-    rightMotorSim1.setVelocity(drivetrainSimulator.getRightVelocityMetersPerSecond());
-    rightMotorSim1.setPosition(drivetrainSimulator.getRightPositionMeters());
-    drivetrainSimulator.setInputs(-leftMotors.get()*RobotController.getBatteryVoltage(), rightMotors.get()*RobotController.getBatteryVoltage());
-    drivetrainSimulator.update(0.020);
-    gyroSim.set(-drivetrainSimulator.getHeading().getDegrees());
   }
 
   public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
@@ -192,7 +126,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return odometry.getPoseMeters().getRotation().getDegrees();
+    return gyro.getRotation2d().getDegrees();
   }
 
   //Used in trajectory
@@ -202,7 +136,7 @@ public class DriveTrain extends SubsystemBase {
 
   //Used in trajectory
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    return new DifferentialDriveWheelSpeeds(-leftEncoder.getVelocity(), rightEncoder.getVelocity());
+    return new DifferentialDriveWheelSpeeds(leftEncoder.getVelocity(), rightEncoder.getVelocity());
   }
 
   public double getTurnRate() {
@@ -214,7 +148,7 @@ public class DriveTrain extends SubsystemBase {
     rightMotors.setVoltage(rightVolts);
     drive.feed();
   }
-  
+
   public void stop(){
     drive.stopMotor();
   }
