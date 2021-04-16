@@ -95,7 +95,6 @@ public final class Constants {
 			public static final double I = 0.000000000105;
 			public static final double D = 0.000001;
 			public static final double FF = 0.0001825;
-			public static final double IDLE_FF = 0.00019;
 		}
 	}
 

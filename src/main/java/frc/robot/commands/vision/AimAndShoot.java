@@ -70,7 +70,6 @@ public class AimAndShoot extends CommandBase {
 		if (limelight.validTarget()) {
 			driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
 			if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
-				shooter.resetFF();
 				RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
 				if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
 					firstRun = !firstRun;
@@ -92,7 +91,6 @@ public class AimAndShoot extends CommandBase {
 					accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 				}
 				else {
-					shooter.idleFF();
 					kicker.stopKicker();
 					accumulator.stopAccumulator();
 				}
@@ -113,7 +111,6 @@ public class AimAndShoot extends CommandBase {
 		hood.disable();
 		kicker.stopKicker();
 		shooter.stopShooter();
-		shooter.resetFF();
 	}
 
 	// Returns true when the command should end.

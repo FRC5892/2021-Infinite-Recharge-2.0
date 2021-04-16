@@ -57,14 +57,6 @@ public class Shooter extends SubsystemBase {
 		shooterMotor1.stopMotor();
 	}
 
-	public void idleFF() {
-		shooterPIDController.setFF(Constants.Shooter.ShooterPID.IDLE_FF);
-	}
-
-	public void resetFF() {
-		shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
-	}
-
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Shooter RPM", shooterMotor1.getEncoder().getVelocity());
