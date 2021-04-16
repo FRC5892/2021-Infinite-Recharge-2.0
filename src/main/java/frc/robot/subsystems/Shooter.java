@@ -38,19 +38,18 @@ public class Shooter extends SubsystemBase {
 		shooterPIDController.setP(ShooterConst.PID.P);
 		shooterPIDController.setI(ShooterConst.PID.I);
 		shooterPIDController.setD(ShooterConst.PID.D);
-		shooterPIDController.setFF(ShooterConst.PID.FF);
 
 		SmartDashboard.putNumber("Shooter P", ShooterConst.PID.P);
 		SmartDashboard.putNumber("Shooter I", ShooterConst.PID.I);
 		SmartDashboard.putNumber("Shooter D", ShooterConst.PID.D);
-		SmartDashboard.putNumber("Shooter FF", ShooterConst.PID.FF);
+		// SmartDashboard.putNumber("Shooter FF", ShooterConst.PID.FF);
 	}
 
 	public void setSetpoint(double setpoint) {
-		shooterPIDController
-				.setFF(new SimpleMotorFeedforward(Characterization.S, Characterization.V, Characterization.A)
-						.calculate(setpoint) * ShooterConst.SPARK_MAX_PID_CONVERSION);
-		shooterPIDController.setReference(setpoint, ControlType.kVelocity);
+		shooterPIDController.setReference(setpoint, ControlType.kVelocity, 0,
+				new SimpleMotorFeedforward(Characterization.S, Characterization.V, Characterization.A)
+						.calculate(setpoint));
+		// shooterPIDController.setReference(setpoint, ControlType.kVelocity);
 	}
 
 	public boolean atSetpoint(double setpoint) {

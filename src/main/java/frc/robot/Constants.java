@@ -89,7 +89,6 @@ public final class Constants {
 		public static final double SHOOTER_TARGET_SPEED = 4000;
 		public static final double SHOOTER_DELAY = 0;
 		public static final double SHOOTER_IDLE_TIME = .5;
-		public static final double SPARK_MAX_PID_CONVERSION = 0;
 
 		public class Characterization {
 			// kV in characterization
