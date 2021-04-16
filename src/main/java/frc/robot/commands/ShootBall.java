@@ -34,15 +34,15 @@ public class ShootBall extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
+		shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
 			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
-			if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
+			if (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun) {
 				if (firstRun) {
 					firstRun = false;
 				}
@@ -56,7 +56,7 @@ public class ShootBall extends CommandBase {
 				RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 			}
 		}
-		if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+		if (!shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
 			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 			RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 			if (!kicker.ballLoaded()) {

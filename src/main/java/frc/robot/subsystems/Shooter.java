@@ -10,9 +10,11 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.ShooterConst;
+import frc.robot.Constants.ShooterConst.Characterization;
 
 public class Shooter extends SubsystemBase {
 	CANSparkMax shooterMotor1;
@@ -29,22 +31,25 @@ public class Shooter extends SubsystemBase {
 
 	/** Creates a new Shooter. */
 	public Shooter() {
-		shooterMotor1 = shooterSparkMax(Constants.Shooter.SHOOTER_MOTOR_1_ID, false);
-		shooterMotor2 = shooterSparkMax(Constants.Shooter.SHOOTER_MOTOR_2_ID, false);
+		shooterMotor1 = shooterSparkMax(ShooterConst.SHOOTER_MOTOR_1_ID, false);
+		shooterMotor2 = shooterSparkMax(ShooterConst.SHOOTER_MOTOR_2_ID, false);
 		shooterMotor2.follow(shooterMotor1, true);
 		shooterPIDController = shooterMotor1.getPIDController();
-		shooterPIDController.setP(Constants.Shooter.ShooterPID.P);
-		shooterPIDController.setI(Constants.Shooter.ShooterPID.I);
-		shooterPIDController.setD(Constants.Shooter.ShooterPID.D);
-		shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
+		shooterPIDController.setP(ShooterConst.PID.P);
+		shooterPIDController.setI(ShooterConst.PID.I);
+		shooterPIDController.setD(ShooterConst.PID.D);
+		shooterPIDController.setFF(ShooterConst.PID.FF);
 
-		SmartDashboard.putNumber("Shooter P", Constants.Shooter.ShooterPID.P);
-		SmartDashboard.putNumber("Shooter I", Constants.Shooter.ShooterPID.I);
-		SmartDashboard.putNumber("Shooter D", Constants.Shooter.ShooterPID.D);
-		SmartDashboard.putNumber("Shooter FF", Constants.Shooter.ShooterPID.FF);
+		SmartDashboard.putNumber("Shooter P", ShooterConst.PID.P);
+		SmartDashboard.putNumber("Shooter I", ShooterConst.PID.I);
+		SmartDashboard.putNumber("Shooter D", ShooterConst.PID.D);
+		SmartDashboard.putNumber("Shooter FF", ShooterConst.PID.FF);
 	}
 
 	public void setSetpoint(double setpoint) {
+		shooterPIDController
+				.setFF(new SimpleMotorFeedforward(Characterization.S, Characterization.V, Characterization.A)
+						.calculate(setpoint) * ShooterConst.SPARK_MAX_PID_CONVERSION);
 		shooterPIDController.setReference(setpoint, ControlType.kVelocity);
 	}
 
@@ -61,12 +66,12 @@ public class Shooter extends SubsystemBase {
 	public void periodic() {
 		SmartDashboard.putNumber("Shooter RPM", shooterMotor1.getEncoder().getVelocity());
 		SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
-		SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED));
+		SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(ShooterConst.SHOOTER_TARGET_SPEED));
 
-		// shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", Constants.Shooter.ShooterPID.P));
-		// shooterPIDController.setI(SmartDashboard.getNumber("Shooter I", Constants.Shooter.ShooterPID.I));
-		// shooterPIDController.setD(SmartDashboard.getNumber("Shooter D", Constants.Shooter.ShooterPID.D));
-		// shooterPIDController.setFF(SmartDashboard.getNumber("Shooter FF", Constants.Shooter.ShooterPID.FF));
+		// shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", ShooterConst.PID.P));
+		// shooterPIDController.setI(SmartDashboard.getNumber("Shooter I", ShooterConst.PID.I));
+		// shooterPIDController.setD(SmartDashboard.getNumber("Shooter D", ShooterConst.PID.D));
+		// shooterPIDController.setFF(SmartDashboard.getNumber("Shooter FF", ShooterConst.PID.FF));
 
 		// This method will be called once per scheduler run
 	}

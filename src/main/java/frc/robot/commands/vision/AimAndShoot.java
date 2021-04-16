@@ -55,7 +55,7 @@ public class AimAndShoot extends CommandBase {
 		// };
 		double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
 		if (limelight.validTarget()) {
-			shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
+			shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 			hood.setHood(polynomialFunction.polynomailFunction(
 					limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
 			SmartDashboard.putNumber("Equation Output", polynomialFunction.polynomailFunction(
@@ -69,9 +69,9 @@ public class AimAndShoot extends CommandBase {
 	public void execute() {
 		if (limelight.validTarget()) {
 			driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
-			if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+			if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
 				RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
-				if (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun) {
+				if (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun) {
 					firstRun = !firstRun;
 					RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
 					timer.reset();
@@ -83,7 +83,7 @@ public class AimAndShoot extends CommandBase {
 					RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 				}
 			}
-			if (!shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+			if (!shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
 				RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 				RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 				if (!kicker.ballLoaded()) {

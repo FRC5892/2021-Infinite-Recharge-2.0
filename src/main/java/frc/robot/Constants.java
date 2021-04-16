@@ -83,14 +83,24 @@ public final class Constants {
 		public static final double KICKER_TIME_OUT = 2;
 	}
 
-	public final class Shooter {
+	public final class ShooterConst {
 		public static final int SHOOTER_MOTOR_1_ID = 7;
 		public static final int SHOOTER_MOTOR_2_ID = 8;
 		public static final double SHOOTER_TARGET_SPEED = 4000;
 		public static final double SHOOTER_DELAY = 0;
 		public static final double SHOOTER_IDLE_TIME = .5;
+		public static final double SPARK_MAX_PID_CONVERSION = 0;
 
-		public class ShooterPID {
+		public class Characterization {
+			// kV in characterization
+			public static final double V = 1;
+			// kS in characterization
+			public static final double S = 1;
+			// kA in characterization
+			public static final double A = 1;
+		}
+
+		public class PID {
 			public static final double P = 0.0006;
 			public static final double I = 0.000000000105;
 			public static final double D = 0.000001;
