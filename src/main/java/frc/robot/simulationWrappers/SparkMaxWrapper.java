@@ -7,6 +7,7 @@ package frc.robot.simulationWrappers;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.SimDeviceSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +19,9 @@ public class SparkMaxWrapper extends CANSparkMax {
 
 	public SparkMaxWrapper(int deviceID, MotorType type) {
 		super(deviceID, type);
-		simSparkMax = new SimDeviceSim("SPARK MAX " + "[" + deviceID + "]");
+		if (RobotBase.isSimulation()) {
+			simSparkMax = new SimDeviceSim("SPARK MAX " + "[" + deviceID + "]");
+		}
 		if (simSparkMax != null) {
 			simAppliedOutput = simSparkMax.getDouble("Applied Output");
 		}
