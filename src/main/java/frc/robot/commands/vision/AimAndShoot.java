@@ -99,6 +99,7 @@ public class AimAndShoot extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+		RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 		accumulator.stopAccumulator();
 		driveTrain.stop();
 		hood.disable();

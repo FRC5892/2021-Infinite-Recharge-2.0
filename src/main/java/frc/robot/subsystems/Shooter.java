@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Shooter RPM", shooterMotor1.getEncoder().getVelocity());
-		SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
+		// SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
 		SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED));
 
 		// shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", Constants.Shooter.ShooterPID.P));
