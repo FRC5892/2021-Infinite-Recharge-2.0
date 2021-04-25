@@ -104,7 +104,7 @@ public final class Constants {
 		public static final int HOOD_MOTOR_PORT = 6;
 		public static final int HOOD_BOTTOM_STOP = 1;
 		public static final int HOOD_TOP_STOP = 5;
-		public static final int HOOD_POTENTIOMETER = 1;
+		public static final int HOOD_POTENTIOMETER = 3;
 	}
 
 	public final class Limelight {
