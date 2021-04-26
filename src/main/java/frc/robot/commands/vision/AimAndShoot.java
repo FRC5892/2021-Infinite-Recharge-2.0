@@ -54,7 +54,7 @@ public class AimAndShoot extends CommandBase {
 		// 1.4143e-18
 		// };
 		double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
-		shooter.setSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED);
+		shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 		firstRun = true;
 		if (limelight.validTarget()) {
 			hood.setHood(polynomialFunction.polynomailFunction(
@@ -69,13 +69,39 @@ public class AimAndShoot extends CommandBase {
 	public void execute() {
 		if (limelight.validTarget()) {
 			driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
+			if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
+				RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
+				if (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun) {
+					firstRun = !firstRun;
+					RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
+					timer.reset();
+					timer.start();
+					kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+					accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+				}
+				else {
+					RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+				}
+			}
+			if (!shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
+				RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+				RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+				if (!kicker.ballLoaded()) {
+					kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+					accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+				}
+				else {
+					kicker.stopKicker();
+					accumulator.stopAccumulator();
+				}
+			}
 		}
 		else {
 			driveTrain.stop();
 		}
-		if (shooter.atSetpoint(Constants.Shooter.SHOOTER_TARGET_SPEED)) {
+		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
 			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-			if (hood.atSetpoint() && (timer.get() >= Constants.Shooter.SHOOTER_DELAY || firstRun)) {
+			if (hood.atSetpoint() && (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun)) {
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				firstRun = false;
@@ -105,7 +131,6 @@ public class AimAndShoot extends CommandBase {
 		hood.disable();
 		kicker.stopKicker();
 		shooter.stopShooter();
-		shooter.resetFF();
 	}
 
 	// Returns true when the command should end.
