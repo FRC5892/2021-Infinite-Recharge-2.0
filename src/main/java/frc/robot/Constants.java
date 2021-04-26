@@ -93,21 +93,16 @@ public final class Constants {
 
 		public class Characterization {
 			// kV in characterization
-			// public static final double V = 0.001285;
-			// public static final double V = 0.00211416;
-			public static final double V = 0.00305952;
+			public static final double V = 0.1285 / 60;
 			// kS in characterization
 			public static final double S = 0.14255;
 			// kA in characterization
-			public static final double A = 0.058152;
+			public static final double A = 0.058152 / 60;
 		}
 
 		public class PID {
-			// public static final double P = 0.0006;
-			// public static final double I = 0.000000000105;
-			// public static final double D = 0.000001;
-			// public static final double FF = 0.0001825;
-			public static final double P = 8.79e-7;
+			// public static final double P = 8.79e-7;
+			public static final double P = 0.00076;
 			public static final double I = 0;
 			public static final double D = 0;
 		}
