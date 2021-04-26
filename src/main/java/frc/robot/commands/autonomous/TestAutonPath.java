@@ -20,6 +20,6 @@ public class TestAutonPath extends SequentialCommandGroup {
 				"paths/TestPath.wpilib.json");
 		// Add your commands in the addCommands() call, e.g.
 		// addCommands(new FooCommand(), new BarCommand());
-		addCommands(ramseteCommand);
+		addCommands(new ResetEncoders(driveTrain), ramseteCommand);
 	}
 }

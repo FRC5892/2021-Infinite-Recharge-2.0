@@ -54,14 +54,14 @@ public class AimAndShoot extends CommandBase {
 		// 1.4143e-18
 		// };
 		double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
+		shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
+		firstRun = true;
 		if (limelight.validTarget()) {
-			shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 			hood.setHood(polynomialFunction.polynomailFunction(
 					limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
 			SmartDashboard.putNumber("Equation Output", polynomialFunction.polynomailFunction(
 					limelight.targetDistance(Constants.Limelight.LIMELIGHT_TARGET_HEIGHT), coefficients));
 		}
-		firstRun = true;
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -98,6 +98,26 @@ public class AimAndShoot extends CommandBase {
 		}
 		else {
 			driveTrain.stop();
+		}
+		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
+			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			if (hood.atSetpoint() && (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun)) {
+				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
+				firstRun = false;
+				timer.reset();
+				timer.start();
+			}
+		}
+		else if (!kicker.ballLoaded()) {
+			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+			accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
+		}
+		else {
+			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			kicker.stopKicker();
+			accumulator.stopAccumulator();
 		}
 	}
 

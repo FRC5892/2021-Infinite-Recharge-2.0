@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ShooterConst;
 import frc.robot.Constants.ShooterConst.Characterization;
 
@@ -53,8 +54,7 @@ public class Shooter extends SubsystemBase {
 	}
 
 	public boolean atSetpoint(double setpoint) {
-		return (shooterMotor1.getEncoder().getVelocity() <= setpoint + 20
-				&& shooterMotor1.getEncoder().getVelocity() >= setpoint - 20);
+		return (Math.abs(setpoint - shooterMotor1.getEncoder().getVelocity()) <= 20);
 	}
 
 	public void stopShooter() {
@@ -64,8 +64,8 @@ public class Shooter extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Shooter RPM", shooterMotor1.getEncoder().getVelocity());
-		SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
-		SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(ShooterConst.SHOOTER_TARGET_SPEED));
+		// SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
+		SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED));
 
 		// shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", ShooterConst.PID.P));
 		// shooterPIDController.setI(SmartDashboard.getNumber("Shooter I", ShooterConst.PID.I));
