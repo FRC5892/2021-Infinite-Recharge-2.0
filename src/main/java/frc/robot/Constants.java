@@ -101,8 +101,7 @@ public final class Constants {
 		}
 
 		public class PID {
-			// public static final double P = 8.79e-7;
-			public static final double P = 0.00076;
+			public static final double P = 0.00078;
 			public static final double I = 0;
 			public static final double D = 0;
 		}
