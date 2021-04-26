@@ -39,6 +39,7 @@ public class Shooter extends SubsystemBase {
 		shooterPIDController.setP(ShooterConst.PID.P, 0);
 		shooterPIDController.setI(ShooterConst.PID.I, 0);
 		shooterPIDController.setD(ShooterConst.PID.D, 0);
+		shooterMotor1.enableVoltageCompensation(10);
 		shooterMotor1.burnFlash();
 		shooterMotor2.burnFlash();
 
