@@ -43,17 +43,15 @@ public class Shooter extends SubsystemBase {
 		shooterMotor1.burnFlash();
 		shooterMotor2.burnFlash();
 
-		SmartDashboard.putNumber("Shooter P", ShooterConst.PID.P);
-		SmartDashboard.putNumber("Shooter I", ShooterConst.PID.I);
-		SmartDashboard.putNumber("Shooter D", ShooterConst.PID.D);
-		// SmartDashboard.putNumber("Shooter FF", ShooterConst.PID.FF);
+		// SmartDashboard.putNumber("Shooter P", ShooterConst.PID.P);
+		// SmartDashboard.putNumber("Shooter I", ShooterConst.PID.I);
+		// SmartDashboard.putNumber("Shooter D", ShooterConst.PID.D);
 	}
 
 	public void setSetpoint(double setpoint) {
 		shooterPIDController.setReference(setpoint, ControlType.kVelocity, 0,
 				new SimpleMotorFeedforward(Characterization.S, Characterization.V, Characterization.A)
 						.calculate(setpoint));
-		// shooterPIDController.setReference(setpoint, ControlType.kVelocity);
 	}
 
 	public boolean atSetpoint(double setpoint) {
@@ -67,13 +65,11 @@ public class Shooter extends SubsystemBase {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("Shooter RPM", shooterMotor1.getEncoder().getVelocity());
-		// SmartDashboard.putNumber("Shooter Setpoint RPM", shooterMotor1.get());
 		SmartDashboard.putBoolean("Shooter At Setpoint", this.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED));
 
 		// shooterPIDController.setP(SmartDashboard.getNumber("Shooter P", ShooterConst.PID.P));
 		// shooterPIDController.setI(SmartDashboard.getNumber("Shooter I", ShooterConst.PID.I));
 		// shooterPIDController.setD(SmartDashboard.getNumber("Shooter D", ShooterConst.PID.D));
-		// shooterPIDController.setFF(SmartDashboard.getNumber("Shooter FF", ShooterConst.PID.FF));
 
 		// This method will be called once per scheduler run
 	}
