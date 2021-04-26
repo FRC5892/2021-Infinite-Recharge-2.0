@@ -36,9 +36,9 @@ public class Shooter extends SubsystemBase {
 		shooterMotor2 = shooterSparkMax(ShooterConst.SHOOTER_MOTOR_2_ID, false);
 		shooterMotor2.follow(shooterMotor1, true);
 		shooterPIDController = shooterMotor1.getPIDController();
-		shooterPIDController.setP(ShooterConst.PID.P);
-		shooterPIDController.setI(ShooterConst.PID.I);
-		shooterPIDController.setD(ShooterConst.PID.D);
+		shooterPIDController.setP(ShooterConst.PID.P, 0);
+		shooterPIDController.setI(ShooterConst.PID.I, 0);
+		shooterPIDController.setD(ShooterConst.PID.D, 0);
 
 		SmartDashboard.putNumber("Shooter P", ShooterConst.PID.P);
 		SmartDashboard.putNumber("Shooter I", ShooterConst.PID.I);
