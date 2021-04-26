@@ -37,6 +37,8 @@ public class Shooter extends SubsystemBase {
 		shooterPIDController.setI(Constants.Shooter.ShooterPID.I);
 		shooterPIDController.setD(Constants.Shooter.ShooterPID.D);
 		shooterPIDController.setFF(Constants.Shooter.ShooterPID.FF);
+		shooterMotor1.burnFlash();
+		shooterMotor2.burnFlash();
 
 		SmartDashboard.putNumber("Shooter P", Constants.Shooter.ShooterPID.P);
 		SmartDashboard.putNumber("Shooter I", Constants.Shooter.ShooterPID.I);
