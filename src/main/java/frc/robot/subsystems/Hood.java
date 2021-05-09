@@ -21,6 +21,7 @@ public class Hood extends PIDSubsystem {
 	AnalogInput hoodPotentiometer;
 	NetworkTableInstance networkTableInstance;
 	NetworkTable smartdashboardTable;
+	boolean stopHood;
 
 	/** Creates a new Hood. */
 	public Hood() {
@@ -40,6 +41,7 @@ public class Hood extends PIDSubsystem {
 
 	public void setHood(double setpoint) {
 		this.setSetpoint(setpoint);
+		stopHood = false;
 		this.enable();
 	}
 
@@ -54,7 +56,10 @@ public class Hood extends PIDSubsystem {
 
 	@Override
 	public void useOutput(double output, double setpoint) {
-		if (!atDirectionStop()) {
+		if (atDirectionStop()) {
+			stopHood = true;
+		}
+		if (!stopHood) {
 			hoodMotor.set(output);
 		}
 		else {
