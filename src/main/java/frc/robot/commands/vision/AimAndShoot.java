@@ -67,6 +67,7 @@ public class AimAndShoot extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+		shooter.recoverShooter(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 		if (limelight.validTarget()) {
 			driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
 			if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {

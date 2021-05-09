@@ -10,7 +10,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -52,6 +52,12 @@ public class Shooter extends SubsystemBase {
 		shooterPIDController.setReference(setpoint, ControlType.kVelocity, 0,
 				new SimpleMotorFeedforward(Characterization.S, Characterization.V, Characterization.A)
 						.calculate(setpoint));
+	}
+
+	public void recoverShooter(double setpoint) {
+		shooterPIDController.setReference(setpoint, ControlType.kVelocity, 0,
+				new SimpleMotorFeedforward(Characterization.S, Characterization.V, Characterization.A)
+						.calculate(shooterMotor1.getEncoder().getVelocity(), setpoint));
 	}
 
 	public boolean atSetpoint(double setpoint) {
