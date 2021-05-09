@@ -37,7 +37,7 @@ public class Kicker extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, kickerMotor.get());
+		RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, Math.abs(kickerMotor.get()));
 		SmartDashboard.putBoolean("Ball Loaded", this.ballLoaded());
 		SmartDashboard.putNumber("Kicker Speed", kickerMotor.getSpeed());
 		// This method will be called once per scheduler run
