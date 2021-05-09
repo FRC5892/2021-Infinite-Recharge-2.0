@@ -74,7 +74,7 @@ public class AimAndShoot extends CommandBase {
 			driveTrain.stop();
 		}
 		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
-			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
 			if (hood.atSetpoint() && (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun)) {
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
@@ -99,7 +99,6 @@ public class AimAndShoot extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-		RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 		accumulator.stopAccumulator();
 		driveTrain.stop();
 		hood.disable();
