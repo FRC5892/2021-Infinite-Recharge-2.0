@@ -32,7 +32,6 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -136,20 +135,13 @@ public class RobotContainer {
 	 * and then passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
 	 */
 	private void configureButtonBindings() {
-		JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
-		intakeToggleButton.whenPressed(intakeToggle);
-		JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
-		spinShooterButton.whileHeld(shootBall);
-		JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
-		setHoodButton.whenPressed(setHood);
-		JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
-		aimButton.whileHeld(aim);
-		JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-		aimAndShootButton.toggleWhenPressed(aimAndShoot);
-		// JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-		// driveRotationsButton.whenPressed(driveRotations);
-		// JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-		// rangeButton.whileHeld(limelightGetInRane);
+		OperatorInput.intakeToggleButton.whenPressed(intakeToggle);
+		OperatorInput.spinShooterButton.whileHeld(shootBall);
+		OperatorInput.setHoodButton.whenPressed(setHood);
+		OperatorInput.aimButton.whileHeld(aim);
+		OperatorInput.aimAndShootButton.toggleWhenPressed(aimAndShoot);
+		// OperatorInput.driveRotationsButton.whenPressed(driveRotations);
+		// OperatorInputrangeButton.whileHeld(limelightGetInRane);
 	}
 
 	/**

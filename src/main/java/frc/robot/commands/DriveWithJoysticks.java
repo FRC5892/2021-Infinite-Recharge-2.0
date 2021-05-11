@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.OperatorInput;
 import frc.robot.subsystems.DriveTrain;
 
 public class DriveWithJoysticks extends CommandBase {
@@ -28,12 +28,12 @@ public class DriveWithJoysticks extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (RobotContainer.driverJoystick.getBumper(Hand.kRight)) {
-			driveTrain.driveWithJoysticks(RobotContainer.driverJoystick, Constants.DriveTrain.SLOW_SPEED,
+		if (OperatorInput.driverJoystick.getBumper(Hand.kRight)) {
+			driveTrain.driveWithJoysticks(OperatorInput.driverJoystick, Constants.DriveTrain.SLOW_SPEED,
 					Constants.DriveTrain.SLOW_SPEED);
 		}
 		else {
-			driveTrain.driveWithJoysticks(RobotContainer.driverJoystick, Constants.DriveTrain.SPEED,
+			driveTrain.driveWithJoysticks(OperatorInput.driverJoystick, Constants.DriveTrain.SPEED,
 					Constants.DriveTrain.SPEED);
 		}
 	}

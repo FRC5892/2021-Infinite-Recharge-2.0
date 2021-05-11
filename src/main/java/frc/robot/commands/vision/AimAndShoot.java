@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.OperatorInput;
 import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hood;
@@ -74,7 +74,7 @@ public class AimAndShoot extends CommandBase {
 			driveTrain.stop();
 		}
 		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
-			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
+			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
 			if (hood.atSetpoint() && (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun)) {
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
@@ -84,12 +84,12 @@ public class AimAndShoot extends CommandBase {
 			}
 		}
 		else if (!kicker.ballLoaded()) {
-			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 			kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 			accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 		}
 		else {
-			RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 			kicker.stopKicker();
 			accumulator.stopAccumulator();
 		}
@@ -98,7 +98,7 @@ public class AimAndShoot extends CommandBase {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		RobotContainer.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+		OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 		accumulator.stopAccumulator();
 		driveTrain.stop();
 		hood.disable();
