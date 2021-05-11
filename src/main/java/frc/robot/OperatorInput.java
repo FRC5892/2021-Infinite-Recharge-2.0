@@ -19,7 +19,6 @@ public class OperatorInput {
 	static JoystickButton aimAndShootButton = new JoystickButton(driverJoystick,
 			XboxController.Button.kBumperRight.value);
 	// JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-	// JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
 	public static final Hand intakeHand = Hand.kRight;
 	public static final Hand outtakeHand = Hand.kLeft;
 }
