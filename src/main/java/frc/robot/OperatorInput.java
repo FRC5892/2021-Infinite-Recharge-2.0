@@ -28,5 +28,5 @@ public class OperatorInput {
 	public static final int xSpeedAxis = 1;
 	public static final int zRotationAxis = 4;
 	public static final int accumulatorPOV = 90;
-	public static final int accumulatorInvertedPOV =  270;
+	public static final int accumulatorInvertedPOV = 270;
 }
