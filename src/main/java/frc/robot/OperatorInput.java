@@ -14,9 +14,7 @@ public class OperatorInput {
 	public static XboxController driverJoystick = new XboxController(0);
 	static JoystickButton intakeToggleButton = new JoystickButton(driverJoystick,
 			XboxController.Button.kBumperLeft.value);
-	static JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
-	static JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-	static JoystickButton aimAndShootButton = new JoystickButton(driverJoystick,
+	static JoystickButton aimAndShootToggle = new JoystickButton(driverJoystick,
 			XboxController.Button.kBumperRight.value);
 	static JoystickButton climbArmUp = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
 	static JoystickButton climbArmDown = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
@@ -29,4 +27,7 @@ public class OperatorInput {
 	public static final int zRotationAxis = 4;
 	public static final int accumulatorPOV = 90;
 	public static final int accumulatorInvertedPOV = 270;
+
+	static JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
+	static JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
 }

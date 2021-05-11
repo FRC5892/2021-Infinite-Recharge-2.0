@@ -124,7 +124,7 @@ public class RobotContainer {
 		OperatorInput.intakeToggleButton.whenPressed(intakeToggle);
 		OperatorInput.spinShooterButton.whileHeld(shootBall);
 		OperatorInput.setHoodButton.whenPressed(setHood);
-		OperatorInput.aimAndShootButton.toggleWhenPressed(aimAndShoot);
+		OperatorInput.aimAndShootToggle.toggleWhenPressed(aimAndShoot);
 		// OperatorInput.driveRotationsButton.whenPressed(driveRotations);
 	}
 
