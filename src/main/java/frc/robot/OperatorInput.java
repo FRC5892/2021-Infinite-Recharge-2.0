@@ -21,4 +21,7 @@ public class OperatorInput {
 	// JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
 	public static final Hand intakeHand = Hand.kRight;
 	public static final Hand outtakeHand = Hand.kLeft;
+	public static final int xSpeedAxis = 1;
+	public static final int zRotationAxis = 4;
+
 }

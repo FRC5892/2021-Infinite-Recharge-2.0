@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.OperatorInput;
 import frc.robot.commands.autonomous.ResetEncoders;
 import frc.robot.simulationWrappers.SparkMaxSim;
 import frc.robot.simulationWrappers.SparkMaxWrapper;
@@ -135,8 +136,8 @@ public class DriveTrain extends SubsystemBase {
 	}
 
 	public void driveWithJoysticks(XboxController controller, double xSpeed, double zRotation) {
-		drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(Constants.XboxController.LEFT_X_AXIS)) * xSpeed,
-				MathUtils.signedSquare(-controller.getRawAxis(4)) * zRotation, false);
+		drive.arcadeDrive(MathUtils.signedSquare(controller.getRawAxis(OperatorInput.xSpeedAxis)) * xSpeed,
+				MathUtils.signedSquare(-controller.getRawAxis(OperatorInput.zRotationAxis)) * zRotation, false);
 		// squares the controller input before the speed factor is multiplied to make the drive smoother
 		// false at the end tells the library not to square it because we already did
 		// x speed sets speed of forward motion, z speed sets turning speed

@@ -52,13 +52,6 @@ public final class Constants {
 		}
 	}
 
-	public final class XboxController {
-		public static final int LEFT_Y_AXIS = 0;
-		public static final int LEFT_X_AXIS = 1;
-		public static final int JOYSTICK_NUMBER = 0;
-		public static final int ROLLER_AXIS = 3;
-	}
-
 	public final class Intake {
 		public static final double EXTEND_ROLLER_SPEED = .25;
 		public static final int SOLENOID_FORWARD = 2;
