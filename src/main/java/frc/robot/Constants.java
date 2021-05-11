@@ -24,8 +24,6 @@ public final class Constants {
 		public static final int RIGHT_MOTOR3_ID = 6;
 		public static final double SPEED = 1;
 		public static final double SLOW_SPEED = .5;
-		public static final double AUTONOMOUS_SPEED = 1;
-		public static final double DRIVE_FORWARD_TIME = 3;
 
 		public class DriveCharacteristics {
 			// distance unit is meters
@@ -82,7 +80,6 @@ public final class Constants {
 		public static final int SHOOTER_MOTOR_2_ID = 8;
 		public static final double SHOOTER_TARGET_SPEED = 4000;
 		public static final double SHOOTER_DELAY = 0;
-		public static final double SHOOTER_IDLE_TIME = .5;
 
 		public class Characterization {
 			// kV in characterization
