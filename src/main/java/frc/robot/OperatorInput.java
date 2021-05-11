@@ -15,7 +15,6 @@ public class OperatorInput {
 			XboxController.Button.kBumperLeft.value);
 	static JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
 	static JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
-	static JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
 	static JoystickButton aimAndShootButton = new JoystickButton(driverJoystick,
 			XboxController.Button.kBumperRight.value);
 	// JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
