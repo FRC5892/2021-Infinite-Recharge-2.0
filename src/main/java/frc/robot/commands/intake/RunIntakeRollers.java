@@ -4,7 +4,6 @@
 
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInput;
@@ -30,14 +29,14 @@ public class RunIntakeRollers extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (OperatorInput.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
-			intake.setRollersSpeed(
-					-(OperatorInput.driverJoystick.getTriggerAxis(Hand.kRight) * Constants.Intake.ROLLER_SPEED));
+		if (OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.outtakeHand) != 0) {
+			intake.setRollersSpeed(-(OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.outtakeHand)
+					* Constants.Intake.ROLLER_SPEED));
 
 		}
-		else if (OperatorInput.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
-			intake.setRollersSpeed(
-					(OperatorInput.driverJoystick.getTriggerAxis(Hand.kLeft) * Constants.Intake.ROLLER_SPEED));
+		else if (OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.intakeHand) != 0) {
+			intake.setRollersSpeed((OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.intakeHand)
+					* Constants.Intake.ROLLER_SPEED));
 		}
 		else {
 			intake.stopRollers();

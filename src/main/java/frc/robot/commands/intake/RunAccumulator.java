@@ -4,7 +4,6 @@
 
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInput;
@@ -28,12 +27,12 @@ public class RunAccumulator extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if (OperatorInput.driverJoystick.getTriggerAxis(Hand.kRight) != 0) {
-			accumulator.setAccumulator(OperatorInput.driverJoystick.getTriggerAxis(Hand.kRight)
+		if (OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.outtakeHand) != 0) {
+			accumulator.setAccumulator(OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.outtakeHand)
 					* Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
 		}
-		else if (OperatorInput.driverJoystick.getTriggerAxis(Hand.kLeft) != 0) {
-			accumulator.setAccumulator(-OperatorInput.driverJoystick.getTriggerAxis(Hand.kLeft)
+		else if (OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.intakeHand) != 0) {
+			accumulator.setAccumulator(-OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.intakeHand)
 					* Constants.Accumulator.ACCUMULATOR_MOTOR_SPEED);
 		}
 		else {

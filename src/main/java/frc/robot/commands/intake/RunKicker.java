@@ -5,7 +5,6 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.OperatorInput;
@@ -31,8 +30,9 @@ public class RunKicker extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		if ((OperatorInput.driverJoystick.getTriggerAxis(Hand.kLeft) != 0
-				|| OperatorInput.driverJoystick.getTriggerAxis(Hand.kRight) != 0) && !kicker.ballLoaded()) {
+		if ((OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.intakeHand) != 0
+				|| OperatorInput.driverJoystick.getTriggerAxis(OperatorInput.outtakeHand) != 0)
+				&& !kicker.ballLoaded()) {
 			timer.reset();
 			timer.start();
 			kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
