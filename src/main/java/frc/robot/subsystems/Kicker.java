@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.OperatorInput;
 
 public class Kicker extends SubsystemBase {
 	VictorSP kickerMotor;
@@ -37,7 +37,7 @@ public class Kicker extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		RobotContainer.driverJoystick.setRumble(RumbleType.kLeftRumble, Math.abs(kickerMotor.get()));
+		OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, Math.abs(kickerMotor.get()));
 		SmartDashboard.putBoolean("Ball Loaded", this.ballLoaded());
 		SmartDashboard.putNumber("Kicker Speed", kickerMotor.getSpeed());
 		// This method will be called once per scheduler run

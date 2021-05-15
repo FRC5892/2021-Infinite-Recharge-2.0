@@ -9,10 +9,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.DriveForward;
 import frc.robot.commands.DriveRotations;
 import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.commands.LimelightGetInRange;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.autonomous.CurvedPath;
@@ -22,7 +20,6 @@ import frc.robot.commands.intake.RunAccumulator;
 import frc.robot.commands.intake.RunIntakeRollers;
 import frc.robot.commands.intake.RunKicker;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
-import frc.robot.commands.vision.Aim;
 import frc.robot.commands.vision.AimAndShoot;
 import frc.robot.subsystems.Accumulator;
 import frc.robot.subsystems.DriveTrain;
@@ -32,7 +29,6 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -44,9 +40,7 @@ public class RobotContainer {
 	// Declaring drivetrain
 	public final DriveTrain driveTrain;
 	private final DriveWithJoysticks driveWithJoystick;
-	private final DriveForward driveForwardTimed;
 	private final DriveRotations driveRotations;
-	public static XboxController driverJoystick;
 
 	// declaring intake and intake commands
 	private final Intake intake;
@@ -77,9 +71,7 @@ public class RobotContainer {
 
 	// Declaring limelight and limelight commands
 	private Limelight limelight;
-	private Aim aim;
 	private AimAndShoot aimAndShoot;
-	private LimelightGetInRange limelightGetInRane;
 
 	/** The container for the robot. Contains subsystems, OI devices, and commands. */
 	public RobotContainer() {
@@ -90,11 +82,6 @@ public class RobotContainer {
 		driveWithJoystick.addRequirements(driveTrain);
 		driveRotations = new DriveRotations(driveTrain);
 		driveTrain.setDefaultCommand(driveWithJoystick); // drive with joysticks by default
-
-		driveForwardTimed = new DriveForward(driveTrain);
-		driveForwardTimed.addRequirements(driveTrain);
-
-		driverJoystick = new XboxController(Constants.XboxController.JOYSTICK_NUMBER);
 
 		accumulator = new Accumulator();
 		runAccumulator = new RunAccumulator(accumulator);
@@ -116,9 +103,7 @@ public class RobotContainer {
 		setHood = new SetHood(hood);
 
 		limelight = new Limelight();
-		aim = new Aim(driveTrain, limelight);
 		aimAndShoot = new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
-		limelightGetInRane = new LimelightGetInRange(driveTrain, limelight);
 
 		compressor = new Compressor(0);
 		autonomousChooser.setDefaultOption("None", null);
@@ -136,20 +121,11 @@ public class RobotContainer {
 	 * and then passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
 	 */
 	private void configureButtonBindings() {
-		JoystickButton intakeToggleButton = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
-		intakeToggleButton.whenPressed(intakeToggle);
-		JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
-		spinShooterButton.whileHeld(shootBall);
-		JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kX.value);
-		setHoodButton.whenPressed(setHood);
-		JoystickButton aimButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperLeft.value);
-		aimButton.whileHeld(aim);
-		JoystickButton aimAndShootButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-		aimAndShootButton.toggleWhenPressed(aimAndShoot);
-		// JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
-		// driveRotationsButton.whenPressed(driveRotations);
-		// JoystickButton rangeButton = new JoystickButton(driverJoystick, XboxController.Button.kBumperRight.value);
-		// rangeButton.whileHeld(limelightGetInRane);
+		OperatorInput.intakeToggleButton.whenPressed(intakeToggle);
+		OperatorInput.spinShooterButton.whileHeld(shootBall);
+		OperatorInput.setHoodButton.whenPressed(setHood);
+		OperatorInput.aimAndShootToggle.toggleWhenPressed(aimAndShoot);
+		// OperatorInput.driveRotationsButton.whenPressed(driveRotations);
 	}
 
 	/**
