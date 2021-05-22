@@ -20,13 +20,13 @@ public class OperatorInput {
 	static JoystickButton climbArmDown = new JoystickButton(driverJoystick, XboxController.Button.kA.value);
 	static POVButton climbArmToggle = new POVButton(driverJoystick, 180);
 	static POVButton runWinch = new POVButton(driverJoystick, 0);
+	public static POVButton runAccumulator = new POVButton(driverJoystick, 90);
+	public static POVButton runAccumulatorInverted = new POVButton(driverJoystick, 270);
 	// JoystickButton driveRotationsButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
 	public static final Hand intakeHand = Hand.kRight;
 	public static final Hand outtakeHand = Hand.kLeft;
 	public static final int xSpeedAxis = 1;
 	public static final int zRotationAxis = 4;
-	public static final int accumulatorPOV = 90;
-	public static final int accumulatorInvertedPOV = 270;
 
 	static JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
 	static JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
