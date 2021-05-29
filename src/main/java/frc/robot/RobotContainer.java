@@ -22,6 +22,8 @@ import frc.robot.commands.intake.RunKicker;
 import frc.robot.commands.intake.intakeToggle.IntakeToggle;
 import frc.robot.commands.vision.AimAndShoot;
 import frc.robot.subsystems.Accumulator;
+import frc.robot.subsystems.ClimbArm;
+import frc.robot.subsystems.ClimbWinch;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
@@ -29,6 +31,7 @@ import frc.robot.subsystems.Kicker;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -61,6 +64,9 @@ public class RobotContainer {
 
 	private final Hood hood;
 	private final SetHood setHood;
+
+	private final ClimbArm climbArm;
+	private final ClimbWinch climbWinch;
 
 	// Auton chooser, see
 	// https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/smartdashboard/choosing-an-autonomous-program-from-smartdashboard.html
@@ -102,6 +108,9 @@ public class RobotContainer {
 		hood = new Hood();
 		setHood = new SetHood(hood);
 
+		climbArm = new ClimbArm();
+		climbWinch = new ClimbWinch();
+
 		limelight = new Limelight();
 		aimAndShoot = new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
 
@@ -125,6 +134,13 @@ public class RobotContainer {
 		OperatorInput.spinShooterButton.whileHeld(shootBall);
 		OperatorInput.setHoodButton.whenPressed(setHood);
 		OperatorInput.aimAndShootToggle.toggleWhenPressed(aimAndShoot);
+		OperatorInput.climbArmToggle.whenPressed(new InstantCommand(climbArm::toggleArm, climbArm));
+		OperatorInput.climbArmDown.whenPressed(() -> climbArm.setArmMotor(-1))
+			.whenReleased(() -> climbArm.setArmMotor(0));
+		OperatorInput.climbArmUp.whenPressed(() -> climbArm.setArmMotor(1))
+			.whenReleased(() -> climbArm.setArmMotor(0));
+		OperatorInput.runWinch.whenPressed(() -> climbWinch.setWinchMotor(-1))
+			.whenReleased(() -> climbWinch.setWinchMotor(0));
 		// OperatorInput.driveRotationsButton.whenPressed(driveRotations);
 	}
 

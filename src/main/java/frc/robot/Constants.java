@@ -109,4 +109,11 @@ public final class Constants {
 		public static final double LIMELIGHT_MOUNTING_HEIGHT = 17; // inches
 		public static final double LIMELIGHT_TARGET_HEIGHT = 98.25; // inches
 	}
+
+	public final class Climb {
+		public static final int CLIMB_ARM_MOTOR_PORT = 1;
+		public static final int CLIMB_ARM_SOLENOID_FORWARD = 0;
+		public static final int CLIMB_ARM_SOLENOID_REVERSE = 3;
+		public static final int CLIMB_WINCH_MOTOR_PORT = 2;
+	}
 }
