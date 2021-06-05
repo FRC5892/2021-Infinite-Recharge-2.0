@@ -115,5 +115,7 @@ public final class Constants {
 		public static final int CLIMB_ARM_SOLENOID_FORWARD = 0;
 		public static final int CLIMB_ARM_SOLENOID_REVERSE = 3;
 		public static final int CLIMB_WINCH_MOTOR_PORT = 2;
+		public static final int CLIMB_BOTTOM_LIMIT = 5;
+		public static final int CLIMB_TOP_LIMIT = 6;
 	}
 }
