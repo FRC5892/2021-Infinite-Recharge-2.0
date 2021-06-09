@@ -136,9 +136,9 @@ public class RobotContainer {
 		OperatorInput.aimAndShootToggle.toggleWhenPressed(aimAndShoot);
 		OperatorInput.climbArmToggle.whenPressed(new InstantCommand(climbArm::toggleArm, climbArm));
 		OperatorInput.climbArmDown.whenPressed(() -> climbArm.setArmMotor(-1))
-			.whenReleased(() -> climbArm.setArmMotor(0));
+			.whenReleased(() -> climbArm.stopArmMotor());
 		OperatorInput.climbArmUp.whenPressed(() -> climbArm.setArmMotor(1))
-			.whenReleased(() -> climbArm.setArmMotor(0));
+			.whenReleased(() -> climbArm.stopArmMotor());
 		OperatorInput.runWinch.whenPressed(() -> climbWinch.setWinchMotor(-1))
 			.whenReleased(() -> climbWinch.setWinchMotor(0));
 		// OperatorInput.driveRotationsButton.whenPressed(driveRotations);
