@@ -54,6 +54,10 @@ public class Hood extends PIDSubsystem {
 		return this.getController().atSetpoint();
 	}
 
+	public void stop() {
+		stopHood = true;
+	}
+
 	@Override
 	public void useOutput(double output, double setpoint) {
 		if (atDirectionStop()) {
