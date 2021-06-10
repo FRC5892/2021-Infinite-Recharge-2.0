@@ -54,6 +54,7 @@ public class AimAndShoot extends CommandBase {
 		// 1.4143e-18
 		// };
 		double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
+		// double[] coefficients = {0.0004, .06, .007, 1.0908e11, -0.000566387, 0.2805929};
 		shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 		firstRun = true;
 		if (limelight.validTarget()) {
