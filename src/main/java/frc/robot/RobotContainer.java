@@ -14,6 +14,7 @@ import frc.robot.commands.DriveWithJoysticks;
 import frc.robot.commands.SetHood;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.autonomous.CurvedPath;
+import frc.robot.commands.autonomous.DriveAndShoot;
 import frc.robot.commands.autonomous.Slalom;
 import frc.robot.commands.autonomous.TestAutonPath;
 import frc.robot.commands.intake.RunAccumulator;
@@ -115,7 +116,8 @@ public class RobotContainer {
 		aimAndShoot = new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
 
 		compressor = new Compressor(0);
-		autonomousChooser.setDefaultOption("None", null);
+		autonomousChooser.setDefaultOption("Default Dumb Auton", "defaultDumbAuton");
+		autonomousChooser.addOption("None", null);
 		autonomousChooser.addOption("Test Path", "testAutonPath");
 		autonomousChooser.addOption("Curved Path", "curvedPath");
 		autonomousChooser.addOption("Slalom Path", "slalomPath");
@@ -151,6 +153,8 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		switch (autonomousChooser.getSelected()) {
+		case "defaultDumbAuton":
+			return new DriveAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter);
 		case "testAutonPath":
 			return new TestAutonPath(driveTrain);
 		case "curvedPath":
