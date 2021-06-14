@@ -102,7 +102,7 @@ public class AimAndShoot extends CommandBase {
 		OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 		accumulator.stopAccumulator();
 		driveTrain.stop();
-		hood.disable();
+		hood.setHood(0);
 		kicker.stopKicker();
 		shooter.stopShooter();
 	}
