@@ -38,8 +38,9 @@ public class OperatorInput {
 			XboxController.Button.kBumperRight.value);
 	static JoystickButton coClimbArmToggleButton = new JoystickButton(codriverJoystick,
 			XboxController.Button.kBumperLeft.value);
-	static POVButton coClimbArmUp = new POVButton(driverJoystick, 0);
-	static POVButton coClimbArmDown = new POVButton(driverJoystick, 180);
+	static POVButton coClimbArmUp = new POVButton(codriverJoystick, 0);
+	static POVButton coClimbArmDown = new POVButton(codriverJoystick, 180);
 	static JoystickButton coZeroHood = new JoystickButton(codriverJoystick, XboxController.Button.kA.value);
+	static JoystickButton coWinchButton = new JoystickButton(codriverJoystick, XboxController.Button.kBack.value);
 
 }

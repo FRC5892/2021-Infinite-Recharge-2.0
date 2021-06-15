@@ -149,10 +149,11 @@ public class RobotContainer {
 		OperatorInput.coIntakeToggle.whenPressed(intakeToggle);
 		OperatorInput.coClimbArmToggleButton.whenPressed(new InstantCommand(climbArm::toggleArm, climbArm));
 		OperatorInput.coClimbArmDown.whenPressed(() -> climbArm.setArmMotor(-1))
-				.whenReleased(() -> climbArm.stopArmMotor());
-		OperatorInput.coClimbArmUp.whenPressed(() -> climbArm.setArmMotor(1))
-				.whenReleased(() -> climbArm.stopArmMotor());
+		.whenReleased(() -> climbArm.stopArmMotor());
+		OperatorInput.coClimbArmUp.whenPressed(() -> climbArm.setArmMotor(1)).whenReleased(() -> climbArm.stopArmMotor());
 		OperatorInput.coZeroHood.whenPressed(() -> hood.setHood(0));
+		OperatorInput.coWinchButton.whenPressed(() -> climbWinch.setWinchMotor(-1))
+		.whenReleased(() -> climbWinch.setWinchMotor(0));
 	}
 
 	/**
