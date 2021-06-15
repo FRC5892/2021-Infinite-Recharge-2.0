@@ -138,12 +138,21 @@ public class RobotContainer {
 		OperatorInput.aimAndShootToggle.toggleWhenPressed(aimAndShoot);
 		OperatorInput.climbArmToggle.whenPressed(new InstantCommand(climbArm::toggleArm, climbArm));
 		OperatorInput.climbArmDown.whenPressed(() -> climbArm.setArmMotor(-1))
-			.whenReleased(() -> climbArm.stopArmMotor());
-		OperatorInput.climbArmUp.whenPressed(() -> climbArm.setArmMotor(1))
-			.whenReleased(() -> climbArm.stopArmMotor());
+				.whenReleased(() -> climbArm.stopArmMotor());
+		OperatorInput.climbArmUp.whenPressed(() -> climbArm.setArmMotor(1)).whenReleased(() -> climbArm.stopArmMotor());
 		OperatorInput.runWinch.whenPressed(() -> climbWinch.setWinchMotor(-1))
-			.whenReleased(() -> climbWinch.setWinchMotor(0));
+				.whenReleased(() -> climbWinch.setWinchMotor(0));
+		OperatorInput.coZeroHood.whenPressed(() -> hood.setHood(0));
 		// OperatorInput.driveRotationsButton.whenPressed(driveRotations);
+
+		// codriver functions
+		OperatorInput.coIntakeToggle.whenPressed(intakeToggle);
+		OperatorInput.coClimbArmToggleButton.whenPressed(new InstantCommand(climbArm::toggleArm, climbArm));
+		OperatorInput.coClimbArmDown.whenPressed(() -> climbArm.setArmMotor(-1))
+				.whenReleased(() -> climbArm.stopArmMotor());
+		OperatorInput.coClimbArmUp.whenPressed(() -> climbArm.setArmMotor(1))
+				.whenReleased(() -> climbArm.stopArmMotor());
+		OperatorInput.coZeroHood.whenPressed(() -> hood.setHood(0));
 	}
 
 	/**
