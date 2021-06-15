@@ -142,7 +142,7 @@ public class RobotContainer {
 		OperatorInput.climbArmUp.whenPressed(() -> climbArm.setArmMotor(1)).whenReleased(() -> climbArm.stopArmMotor());
 		OperatorInput.runWinch.whenPressed(() -> climbWinch.setWinchMotor(-1))
 				.whenReleased(() -> climbWinch.setWinchMotor(0));
-		OperatorInput.coZeroHood.whenPressed(() -> hood.setHood(0));
+		OperatorInput.zeroHood.whenPressed(() -> hood.setHood(0));
 		// OperatorInput.driveRotationsButton.whenPressed(driveRotations);
 
 		// codriver functions

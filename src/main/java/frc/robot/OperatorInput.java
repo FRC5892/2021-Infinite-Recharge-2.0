@@ -30,6 +30,7 @@ public class OperatorInput {
 
 	static JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
 	static JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+	static JoystickButton zeroHood = new JoystickButton(driverJoystick, XboxController.Button.kY.value);
 
 	// codriver controls
 	public static XboxController codriverJoystick = new XboxController(1);
