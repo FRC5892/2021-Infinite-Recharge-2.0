@@ -36,7 +36,7 @@ public class Hood extends PIDSubsystem {
 	}
 
 	public double getHoodAngle() {
-		return hoodPotentiometer.getAverageVoltage() * (73.6583) - 110.8;
+		return hoodPotentiometer.getAverageVoltage() * (71.7447) - 95.2789;
 	}
 
 	public void setHood(double setpoint) {
