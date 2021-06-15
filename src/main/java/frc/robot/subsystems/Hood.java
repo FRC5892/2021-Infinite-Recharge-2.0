@@ -27,8 +27,8 @@ public class Hood extends PIDSubsystem {
 	public Hood() {
 		super(
 				// The PIDController used by the subsystem
-				new PIDController(0.5, 0, 0));
-		getController().setTolerance(0.25);
+				new PIDController(.55, 0.1, 0));
+		getController().setTolerance(0.5);
 		hoodMotor = new VictorSP(Constants.Hood.HOOD_MOTOR_PORT);
 		bottomStop = new DigitalInput(Constants.Hood.HOOD_BOTTOM_STOP);
 		topStop = new DigitalInput(Constants.Hood.HOOD_TOP_STOP);
@@ -36,7 +36,7 @@ public class Hood extends PIDSubsystem {
 	}
 
 	public double getHoodAngle() {
-		return hoodPotentiometer.getAverageVoltage() * (71.7447) - 95.2789;
+		return hoodPotentiometer.getAverageVoltage() * (71.4824) - 90.0982;
 	}
 
 	public void setHood(double setpoint) {
