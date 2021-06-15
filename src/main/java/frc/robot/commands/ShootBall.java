@@ -41,24 +41,24 @@ public class ShootBall extends CommandBase {
 	@Override
 	public void execute() {
 		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
 			if (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun) {
 				if (firstRun) {
 					firstRun = false;
 				}
-				OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
+				// OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 1);
 				timer.reset();
 				timer.start();
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 			}
 			else {
-				OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+				// OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 			}
 		}
 		if (!shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-			OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 			if (!kicker.ballLoaded()) {
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
@@ -73,8 +73,8 @@ public class ShootBall extends CommandBase {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
-		OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
+		// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+		// OperatorInput.driverJoystick.setRumble(RumbleType.kLeftRumble, 0);
 		shooter.stopShooter();
 		kicker.stopKicker();
 		accumulator.stopAccumulator();

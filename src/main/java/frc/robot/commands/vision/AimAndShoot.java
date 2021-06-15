@@ -74,10 +74,10 @@ public class AimAndShoot extends CommandBase {
 			driveTrain.stop();
 		}
 		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
 			if (hood.atSetpoint() && (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun)) {
 				// hood.stop();
-				
+
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				firstRun = false;
@@ -86,12 +86,12 @@ public class AimAndShoot extends CommandBase {
 			}
 		}
 		else if (!kicker.ballLoaded()) {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 			kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 			accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 		}
 		else {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 			kicker.stopKicker();
 			accumulator.stopAccumulator();
 		}
@@ -100,7 +100,7 @@ public class AimAndShoot extends CommandBase {
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+		// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 		accumulator.stopAccumulator();
 		driveTrain.stop();
 		// hood.setHood(0);
