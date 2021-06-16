@@ -77,9 +77,9 @@ public class Hood extends PIDSubsystem {
 		SmartDashboard.putNumber("Hood Potentiometer Angle", getHoodAngle());
 		SmartDashboard.putNumber("Hood Potentiometer", hoodPotentiometer.getAverageVoltage());
 		SmartDashboard.putBoolean("Hood At Endstop", atDirectionStop());
-		getController().setP(SmartDashboard.getNumber("Hood P", 0));
-		getController().setI(SmartDashboard.getNumber("Hood I", 0));
-		getController().setD(SmartDashboard.getNumber("Hood D", 0));
+		// getController().setP(SmartDashboard.getNumber("Hood P", getController().getP()));
+		// getController().setI(SmartDashboard.getNumber("Hood I", getController().getI()));
+		// getController().setD(SmartDashboard.getNumber("Hood D", getController().getD()));
 		// Use the output here
 	}
 

@@ -49,6 +49,7 @@ public class AimAndShoot extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
+		System.out.println("AimAndShoot Started");
 		OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, .25);
 		// double[] coefficients = {
 		// -947.289, 49.8499, -1.05574, 0.0125854, -0.0000932031, 4.4594e-7, -1.382e-9, 2.6801e-12, -2.9558e-15,
@@ -69,14 +70,17 @@ public class AimAndShoot extends CommandBase {
 	@Override
 	public void execute() {
 		if (limelight.validTarget()) {
+			System.out.println("AimAndShoot limelight has target");
 			driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
 		}
 		else {
 			driveTrain.stop();
 		}
 		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
+			System.out.println("AimAndShoot shooter at setpoint");
 			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
 			if (hood.atSetpoint() && (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun)) {
+				System.out.println("AimAndShoot hood at setpoint");
 				// hood.stop();
 
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
@@ -108,8 +112,7 @@ public class AimAndShoot extends CommandBase {
 		hood.stop();
 		kicker.stopKicker();
 		shooter.stopShooter();
-	}
-
+		System.out.println("AimAndShoot ended");
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
