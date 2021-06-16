@@ -42,6 +42,9 @@ public class AimAndShoot extends CommandBase {
 
 		timer = new Timer();
 		pidController = new PIDController(0.1, 0, 0.015);
+		// SmartDashboard.putNumber("Limelight P", pidController.getP());
+		// SmartDashboard.putNumber("Limelight I", pidController.getI());
+		// SmartDashboard.putNumber("Limelight D", pidController.getD());
 		addRequirements(accumulator, driveTrain, hood, kicker, limelight, shooter);
 		// Use addRequirements() here to declare subsystem dependencies.
 	}
@@ -100,6 +103,9 @@ public class AimAndShoot extends CommandBase {
 			kicker.stopKicker();
 			accumulator.stopAccumulator();
 		}
+		// pidController.setP(SmartDashboard.getNumber("Limelight P", pidController.getP()));
+		// pidController.setI(SmartDashboard.getNumber("Limelight I", pidController.getI()));
+		// pidController.setD(SmartDashboard.getNumber("Limelight D", pidController.getD()));
 	}
 
 	// Called once the command ends or is interrupted.

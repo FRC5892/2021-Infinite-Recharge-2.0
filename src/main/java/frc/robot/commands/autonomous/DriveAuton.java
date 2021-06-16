@@ -31,7 +31,7 @@ public class DriveAuton extends CommandBase {
 	@Override
 	public void execute() {
 		if (Math.abs(driveTrain.getLeftEncoder().getPosition()) <= 1) {
-			driveTrain.arcadeDrive(.25, 0);
+			driveTrain.arcadeDrive(.5, 0);
 		}
 		else {
 			driveTrain.stop();
