@@ -33,6 +33,9 @@ public class Hood extends PIDSubsystem {
 		bottomStop = new DigitalInput(Constants.Hood.HOOD_BOTTOM_STOP);
 		topStop = new DigitalInput(Constants.Hood.HOOD_TOP_STOP);
 		hoodPotentiometer = new AnalogInput(Constants.Hood.HOOD_POTENTIOMETER);
+		SmartDashboard.setDefaultNumber("Hood P", 0);
+		SmartDashboard.setDefaultNumber("Hood I", 0);
+		SmartDashboard.setDefaultNumber("Hood D", 0);
 	}
 
 	public double getHoodAngle() {
@@ -74,6 +77,9 @@ public class Hood extends PIDSubsystem {
 		SmartDashboard.putNumber("Hood Potentiometer Angle", getHoodAngle());
 		SmartDashboard.putNumber("Hood Potentiometer", hoodPotentiometer.getAverageVoltage());
 		SmartDashboard.putBoolean("Hood At Endstop", atDirectionStop());
+		getController().setP(SmartDashboard.getNumber("Hood P", 0));
+		getController().setI(SmartDashboard.getNumber("Hood I", 0));
+		getController().setD(SmartDashboard.getNumber("Hood D", 0));
 		// Use the output here
 	}
 
