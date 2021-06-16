@@ -113,6 +113,7 @@ public class AimAndShoot extends CommandBase {
 		kicker.stopKicker();
 		shooter.stopShooter();
 		System.out.println("AimAndShoot ended");
+	}
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
