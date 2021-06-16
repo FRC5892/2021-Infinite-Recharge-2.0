@@ -58,7 +58,8 @@ public class AimAndShoot extends CommandBase {
 		// -947.289, 49.8499, -1.05574, 0.0125854, -0.0000932031, 4.4594e-7, -1.382e-9, 2.6801e-12, -2.9558e-15,
 		// 1.4143e-18
 		// };
-		double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
+		// double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
+		double[] coefficients = { -11.0715, 1.60334, -0.0140912, 0.0000689706, -1.9226e-7, 2.8428e-10, -1.7273e-13 };
 		shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 		firstRun = true;
 		if (limelight.validTarget()) {
@@ -120,6 +121,7 @@ public class AimAndShoot extends CommandBase {
 		shooter.stopShooter();
 		System.out.println("AimAndShoot ended");
 	}
+
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
