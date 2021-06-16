@@ -4,7 +4,7 @@
 
 package frc.robot.commands.vision;
 
-/** Calculates the result of a polynomial function with x and an array of coefficients (IN ORDER OF DEGREE) */
+/** Calculates the result of a polynomial function with x and an array of coefficients (IN INCREASING ORDER OF DEGREE) */
 public class PolynomialFunction {
 	public double polynomailFunction(double x, double[] coefficients) {
 		double value = 0;
