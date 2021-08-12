@@ -28,7 +28,7 @@ public class Hood extends PIDSubsystem {
 		super(
 				// The PIDController used by the subsystem
 				new PIDController(.55, 0.1, 0));
-		getController().setTolerance(0.5);
+		getController().setTolerance(1);
 		hoodMotor = new VictorSP(Constants.Hood.HOOD_MOTOR_PORT);
 		bottomStop = new DigitalInput(Constants.Hood.HOOD_BOTTOM_STOP);
 		topStop = new DigitalInput(Constants.Hood.HOOD_TOP_STOP);
