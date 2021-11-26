@@ -9,19 +9,19 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbWinch extends SubsystemBase {
-  VictorSP winchMotor;
+	VictorSP winchMotor;
 
-  /** Creates a new ClimbWinch. */
-  public ClimbWinch() {
-    winchMotor = new VictorSP(Constants.Climb.CLIMB_WINCH_MOTOR_PORT);
-  }
+	/** Creates a new ClimbWinch. */
+	public ClimbWinch() {
+		winchMotor = new VictorSP(Constants.Climb.CLIMB_WINCH_MOTOR_PORT);
+	}
 
-  public void setWinchMotor(double speed) {
-    winchMotor.set(speed);
-  }
+	public void setWinchMotor(double speed) {
+		winchMotor.set(speed);
+	}
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+	@Override
+	public void periodic() {
+		// This method will be called once per scheduler run
+	}
 }

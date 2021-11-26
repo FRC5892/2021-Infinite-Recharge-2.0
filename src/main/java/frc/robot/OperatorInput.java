@@ -30,4 +30,17 @@ public class OperatorInput {
 
 	static JoystickButton spinShooterButton = new JoystickButton(driverJoystick, XboxController.Button.kStart.value);
 	static JoystickButton setHoodButton = new JoystickButton(driverJoystick, XboxController.Button.kBack.value);
+	static JoystickButton zeroHood = new JoystickButton(driverJoystick, XboxController.Button.kY.value);
+
+	// codriver controls
+	public static XboxController codriverJoystick = new XboxController(1);
+	static JoystickButton coIntakeToggle = new JoystickButton(codriverJoystick,
+			XboxController.Button.kBumperRight.value);
+	static JoystickButton coClimbArmToggleButton = new JoystickButton(codriverJoystick,
+			XboxController.Button.kBumperLeft.value);
+	static POVButton coClimbArmUp = new POVButton(codriverJoystick, 0);
+	static POVButton coClimbArmDown = new POVButton(codriverJoystick, 180);
+	static JoystickButton coZeroHood = new JoystickButton(codriverJoystick, XboxController.Button.kA.value);
+	static JoystickButton coWinchButton = new JoystickButton(codriverJoystick, XboxController.Button.kBack.value);
+
 }

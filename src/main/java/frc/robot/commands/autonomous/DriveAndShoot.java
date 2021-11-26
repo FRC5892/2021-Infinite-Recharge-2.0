@@ -17,23 +17,24 @@ import frc.robot.subsystems.Shooter;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveAndShoot extends SequentialCommandGroup {
-  Accumulator accumulator;
+	Accumulator accumulator;
 	DriveTrain driveTrain;
 	Hood hood;
 	Kicker kicker;
 	Limelight limelight;
-  Shooter shooter;
-  
-  /** Creates a new driveAndShoot. */
-  public DriveAndShoot(Accumulator a, DriveTrain dt, Hood h, Kicker k, Limelight l, Shooter s) {
-    accumulator = a;
+	Shooter shooter;
+
+	/** Creates a new driveAndShoot. */
+	public DriveAndShoot(Accumulator a, DriveTrain dt, Hood h, Kicker k, Limelight l, Shooter s) {
+		accumulator = a;
 		driveTrain = dt;
 		hood = h;
 		kicker = k;
 		limelight = l;
 		shooter = s;
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveAuton(driveTrain), new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter));
-  }
+		// Add your commands in the addCommands() call, e.g.
+		// addCommands(new FooCommand(), new BarCommand());
+		addCommands(new DriveAuton(driveTrain),
+				new AimAndShoot(accumulator, driveTrain, hood, kicker, limelight, shooter));
+	}
 }

@@ -42,6 +42,9 @@ public class AimAndShoot extends CommandBase {
 
 		timer = new Timer();
 		pidController = new PIDController(0.1, 0, 0.015);
+		// SmartDashboard.putNumber("Limelight P", pidController.getP());
+		// SmartDashboard.putNumber("Limelight I", pidController.getI());
+		// SmartDashboard.putNumber("Limelight D", pidController.getD());
 		addRequirements(accumulator, driveTrain, hood, kicker, limelight, shooter);
 		// Use addRequirements() here to declare subsystem dependencies.
 	}
@@ -49,11 +52,14 @@ public class AimAndShoot extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
+		System.out.println("AimAndShoot Started");
+		OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, .25);
 		// double[] coefficients = {
 		// -947.289, 49.8499, -1.05574, 0.0125854, -0.0000932031, 4.4594e-7, -1.382e-9, 2.6801e-12, -2.9558e-15,
 		// 1.4143e-18
 		// };
-		double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
+		// double[] coefficients = { 10.8025, 0.892735, -0.00520211, 0.0000134909, -1.3041e-8 };
+		double[] coefficients = { -11.0715, 1.60334, -0.0140912, 0.0000689706, -1.9226e-7, 2.8428e-10, -1.7273e-13 };
 		shooter.setSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED);
 		firstRun = true;
 		if (limelight.validTarget()) {
@@ -68,15 +74,19 @@ public class AimAndShoot extends CommandBase {
 	@Override
 	public void execute() {
 		if (limelight.validTarget()) {
+			System.out.println("AimAndShoot limelight has target");
 			driveTrain.arcadeDrive(0, pidController.calculate(limelight.xOffset(), 0));
 		}
 		else {
 			driveTrain.stop();
 		}
 		if (shooter.atSetpoint(Constants.ShooterConst.SHOOTER_TARGET_SPEED)) {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
+			System.out.println("AimAndShoot shooter at setpoint");
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 1);
 			if (hood.atSetpoint() && (timer.get() >= Constants.ShooterConst.SHOOTER_DELAY || firstRun)) {
-				hood.stop();
+				System.out.println("AimAndShoot hood at setpoint");
+				// hood.stop();
+
 				kicker.setKicker(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_NUDGE_SPEED);
 				firstRun = false;
@@ -85,15 +95,18 @@ public class AimAndShoot extends CommandBase {
 			}
 		}
 		else if (!kicker.ballLoaded()) {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 			kicker.setKicker(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 			accumulator.setAccumulator(Constants.Kicker.KICKER_MOTOR_ADVANCE_SPEED);
 		}
 		else {
-			OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
+			// OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 			kicker.stopKicker();
 			accumulator.stopAccumulator();
 		}
+		// pidController.setP(SmartDashboard.getNumber("Limelight P", pidController.getP()));
+		// pidController.setI(SmartDashboard.getNumber("Limelight I", pidController.getI()));
+		// pidController.setD(SmartDashboard.getNumber("Limelight D", pidController.getD()));
 	}
 
 	// Called once the command ends or is interrupted.
@@ -102,9 +115,11 @@ public class AimAndShoot extends CommandBase {
 		OperatorInput.driverJoystick.setRumble(RumbleType.kRightRumble, 0);
 		accumulator.stopAccumulator();
 		driveTrain.stop();
-		hood.disable();
+		// hood.setHood(0);
+		hood.stop();
 		kicker.stopKicker();
 		shooter.stopShooter();
+		System.out.println("AimAndShoot ended");
 	}
 
 	// Returns true when the command should end.
